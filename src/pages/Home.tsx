@@ -156,9 +156,9 @@ const Home = () => {
           once: true
         }} className="mb-8 border-solid border-primary">
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-sd-pink">
-              HIGHLIGHTED
+              VISUAL
               <br className="" />
-              WORKS
+              GALLERY
             </h2>
             <p className="font-display text-2xl md:text-4xl tracking-tighter-custom text-muted-foreground">
               23-24
