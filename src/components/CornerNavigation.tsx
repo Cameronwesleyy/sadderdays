@@ -20,6 +20,7 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-tl"
       >
+        <div className="absolute -inset-4 -z-10 rounded-full bg-secondary/80 blur-xl" />
         <Link to="/home" className="editorial-link">
           <span className="text-[10px] font-medium tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
             SADDER DAYS
@@ -33,6 +34,7 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-tr"
       >
+        <div className="absolute -inset-4 -z-10 rounded-full bg-secondary/80 blur-xl" />
         <button
           onClick={() => setIsOpen(true)}
           className="text-[10px] font-medium tracking-widest-custom editorial-link text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]"
@@ -47,6 +49,7 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-bl"
       >
+        <div className="absolute -inset-6 -z-10 rounded-full bg-secondary/80 blur-2xl" />
         <nav className="flex flex-col gap-2">
           {[
             { name: "SHOP", path: "/merch" },
@@ -74,6 +77,7 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-br"
       >
+        <div className="absolute -inset-6 -z-10 rounded-full bg-secondary/80 blur-2xl" />
         <nav className="flex flex-col gap-2 text-right">
           {[
             { name: "LAB", path: "/lab" },
