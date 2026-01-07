@@ -9,7 +9,8 @@ import Navigation from "@/components/Navigation";
 import GrainOverlay from "@/components/GrainOverlay";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
-import Index from "./pages/Index";
+import Enter from "./pages/Enter";
+import Home from "./pages/Home";
 import Merch from "./pages/Merch";
 import Music from "./pages/Music";
 import Members from "./pages/Members";
@@ -33,7 +34,8 @@ const App = () => (
           <AnimatePresence mode="wait">
             <main className="min-h-screen">
               <Routes>
-                <Route path="/" element={<Index />} />
+                <Route path="/" element={<Enter />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/merch" element={<Merch />} />
                 <Route path="/music" element={<Music />} />
                 <Route path="/members" element={<Members />} />

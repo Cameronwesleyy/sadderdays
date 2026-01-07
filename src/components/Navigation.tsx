@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import CrossIcon from "./CrossIcon";
 
 const navLinks = [
   { name: "MERCH", path: "/merch" },
   { name: "MUSIC", path: "/music" },
   { name: "MEMBERS", path: "/members" },
+  { name: "TOUR", path: "/tour" },
   { name: "ABOUT", path: "/about" },
-  { name: "CONTACT", path: "/about" },
+  { name: "LAB", path: "/lab" },
 ];
 
 const Navigation = () => {
@@ -20,66 +20,89 @@ const Navigation = () => {
 
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
+  // Hide nav on Enter page
+  if (location.pathname === "/") {
+    return null;
+  }
+
   return (
     <>
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm"
+        className="fixed top-0 left-0 right-0 z-50 nav-blur"
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo - Script style */}
-            <Link to="/" className="group">
+            <Link to="/home" className="group">
               <motion.span
-                className="text-xl font-script"
+                className="text-xl font-bold tracking-tighter-custom"
                 whileHover={{ opacity: 0.7 }}
+                transition={{ duration: 0.2 }}
               >
-                Sadder Days
+                SADDER DAYS
               </motion.span>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <Link key={link.name} to={link.path}>
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="relative group"
+                >
                   <motion.span
-                    className={`text-[10px] tracking-widest-custom transition-colors ${
+                    className={`text-xs font-medium tracking-widest-custom transition-colors ${
                       location.pathname === link.path
                         ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
-                    whileHover={{ opacity: 0.7 }}
+                    whileHover={{ y: -2 }}
+                    transition={{ duration: 0.2 }}
                   >
                     {link.name}
                   </motion.span>
+                  {location.pathname === link.path && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-foreground"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
               ))}
             </div>
 
-            {/* Cart Icon */}
+            {/* Cart & Mobile Menu */}
             <div className="flex items-center gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setCartOpen(true)}
-                className="relative"
+                className="relative p-2"
               >
-                <CrossIcon size="sm" className="text-foreground" />
+                <ShoppingBag size={18} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-2 w-4 h-4 bg-red-500 text-[10px] text-white flex items-center justify-center rounded-full">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-foreground text-background text-[10px] flex items-center justify-center rounded-full">
                     {cartCount}
                   </span>
                 )}
               </motion.button>
 
-              {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="md:hidden p-2"
                 aria-label="Toggle menu"
               >
-                {isOpen ? <X size={18} /> : <Menu size={18} />}
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: isOpen ? 90 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isOpen ? <X size={20} /> : <Menu size={20} />}
+                </motion.div>
               </button>
             </div>
           </div>
@@ -93,26 +116,38 @@ const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background md:hidden"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden"
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="flex flex-col items-center justify-center h-full gap-8"
+            >
               {navLinks.map((link, index) => (
                 <motion.div
-                  key={link.name}
+                  key={link.path}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
                 >
                   <Link
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className="text-2xl tracking-widest-custom"
+                    className={`text-3xl font-bold tracking-tighter-custom ${
+                      location.pathname === link.path
+                        ? "text-foreground"
+                        : "text-muted-foreground"
+                    }`}
                   >
                     {link.name}
                   </Link>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
