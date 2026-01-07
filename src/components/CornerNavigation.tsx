@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import CrossIcon from "@/components/CrossIcon";
+import crossLogo from "@/assets/cross-logo.png";
 
 const CornerNavigation = () => {
   const location = useLocation();
@@ -38,7 +38,7 @@ const CornerNavigation = () => {
           onClick={() => setIsOpen(true)}
           className="relative text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
         >
-          <CrossIcon size="sm" />
+          <img src={crossLogo} alt="Cart" className="h-6 w-auto invert" />
           {cartCount > 0 && (
             <span className="absolute -bottom-1 -right-2 text-[8px] font-medium tracking-widest-custom">
               {cartCount}
