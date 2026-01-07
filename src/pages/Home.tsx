@@ -103,9 +103,6 @@ const Home = () => {
             <p className="font-display text-4xl md:text-6xl tracking-tighter-custom leading-tight mb-4">
               SADDERDAYS.WORLD
             </p>
-            <p className="text-[10px] tracking-widest-custom text-muted-foreground mt-8">
-              — SADDER DAYS PHILOSOPHY
-            </p>
           </motion.div>
         </section>
 
