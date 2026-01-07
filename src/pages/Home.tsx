@@ -158,9 +158,9 @@ const Home = () => {
             className="mb-8"
           >
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-sd-pink">
-              HIGHLIGHTED
+              IMAGE
               <br />
-              WORKS
+              GALLERY
             </h2>
             <p className="font-display text-2xl md:text-4xl tracking-tighter-custom text-muted-foreground">
               23-24
