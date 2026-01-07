@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import crossLogo from "@/assets/cross-logo.png";
 
 const Enter = () => {
   const navigate = useNavigate();
@@ -48,6 +49,9 @@ const Enter = () => {
     { y: col3Y, x: col3X, direction: 1 },
   ];
 
+  // Pink color from palette - using a more saturated version for visibility on black
+  const pinkColor = "#FFD6EC";
+
   return (
     <motion.div
       exit={{ opacity: 0 }}
@@ -82,16 +86,23 @@ const Enter = () => {
               {/* Double the content for seamless loop */}
               {[...Array(2)].map((_, loopIndex) => (
                 <div key={loopIndex} className="flex flex-col items-center">
-                  {Array.from({ length: rowsPerColumn }).map((_, rowIndex) => {
-                    const opacityPattern = [1, 0.1, 0.03, 0.2, 0.35, 0.05, 0.15, 0.4, 0.07, 0.28];
-                    const opacity = opacityPattern[(rowIndex + colIndex * 3) % opacityPattern.length];
+              {Array.from({ length: rowsPerColumn }).map((_, rowIndex) => {
+                    // Opacity pattern
+                    const opacityPattern = [1, 0.12, 0.04, 0.22, 0.38, 0.06, 0.18, 0.45, 0.08, 0.3];
+                    const baseOpacity = opacityPattern[(rowIndex + colIndex * 3) % opacityPattern.length];
+                    
+                    // Make every 5th row pink with full opacity
+                    const isPink = (rowIndex + colIndex * 2) % 5 === 0;
+                    const textColor = isPink ? pinkColor : "white";
+                    const finalOpacity = isPink ? 0.85 : baseOpacity;
                     
                     return (
                       <div
                         key={rowIndex}
-                        className="text-white font-black text-[clamp(1.4rem,5vw,3.5rem)] leading-[1.1] tracking-tight whitespace-nowrap"
+                        className="font-black text-[clamp(1.4rem,5vw,3.5rem)] leading-[1.1] tracking-tight whitespace-nowrap"
                         style={{
-                          opacity,
+                          opacity: finalOpacity,
+                          color: textColor,
                           fontFamily: "'Inter', sans-serif",
                           fontWeight: 900,
                         }}
@@ -107,31 +118,44 @@ const Enter = () => {
         ))}
       </div>
 
-      {/* Mouse-reactive glow that follows cursor */}
+      {/* Mouse-reactive glow that follows cursor - pink tinted */}
       <motion.div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255,255,255,0.04) 0%, transparent 60%)`,
+          background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255, 235, 245, 0.06) 0%, transparent 60%)`,
         }}
       />
 
-      {/* Center "PUSH TO ENTER" overlay */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+      {/* Center cross logo and "PUSH TO ENTER" overlay */}
+      <div className="fixed inset-0 flex flex-col items-center justify-center pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="relative px-8 py-4"
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="relative flex flex-col items-center gap-6"
         >
           {/* Dark backdrop for visibility */}
-          <div className="absolute inset-0 bg-black/80 blur-3xl scale-[2]" />
+          <div className="absolute inset-[-40px] bg-black/70 blur-3xl scale-[2]" />
           
+          {/* Cross logo */}
+          <motion.img
+            src={crossLogo}
+            alt="Sadder Days Cross"
+            className="relative w-16 md:w-24 h-auto opacity-80"
+            animate={{
+              opacity: [0.6, 0.9, 0.6],
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          {/* Push to enter text */}
           <motion.p
             animate={{ 
               opacity: [0.5, 1, 0.5],
             }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative text-white text-[11px] md:text-sm tracking-[0.5em] font-medium"
+            className="relative text-[11px] md:text-sm tracking-[0.5em] font-medium"
+            style={{ color: pinkColor }}
           >
             PUSH TO ENTER
           </motion.p>
