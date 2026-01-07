@@ -55,14 +55,14 @@ const Home = () => {
           once: true
         }} className="md:col-span-5">
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom mb-6">
-              I'VE HAD
+              HELLO
               <br />
-              SADDER DAYS
+              PEOPLE
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-8">
               RnB meets Metal. A path for Black culture to become synonymous with elegance, class, and sensuality.
             </p>
-            <Link to="/music" className="text-[10px] tracking-widest-custom editorial-link">
+            <Link to="/about" className="text-[10px] tracking-widest-custom editorial-link">
                LISTEN HERE
             </Link>
           </motion.div>
@@ -116,17 +116,15 @@ const Home = () => {
 
         {/* About Me floating section */}
         <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="md:col-span-6 md:col-start-6 grid grid-cols-2 gap-2"
-          >
-            <img src={merch01} alt="Merch 1" className="w-full aspect-square object-cover" />
-            <img src={merch02} alt="Merch 2" className="w-full aspect-square object-cover" />
-            <img src={merch03} alt="Merch 3" className="w-full aspect-square object-cover" />
-            <img src={merch04} alt="Merch 4" className="w-full aspect-square object-cover" />
-          </motion.div>
+          <div className="md:col-span-6 md:col-start-6">
+            <motion.img initial={{
+            opacity: 0
+          }} whileInView={{
+            opacity: 1
+          }} viewport={{
+            once: true
+          }} src={handsCover} alt="Yin Yang Cover" className="w-full aspect-square object-cover mb-4" />
+          </div>
           <motion.div initial={{
           opacity: 0,
           y: 20
@@ -137,14 +135,12 @@ const Home = () => {
           once: true
         }} className="md:col-span-4 md:col-start-1 md:row-start-1 md:self-end">
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">
-              SHOP
+              ABOUT ME
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Exclusive apparel and accessories. Limited drops, timeless pieces.
+              The band combines influences from RnB, Jazz, and Classical music to create a unique metal experience.
             </p>
-            <Link to="/merch" className="text-[10px] tracking-widest-custom editorial-link">
-              BROWSE MERCH
-            </Link>
+            
           </motion.div>
         </section>
 
@@ -158,9 +154,9 @@ const Home = () => {
           once: true
         }} className="mb-8 border-solid border-primary">
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-sd-pink">
-              VISUAL
+              HIGHLIGHTED
               <br className="" />
-              GALLERY
+              WORKS
             </h2>
             <p className="font-display text-2xl md:text-4xl tracking-tighter-custom text-muted-foreground">
               23-24
