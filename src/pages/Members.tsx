@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Instagram, ExternalLink } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
-import grantPortrait from "@/assets/grant-portrait.jpg";
-import cameronPortrait from "@/assets/cameron-portrait.jpg";
+import cameronPortrait from "@/assets/cameron-portrait.jpg"; // Long hair - Cameron
+import grantPortrait from "@/assets/grant-portrait.jpg"; // Other person - Grant
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -103,8 +103,8 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
       </div>
 
       {/* Bio */}
-      <div className="px-6 py-4">
-        <p className="text-muted-foreground text-xs leading-relaxed line-clamp-4">
+      <div className="px-6 py-4 flex-1">
+        <p className="text-muted-foreground text-xs leading-relaxed">
           {member.bio}
         </p>
       </div>
