@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import PageTransition from "@/components/PageTransition";
+import InteractiveYinYang from "@/components/InteractiveYinYang";
 import duoPortrait from "@/assets/duo-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
-import yinyangText from "@/assets/yinyang-text.png";
 import merch01 from "@/assets/merch-01.jpg";
 import merch02 from "@/assets/merch-02.jpg";
 import merch03 from "@/assets/merch-03.jpg";
@@ -91,19 +91,9 @@ const Home = () => {
           </motion.div>
         </section>
 
-        {/* Quote Section */}
-        <section className="px-6 md:px-12 py-16 md:py-24">
-          <motion.div initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="max-w-4xl">
-            <p className="font-display text-4xl md:text-6xl tracking-tighter-custom leading-tight mb-4">
-              SADDERDAYS.WORLD
-            </p>
-          </motion.div>
+        {/* Interactive Yin Yang Section */}
+        <section className="px-6 md:px-12">
+          <InteractiveYinYang />
         </section>
 
         {/* About Me floating section */}
