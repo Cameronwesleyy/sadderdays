@@ -170,10 +170,6 @@ const Home = () => {
             scale: 1.05
           }} src={img} alt={`Work ${i + 1}`} className="h-24 md:h-32 w-auto object-cover flex-shrink-0 cursor-pointer" />)}
           </motion.div>
-
-          <p className="text-[10px] tracking-widest-custom text-muted-foreground mt-4">
-            A FACE THAT DOESN'T NEED FILTERS. WORKS WITH THE IMAGE AS WITH A WEAPON.
-          </p>
         </section>
 
         {/* The Runway / Tour Section */}
