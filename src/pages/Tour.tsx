@@ -1,13 +1,6 @@
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 
-// Single covers for visual interest
-const singleCovers = [
-  "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/83/a1/a583a197-786a-ceae-442d-8d3cc038f6c6/8721416800276.png/600x600bb.jpg",
-  "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/5f/d0/3c5fd033-69ba-e215-9bdf-7a4b4106f850/8721416618222.png/600x600bb.jpg",
-  "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/63/8e/da/638eda24-7603-db2c-225f-cecba5609533/199079157071.png/600x600bb.jpg",
-];
-
 const tourDates = [
   { date: "MAR 15", city: "NEW YORK", venue: "Terminal 5", status: "available" },
   { date: "MAR 22", city: "LOS ANGELES", venue: "The Wiltern", status: "sold-out" },
@@ -91,18 +84,6 @@ const Tour = () => {
           >
             MORE DATES ANNOUNCED SOON
           </motion.p>
-
-          {/* Single covers strip */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="flex gap-4 mt-12"
-          >
-            {singleCovers.map((cover, i) => (
-              <img key={i} src={cover} alt={`Single ${i + 1}`} className="w-20 h-20 md:w-28 md:h-28 object-cover" />
-            ))}
-          </motion.div>
         </div>
       </div>
     </PageTransition>

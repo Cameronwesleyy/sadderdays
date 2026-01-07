@@ -10,19 +10,6 @@ import merch01 from "@/assets/merch-01.jpg";
 import merch02 from "@/assets/merch-02.jpg";
 import merch03 from "@/assets/merch-03.jpg";
 import merch04 from "@/assets/merch-04.jpg";
-
-// Single covers from Apple Music
-const singleCovers = {
-  push: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/83/a1/a583a197-786a-ceae-442d-8d3cc038f6c6/8721416800276.png/600x600bb.jpg",
-  fly: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/5f/d0/3c5fd033-69ba-e215-9bdf-7a4b4106f850/8721416618222.png/600x600bb.jpg",
-  masquerade: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/11/7c/23117c8d-4c70-f332-043b-32dcb431ee09/199327819539.png/600x600bb.jpg",
-  zen: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/44/0a/13/440a13e3-38dc-55de-941c-2a6a4f9377ae/199514278200.png/600x600bb.jpg",
-  misery: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/60/20/0e/60200ece-2d22-0748-85ef-df6d436f697b/199518908806.png/600x600bb.jpg",
-  guilty: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fb/31/b4/fb31b4f1-48e8-e819-fe84-e28e5e2aa5f2/199328586478.png/600x600bb.jpg",
-  dread: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/63/8e/da/638eda24-7603-db2c-225f-cecba5609533/199079157071.png/600x600bb.jpg",
-  whispers: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4e/c8/9c/4ec89c6d-2580-d7b2-79b0-5d7808d36e7d/199090313364.png/600x600bb.jpg",
-  crave: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/90/19/d7/9019d7c7-5d75-3a72-319d-c754675b2a42/019307026217.png/600x600bb.jpg",
-};
 const Home = () => {
   return <PageTransition>
       <div className="min-h-screen">
@@ -68,14 +55,14 @@ const Home = () => {
           once: true
         }} className="md:col-span-5">
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom mb-6">
-              HELLO
+              I'VE HAD
               <br />
-              PEOPLE
+              SADDER DAYS
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-8">
               RnB meets Metal. A path for Black culture to become synonymous with elegance, class, and sensuality.
             </p>
-            <Link to="/about" className="text-[10px] tracking-widest-custom editorial-link">
+            <Link to="/music" className="text-[10px] tracking-widest-custom editorial-link">
                LISTEN HERE
             </Link>
           </motion.div>
@@ -129,15 +116,17 @@ const Home = () => {
 
         {/* About Me floating section */}
         <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
-          <div className="md:col-span-6 md:col-start-6">
-            <motion.img initial={{
-            opacity: 0
-          }} whileInView={{
-            opacity: 1
-          }} viewport={{
-            once: true
-          }} src={handsCover} alt="Yin Yang Cover" className="w-full aspect-square object-cover mb-4" />
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="md:col-span-6 md:col-start-6 grid grid-cols-2 gap-2"
+          >
+            <img src={merch01} alt="Merch 1" className="w-full aspect-square object-cover" />
+            <img src={merch02} alt="Merch 2" className="w-full aspect-square object-cover" />
+            <img src={merch03} alt="Merch 3" className="w-full aspect-square object-cover" />
+            <img src={merch04} alt="Merch 4" className="w-full aspect-square object-cover" />
+          </motion.div>
           <motion.div initial={{
           opacity: 0,
           y: 20
@@ -148,12 +137,14 @@ const Home = () => {
           once: true
         }} className="md:col-span-4 md:col-start-1 md:row-start-1 md:self-end">
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">
-              ABOUT ME
+              SHOP
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              The band combines influences from RnB, Jazz, and Classical music to create a unique metal experience.
+              Exclusive apparel and accessories. Limited drops, timeless pieces.
             </p>
-            
+            <Link to="/merch" className="text-[10px] tracking-widest-custom editorial-link">
+              BROWSE MERCH
+            </Link>
           </motion.div>
         </section>
 
@@ -167,9 +158,9 @@ const Home = () => {
           once: true
         }} className="mb-8 border-solid border-primary">
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-sd-pink">
-              HIGHLIGHTED
+              VISUAL
               <br className="" />
-              WORKS
+              GALLERY
             </h2>
             <p className="font-display text-2xl md:text-4xl tracking-tighter-custom text-muted-foreground">
               23-24
@@ -186,7 +177,7 @@ const Home = () => {
         }} viewport={{
           once: true
         }} className="filmstrip bg-foreground px-2">
-            {[singleCovers.push, singleCovers.fly, singleCovers.masquerade, singleCovers.zen, singleCovers.misery, singleCovers.guilty, singleCovers.dread, singleCovers.whispers, singleCovers.crave, handsCover].map((img, i) => <motion.img key={i} whileHover={{
+            {[merch01, merch02, merch03, merch04, grantPortrait, cameronPortrait, handsCover].map((img, i) => <motion.img key={i} whileHover={{
             scale: 1.05
           }} src={img} alt={`Work ${i + 1}`} className="h-24 md:h-32 w-auto object-cover flex-shrink-0 cursor-pointer" />)}
           </motion.div>
@@ -266,8 +257,8 @@ const Home = () => {
               MOOD
             </h2>
             <div className="flex gap-2 justify-end">
-              <img src={singleCovers.zen} alt="Zen" className="w-20 h-28 object-cover" />
-              <img src={singleCovers.masquerade} alt="Masquerade" className="w-20 h-28 object-cover" />
+              <img src={cameronPortrait} alt="" className="w-20 h-28 object-cover" />
+              <img src={handsCover} alt="" className="w-20 h-28 object-cover" />
             </div>
           </motion.div>
 

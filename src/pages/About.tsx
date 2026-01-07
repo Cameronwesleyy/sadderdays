@@ -4,15 +4,6 @@ import duoPortrait from "@/assets/duo-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
 import crossLogo from "@/assets/cross-logo.png";
 
-// Single covers
-const singleCovers = {
-  push: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/83/a1/a583a197-786a-ceae-442d-8d3cc038f6c6/8721416800276.png/600x600bb.jpg",
-  fly: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/5f/d0/3c5fd033-69ba-e215-9bdf-7a4b4106f850/8721416618222.png/600x600bb.jpg",
-  masquerade: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/11/7c/23117c8d-4c70-f332-043b-32dcb431ee09/199327819539.png/600x600bb.jpg",
-  zen: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/44/0a/13/440a13e3-38dc-55de-941c-2a6a4f9377ae/199514278200.png/600x600bb.jpg",
-  crave: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/90/19/d7/9019d7c7-5d75-3a72-319d-c754675b2a42/019307026217.png/600x600bb.jpg",
-};
-
 const About = () => {
   return (
     <PageTransition>
@@ -94,18 +85,6 @@ const About = () => {
           <p className="text-[10px] tracking-widest-custom text-muted-foreground mt-6">
             — AND EVEN THEN, THEY'RE GOING TO KEEP GOING.
           </p>
-          
-          {/* Singles gallery */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="flex gap-3 mt-12 overflow-x-auto pb-4"
-          >
-            {[singleCovers.push, singleCovers.fly, singleCovers.masquerade, singleCovers.zen, singleCovers.crave].map((cover, i) => (
-              <img key={i} src={cover} alt={`Single ${i + 1}`} className="w-24 h-24 md:w-32 md:h-32 object-cover flex-shrink-0" />
-            ))}
-          </motion.div>
         </section>
 
         {/* Image + RnM */}
