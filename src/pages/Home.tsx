@@ -55,9 +55,9 @@ const Home = () => {
           once: true
         }} className="md:col-span-5">
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom mb-6">
-              HELLO
+              I'VE HAD
               <br />
-              PEOPLE
+              SADDER DAYS
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-8">
               RnB meets Metal. A path for Black culture to become synonymous with elegance, class, and sensuality.
