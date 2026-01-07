@@ -2,13 +2,14 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import duoPortrait from "@/assets/duo-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
+import crossLogo from "@/assets/cross-logo.png";
 
 const About = () => {
   return (
     <PageTransition>
       <div className="min-h-screen">
         {/* Hero */}
-        <section className="relative min-h-[70vh] p-6 md:p-12">
+        <section className="relative min-h-[70vh] p-6 md:p-12 flex flex-col">
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -18,6 +19,16 @@ const About = () => {
             <br />
             <span className="text-muted-foreground">US</span>
           </motion.h1>
+          
+          {/* Cross Logo */}
+          <motion.img
+            src={crossLogo}
+            alt="Sadder Days Cross"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 0.8, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="w-12 md:w-16 h-auto mt-8"
+          />
         </section>
 
         {/* Content grid */}
