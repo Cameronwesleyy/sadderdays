@@ -131,9 +131,6 @@ const Home = () => {
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">
               SHOP
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Exclusive apparel and accessories. Limited drops, timeless pieces.
-            </p>
             <Link to="/merch" className="text-[10px] tracking-widest-custom editorial-link">
               BROWSE MERCH
             </Link>
