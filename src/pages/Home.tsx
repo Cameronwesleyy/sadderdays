@@ -116,15 +116,17 @@ const Home = () => {
 
         {/* About Me floating section */}
         <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
-          <div className="md:col-span-6 md:col-start-6">
-            <motion.img initial={{
-            opacity: 0
-          }} whileInView={{
-            opacity: 1
-          }} viewport={{
-            once: true
-          }} src={handsCover} alt="Yin Yang Cover" className="w-full aspect-square object-cover mb-4" />
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="md:col-span-6 md:col-start-6 grid grid-cols-2 gap-2"
+          >
+            <img src={merch01} alt="Merch 1" className="w-full aspect-square object-cover" />
+            <img src={merch02} alt="Merch 2" className="w-full aspect-square object-cover" />
+            <img src={merch03} alt="Merch 3" className="w-full aspect-square object-cover" />
+            <img src={merch04} alt="Merch 4" className="w-full aspect-square object-cover" />
+          </motion.div>
           <motion.div initial={{
           opacity: 0,
           y: 20
