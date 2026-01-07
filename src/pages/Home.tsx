@@ -135,14 +135,14 @@ const Home = () => {
           once: true
         }} className="md:col-span-4 md:col-start-1 md:row-start-1 md:self-end">
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">
-              ABOUT ME
+              SHOP
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              The band combines influences from RnB, Jazz, and Classical music to create a unique metal experience.
+              Exclusive apparel and accessories. Limited drops, timeless pieces.
             </p>
-            <p className="text-xs text-muted-foreground/60">
-              MY STYLE IS A MIX OF DECADENCE, BRUTALISM AND NIGHTTIME PLASTICITY.
-            </p>
+            <Link to="/merch" className="text-[10px] tracking-widest-custom editorial-link">
+              BROWSE MERCH
+            </Link>
           </motion.div>
         </section>
 
