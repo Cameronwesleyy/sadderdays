@@ -5,10 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { CartProvider } from "@/context/CartContext";
-import Navigation from "@/components/Navigation";
+import CornerNavigation from "@/components/CornerNavigation";
 import GrainOverlay from "@/components/GrainOverlay";
 import CartDrawer from "@/components/CartDrawer";
-import Footer from "@/components/Footer";
 import Enter from "./pages/Enter";
 import Home from "./pages/Home";
 import Merch from "./pages/Merch";
@@ -29,7 +28,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <GrainOverlay />
-          <Navigation />
+          <CornerNavigation />
           <CartDrawer />
           <AnimatePresence mode="wait">
             <main className="min-h-screen">
@@ -46,7 +45,6 @@ const App = () => (
               </Routes>
             </main>
           </AnimatePresence>
-          <Footer />
         </BrowserRouter>
       </CartProvider>
     </TooltipProvider>

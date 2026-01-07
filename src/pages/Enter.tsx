@@ -16,60 +16,69 @@ const Enter = () => {
     >
       {/* Vertical scroll marquee */}
       <div className="min-h-[200vh] flex flex-col items-center justify-start pt-[20vh] pb-32">
-        {/* Domain text - thin font */}
+        {/* Domain text - ultra thin */}
         {Array.from({ length: 12 }).map((_, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.05 }}
-            className={`text-4xl md:text-6xl lg:text-8xl font-thin tracking-tighter-custom mb-4 ${
-              i % 3 === 0
+            transition={{ delay: i * 0.03 }}
+            className={`text-4xl md:text-6xl lg:text-8xl font-extralight tracking-tighter-custom mb-3 ${
+              i % 4 === 0
                 ? "text-foreground"
-                : i % 3 === 1
-                ? "text-foreground/30"
+                : i % 4 === 1
+                ? "text-foreground/20"
+                : i % 4 === 2
+                ? "text-foreground/5"
                 : "text-foreground/10"
             }`}
+            style={{ fontWeight: 100 }}
           >
             sadderdays.world
           </motion.div>
         ))}
 
-        {/* Center CTA */}
+        {/* Center CTA - red */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="fixed bottom-12 left-1/2 -translate-x-1/2 text-center"
+          transition={{ delay: 0.5 }}
+          className="fixed bottom-16 left-1/2 -translate-x-1/2 text-center"
         >
           <motion.p
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-sd-red text-xs tracking-widest-custom font-light"
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity }}
+            className="text-sd-red text-[10px] tracking-widest-custom font-medium"
           >
-            push to enter
+            PUSH TO ENTER
           </motion.p>
         </motion.div>
 
         {/* More text as you scroll */}
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 10 }).map((_, i) => (
           <motion.div
             key={`bottom-${i}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 + i * 0.05 }}
-            className={`text-4xl md:text-6xl lg:text-8xl font-thin tracking-tighter-custom mb-4 ${
-              i % 3 === 0
+            transition={{ delay: 0.4 + i * 0.03 }}
+            className={`text-4xl md:text-6xl lg:text-8xl font-extralight tracking-tighter-custom mb-3 ${
+              i % 4 === 0
+                ? "text-foreground/5"
+                : i % 4 === 1
                 ? "text-foreground/10"
-                : i % 3 === 1
-                ? "text-foreground/30"
+                : i % 4 === 2
+                ? "text-foreground/20"
                 : "text-foreground"
             }`}
+            style={{ fontWeight: 100 }}
           >
             sadderdays.world
           </motion.div>
         ))}
       </div>
+
+      {/* Grain overlay */}
+      <div className="grain-overlay" />
     </motion.div>
   );
 };
