@@ -47,7 +47,7 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-bl"
       >
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-2">
           {[
             { name: "SHOP", path: "/merch" },
             { name: "MUSIC", path: "/music" },
@@ -56,7 +56,7 @@ const CornerNavigation = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-[10px] tracking-widest-custom editorial-link ${
+              className={`text-xs tracking-widest-custom editorial-link ${
                 location.pathname === link.path
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -74,7 +74,7 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-br"
       >
-        <nav className="flex flex-col gap-1 text-right">
+        <nav className="flex flex-col gap-2 text-right">
           {[
             { name: "LAB", path: "/lab" },
             { name: "MEMBERS", path: "/members" },
@@ -83,7 +83,7 @@ const CornerNavigation = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-[10px] tracking-widest-custom editorial-link ${
+              className={`text-xs tracking-widest-custom editorial-link ${
                 location.pathname === link.path
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
