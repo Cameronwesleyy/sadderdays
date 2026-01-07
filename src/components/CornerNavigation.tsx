@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
+import CrossIcon from "@/components/CrossIcon";
 
 const CornerNavigation = () => {
   const location = useLocation();
@@ -20,7 +21,6 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-tl"
       >
-        <div className="absolute -inset-4 -z-10 rounded-full bg-secondary/80 blur-xl" />
         <Link to="/home" className="editorial-link">
           <span className="text-[10px] font-medium tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
             SADDER DAYS
@@ -34,12 +34,16 @@ const CornerNavigation = () => {
         animate={{ opacity: 1 }}
         className="corner-nav corner-nav-tr"
       >
-        <div className="absolute -inset-4 -z-10 rounded-full bg-secondary/80 blur-xl" />
         <button
           onClick={() => setIsOpen(true)}
-          className="text-[10px] font-medium tracking-widest-custom editorial-link text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]"
+          className="relative text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
         >
-          BAG {cartCount > 0 && `(${cartCount})`}
+          <CrossIcon size="sm" />
+          {cartCount > 0 && (
+            <span className="absolute -bottom-1 -right-2 text-[8px] font-medium tracking-widest-custom">
+              {cartCount}
+            </span>
+          )}
         </button>
       </motion.div>
 
