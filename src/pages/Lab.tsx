@@ -9,23 +9,23 @@ const Lab = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-screen px-6 py-24">
-        <div className="max-w-5xl mx-auto">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-24">
+        <div className="w-full max-w-2xl text-center">
           {/* Massive heading */}
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-massive font-display tracking-tighter-custom mb-16 sticky-heading"
+            className="font-display text-[8rem] md:text-[12rem] lg:text-[16rem] tracking-tighter-custom leading-none mb-12"
           >
             LAB
           </motion.h1>
 
-          {/* Tabs - minimal */}
+          {/* Tabs - larger */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="flex gap-8 mb-16"
+            className="flex justify-center gap-12 mb-16"
           >
             {[
               { id: "generator", label: "GENERATOR" },
@@ -34,7 +34,7 @@ const Lab = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as "generator" | "quiz")}
-                className={`text-[10px] tracking-widest-custom transition-all ${
+                className={`text-sm tracking-widest-custom transition-all ${
                   activeTab === tab.id
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -143,31 +143,31 @@ const YinYangGenerator = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="max-w-md"
+      className="w-full max-w-lg mx-auto"
     >
       {/* Input */}
-      <div className="mb-8">
+      <div className="mb-10">
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value.slice(0, 20))}
           maxLength={20}
           placeholder="YOUR TEXT"
-          className="w-full bg-transparent border-b border-foreground py-3 text-xl font-display tracking-tighter-custom placeholder:text-muted-foreground focus:outline-none"
+          className="w-full bg-transparent border-b-2 border-foreground py-4 text-2xl md:text-3xl font-display tracking-tighter-custom placeholder:text-muted-foreground focus:outline-none text-center"
         />
       </div>
 
       {/* Canvas */}
-      <div className="aspect-square bg-muted/20 mb-8 border border-border">
+      <div className="aspect-square bg-muted/10 mb-10 border border-border">
         <canvas ref={canvasRef} className="w-full h-full object-contain" />
       </div>
 
       {/* Download */}
       <button
         onClick={downloadImage}
-        className="text-[10px] tracking-widest-custom editorial-link flex items-center gap-2"
+        className="text-sm tracking-widest-custom editorial-link flex items-center justify-center gap-3 mx-auto"
       >
-        DOWNLOAD <Download size={10} />
+        DOWNLOAD <Download size={14} />
       </button>
     </motion.div>
   );
@@ -239,7 +239,7 @@ const QuizSection = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="max-w-lg"
+      className="w-full max-w-xl mx-auto"
     >
       <AnimatePresence mode="wait">
         {result ? (
@@ -249,17 +249,17 @@ const QuizSection = () => {
             animate={{ opacity: 1 }}
             className="py-12"
           >
-            <h2 className="text-6xl md:text-8xl font-display tracking-tighter-custom mb-8">
+            <h2 className="text-8xl md:text-[10rem] font-display tracking-tighter-custom mb-8">
               {result === "yin" ? "YIN" : "YANG"}
             </h2>
-            <p className="text-sm text-muted-foreground mb-12 max-w-sm">
+            <p className="text-base text-muted-foreground mb-12 max-w-md mx-auto">
               {result === "yin"
                 ? "You embrace the quiet, the subtle, the flowing. Your energy is receptive and transformative."
                 : "You embody the active, the bold, the dynamic. Your energy is creative and initiating."}
             </p>
             <button
               onClick={resetQuiz}
-              className="text-[10px] tracking-widest-custom editorial-link text-muted-foreground hover:text-foreground"
+              className="text-sm tracking-widest-custom editorial-link text-muted-foreground hover:text-foreground"
             >
               RETAKE
             </button>
@@ -272,36 +272,36 @@ const QuizSection = () => {
             exit={{ opacity: 0, x: -20 }}
           >
             {/* Progress */}
-            <div className="flex gap-2 mb-12">
+            <div className="flex gap-3 mb-16">
               {quizQuestions.map((_, index) => (
                 <div
                   key={index}
-                  className={`h-px flex-1 transition-colors ${
+                  className={`h-0.5 flex-1 transition-colors ${
                     index <= currentQuestion ? "bg-foreground" : "bg-border"
                   }`}
                 />
               ))}
             </div>
 
-            <p className="text-[10px] tracking-widest-custom text-muted-foreground mb-8">
+            <p className="text-sm tracking-widest-custom text-muted-foreground mb-10">
               {currentQuestion + 1} / {quizQuestions.length}
             </p>
 
-            <h2 className="text-2xl md:text-3xl font-display tracking-tighter-custom mb-12">
+            <h2 className="text-3xl md:text-5xl font-display tracking-tighter-custom mb-16">
               {quizQuestions[currentQuestion].question}
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               {quizQuestions[currentQuestion].options.map((option, index) => (
                 <motion.button
                   key={index}
-                  whileHover={{ x: 4 }}
+                  whileHover={{ x: 8 }}
                   onClick={() => handleAnswer(option.side)}
-                  className="w-full py-4 text-left border-b border-border hover:border-foreground transition-colors group text-sm flex justify-between items-center"
+                  className="w-full py-6 text-left border-b-2 border-border hover:border-foreground transition-colors group text-lg flex justify-between items-center"
                 >
                   <span>{option.text}</span>
                   <ArrowRight
-                    size={12}
+                    size={18}
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
                   />
                 </motion.button>
