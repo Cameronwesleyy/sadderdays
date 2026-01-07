@@ -199,9 +199,9 @@ const Home = () => {
             className="md:col-span-4"
           >
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">
-              THE
+              LIVE
               <br />
-              RUNWAY
+              SHOWS
             </h2>
             <Link
               to="/tour"
