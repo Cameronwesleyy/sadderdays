@@ -79,7 +79,7 @@ const Merch = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="dense-grid grid-cols-2 md:grid-cols-3"
+            className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
           >
             {products.map((product, index) => (
               <motion.div
@@ -100,11 +100,11 @@ const Merch = () => {
                 </div>
 
                 {/* Info - minimal */}
-                <div className="p-4 flex justify-between items-baseline">
-                  <span className="text-[10px] tracking-widest-custom">
+                <div className="py-2 flex justify-between items-baseline">
+                  <span className="text-[9px] tracking-widest-custom">
                     {product.variant}
                   </span>
-                  <span className="text-[10px] tracking-widest-custom text-muted-foreground">
+                  <span className="text-[9px] tracking-widest-custom text-muted-foreground">
                     ${product.price}
                   </span>
                 </div>
