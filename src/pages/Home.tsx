@@ -59,9 +59,6 @@ const Home = () => {
               <br />
               SADDER DAYS
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-8">
-              RnB meets Metal. A path for Black culture to become synonymous with elegance, class, and sensuality.
-            </p>
             <Link to="/music" className="text-[10px] tracking-widest-custom editorial-link">
                LISTEN HERE
             </Link>
