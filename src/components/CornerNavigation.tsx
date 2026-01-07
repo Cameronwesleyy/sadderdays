@@ -21,7 +21,7 @@ const CornerNavigation = () => {
         className="corner-nav corner-nav-tl"
       >
         <Link to="/home" className="editorial-link">
-          <span className="text-[10px] font-medium tracking-widest-custom">
+          <span className="text-[10px] font-medium tracking-widest-custom text-secondary drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
             SADDER DAYS
           </span>
         </Link>
@@ -35,7 +35,7 @@ const CornerNavigation = () => {
       >
         <button
           onClick={() => setIsOpen(true)}
-          className="text-[10px] font-medium tracking-widest-custom editorial-link"
+          className="text-[10px] font-medium tracking-widest-custom editorial-link text-secondary drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
         >
           BAG {cartCount > 0 && `(${cartCount})`}
         </button>
@@ -56,10 +56,10 @@ const CornerNavigation = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-xs tracking-widest-custom editorial-link ${
+              className={`text-xs tracking-widest-custom editorial-link drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] ${
                 location.pathname === link.path
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-secondary"
+                  : "text-secondary/70 hover:text-secondary"
               }`}
             >
               {link.name}
@@ -83,10 +83,10 @@ const CornerNavigation = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-xs tracking-widest-custom editorial-link ${
+              className={`text-xs tracking-widest-custom editorial-link drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] ${
                 location.pathname === link.path
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-secondary"
+                  : "text-secondary/70 hover:text-secondary"
               }`}
             >
               {link.name}
