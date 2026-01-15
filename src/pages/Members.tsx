@@ -65,19 +65,16 @@ const members = [
 ];
 
 const MemberCard = ({ member, index }: { member: typeof members[0]; index: number }) => {
-  const isLeft = index === 0;
-  const bgColor = isLeft ? "bg-background" : "bg-muted/20";
-  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
-      className={`flex flex-col ${bgColor} w-full max-w-md`}
+      className="flex flex-col bg-white/5 backdrop-blur-sm w-full max-w-md"
     >
       {/* Role and Name */}
       <div className="px-6 pt-6 pb-4">
-        <p className="text-[10px] tracking-widest text-muted-foreground mb-4">
+        <p className="text-[10px] tracking-widest text-white/60 mb-4">
           {member.role}
         </p>
         <img 
@@ -90,29 +87,29 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
 
       {/* Stats Grid */}
       <div className="px-6">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-border/30 text-xs">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-white/20 text-xs">
           <div>
-            <p className="text-[9px] tracking-widest text-muted-foreground mb-0.5">FAVORITE COLOR</p>
-            <p className="font-medium">{member.favoriteColor}</p>
+            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">FAVORITE COLOR</p>
+            <p className="font-medium text-white">{member.favoriteColor}</p>
           </div>
           <div>
-            <p className="text-[9px] tracking-widest text-muted-foreground mb-0.5">PERSONALITY</p>
-            <p className="font-medium">{member.personality}</p>
+            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">PERSONALITY</p>
+            <p className="font-medium text-white">{member.personality}</p>
           </div>
           <div>
-            <p className="text-[9px] tracking-widest text-muted-foreground mb-0.5">BIRTHDAY</p>
-            <p className="font-medium">{member.birthday}</p>
+            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">BIRTHDAY</p>
+            <p className="font-medium text-white">{member.birthday}</p>
           </div>
           <div>
-            <p className="text-[9px] tracking-widest text-muted-foreground mb-0.5">SIGNS</p>
-            <p className="font-medium">{member.sun} · {member.moon} · {member.rising}</p>
+            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">SIGNS</p>
+            <p className="font-medium text-white">{member.sun} · {member.moon} · {member.rising}</p>
           </div>
         </div>
       </div>
 
       {/* Bio */}
       <div className="px-6 py-4 flex-1">
-        <p className="text-muted-foreground text-xs leading-relaxed">
+        <p className="text-white/70 text-xs leading-relaxed">
           {member.bio}
         </p>
       </div>
@@ -127,7 +124,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
                 href={link.href}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-3 py-1.5 text-[10px] tracking-wider border border-border/50 hover:border-foreground/50 hover:bg-foreground/5 transition-all flex items-center gap-1.5"
+                className="px-3 py-1.5 text-[10px] tracking-wider border border-white/30 text-white hover:border-white/60 hover:bg-white/10 transition-all flex items-center gap-1.5"
               >
                 {link.name}
                 <ExternalLink size={10} />
@@ -146,7 +143,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
               href={href}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2 border border-border/30 hover:border-foreground/50 hover:bg-foreground/5 transition-all"
+              className="p-2 border border-white/20 text-white hover:border-white/50 hover:bg-white/10 transition-all"
               aria-label={name}
             >
               <Icon />
