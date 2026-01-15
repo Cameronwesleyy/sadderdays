@@ -66,7 +66,7 @@ const Home = () => {
         }} viewport={{
           once: true
         }} className="md:col-span-4 md:col-start-7">
-            <img src={grantPortrait} alt="Grant" className="w-full aspect-[3/4] object-cover" />
+            <img alt="Grant" className="w-full aspect-[3/4] object-cover" src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" />
           </motion.div>
 
           <motion.div initial={{
@@ -86,12 +86,13 @@ const Home = () => {
 
         {/* About Me floating section */}
         <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="md:col-span-6 md:col-start-6 grid grid-cols-2 gap-2"
-          >
+          <motion.div initial={{
+          opacity: 0
+        }} whileInView={{
+          opacity: 1
+        }} viewport={{
+          once: true
+        }} className="md:col-span-6 md:col-start-6 grid grid-cols-2 gap-2">
             <img src={merch01} alt="Merch 1" className="w-full aspect-square object-cover" />
             <img src={merch02} alt="Merch 2" className="w-full aspect-square object-cover" />
             <img src={merch03} alt="Merch 3" className="w-full aspect-square object-cover" />
