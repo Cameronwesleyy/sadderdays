@@ -1,26 +1,15 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import crossLogo from "@/assets/cross-logo.png";
 
 const Enter = () => {
   const navigate = useNavigate();
+  const [isHovering, setIsHovering] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   
-  // Smooth spring physics for mouse movement
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
-  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-  // Transform mouse position to offset values for each column
-  const col1Y = useTransform(smoothY, [0, 1], [100, -100]);
-  const col2Y = useTransform(smoothY, [0, 1], [-80, 80]);
-  const col3Y = useTransform(smoothY, [0, 1], [120, -120]);
-  
-  const col1X = useTransform(smoothX, [0, 1], [-30, 30]);
-  const col2X = useTransform(smoothX, [0, 1], [20, -20]);
-  const col3X = useTransform(smoothX, [0, 1], [-25, 25]);
 
   const handleEnter = () => {
     navigate("/home");
@@ -39,90 +28,75 @@ const Enter = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  const columns = 3;
-  const rowsPerColumn = 30;
-  const text = "sadderdays.world";
-
-  const columnTransforms = [
-    { y: col1Y, x: col1X, direction: 1 },
-    { y: col2Y, x: col2X, direction: -1 },
-    { y: col3Y, x: col3X, direction: 1 },
-  ];
-
-  // Pink color from palette - using a more saturated version for visibility on black
+  const text = "SADDERDAYS";
   const pinkColor = "#FFD6EC";
+
+  // Generate random explosion positions for each letter
+  const letterExplosions = useMemo(() => {
+    return text.split("").map(() => ({
+      x: (Math.random() - 0.5) * window.innerWidth * 1.5,
+      y: (Math.random() - 0.5) * window.innerHeight * 1.5,
+      rotate: (Math.random() - 0.5) * 720,
+      scale: 0.5 + Math.random() * 1.5,
+    }));
+  }, []);
 
   return (
     <motion.div
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black z-50 overflow-hidden cursor-pointer"
       onClick={handleEnter}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Main grid of text with mouse interaction */}
-      <div className="absolute inset-0 flex w-screen">
-        {Array.from({ length: columns }).map((_, colIndex) => (
-          <motion.div
-            key={colIndex}
-            className="flex-1 flex flex-col items-center overflow-visible"
-            style={{
-              y: columnTransforms[colIndex].y,
-              x: columnTransforms[colIndex].x,
-            }}
-          >
-            {/* Vertical scrolling marquee */}
-            <motion.div
-              animate={{
-                y: columnTransforms[colIndex].direction === 1 
-                  ? ["0%", "-50%"] 
-                  : ["-50%", "0%"],
-              }}
-              transition={{
-                duration: 20 + colIndex * 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="flex flex-col items-center"
-            >
-              {/* Double the content for seamless loop */}
-              {[...Array(2)].map((_, loopIndex) => (
-                <div key={loopIndex} className="flex flex-col items-center">
-              {Array.from({ length: rowsPerColumn }).map((_, rowIndex) => {
-                    // Opacity pattern
-                    const opacityPattern = [1, 0.12, 0.04, 0.22, 0.38, 0.06, 0.18, 0.45, 0.08, 0.3];
-                    const baseOpacity = opacityPattern[(rowIndex + colIndex * 3) % opacityPattern.length];
-                    
-                    // Make every 5th row pink with full opacity
-                    const isPink = (rowIndex + colIndex * 2) % 5 === 0;
-                    const textColor = isPink ? pinkColor : "white";
-                    const finalOpacity = isPink ? 0.85 : baseOpacity;
-                    
-                    return (
-                      <div
-                        key={rowIndex}
-                        className="font-black text-[clamp(1.4rem,5vw,3.5rem)] leading-[1.1] tracking-tight whitespace-nowrap"
-                        style={{
-                          opacity: finalOpacity,
-                          color: textColor,
-                          fontFamily: "'Inter', sans-serif",
-                          fontWeight: 900,
-                        }}
-                      >
-                        {text}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </motion.div>
-          </motion.div>
-        ))}
+      {/* Exploding letters */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative">
+          {text.split("").map((letter, index) => {
+            const isPink = index % 3 === 0;
+            
+            return (
+              <motion.span
+                key={index}
+                className="inline-block font-black text-[clamp(3rem,15vw,12rem)] leading-none tracking-tighter"
+                style={{
+                  color: isPink ? pinkColor : "white",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 900,
+                }}
+                initial={{ x: 0, y: 0, rotate: 0, scale: 1 }}
+                animate={isHovering ? {
+                  x: letterExplosions[index].x,
+                  y: letterExplosions[index].y,
+                  rotate: letterExplosions[index].rotate,
+                  scale: letterExplosions[index].scale,
+                  opacity: 0.8,
+                } : {
+                  x: 0,
+                  y: 0,
+                  rotate: 0,
+                  scale: 1,
+                  opacity: 1,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15,
+                  delay: index * 0.02,
+                }}
+              >
+                {letter}
+              </motion.span>
+            );
+          })}
+        </div>
       </div>
 
       {/* Mouse-reactive glow that follows cursor - pink tinted */}
       <motion.div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255, 235, 245, 0.06) 0%, transparent 60%)`,
+          background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255, 235, 245, 0.08) 0%, transparent 60%)`,
         }}
       />
 
@@ -130,8 +104,11 @@ const Enter = () => {
       <div className="fixed inset-0 flex flex-col items-center justify-center pointer-events-none">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
+          animate={{ 
+            opacity: isHovering ? 0 : 1, 
+            scale: isHovering ? 0.5 : 1 
+          }}
+          transition={{ duration: 0.4 }}
           className="relative flex flex-col items-center gap-6"
         >
           {/* Dark backdrop for visibility */}
