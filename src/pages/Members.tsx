@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Instagram, ExternalLink } from "lucide-react";
+import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
 import cameronPortrait from "@/assets/cameron-portrait.jpg"; // Long hair - Cameron
 import grantPortrait from "@/assets/grant-portrait.jpg"; // Other person - Grant
@@ -173,11 +174,34 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
 };
 
 const Members = () => {
+  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    setMousePos({ x, y });
+  };
+
   return (
     <PageTransition>
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
+      <div 
+        className="min-h-screen flex flex-col items-center justify-center px-4 py-8 relative"
+        style={{
+          backgroundColor: '#1a1a1a',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E")`,
+        }}
+        onMouseMove={handleMouseMove}
+      >
+        {/* Pink glow following mouse */}
+        <motion.div
+          className="fixed inset-0 pointer-events-none z-0"
+          style={{
+            background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255, 214, 236, 0.15) 0%, transparent 50%)`,
+          }}
+        />
+
         {/* Side by side centered layout */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl relative z-10">
           {members.map((member, index) => (
             <MemberCard key={member.name} member={member} index={index} />
           ))}
