@@ -13,96 +13,65 @@ const CornerNavigation = () => {
     return null;
   }
 
+  const navLinks = [
+    { name: "SHOP", path: "/merch" },
+    { name: "MUSIC", path: "/music" },
+    { name: "TOUR", path: "/tour" },
+    { name: "LAB", path: "/lab" },
+    { name: "MEMBERS", path: "/members" },
+    { name: "ABOUT", path: "/about" },
+  ];
+
   return (
-    <>
-      {/* Top Left - Logo */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="corner-nav corner-nav-tl"
-      >
+    <motion.header
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="fixed top-0 left-0 right-0 z-50 px-6 py-4"
+    >
+      {/* Pink glow background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-16 bg-secondary/60 blur-3xl rounded-full" />
+      </div>
+      
+      <nav className="flex items-center justify-between max-w-7xl mx-auto">
+        {/* Logo - Left */}
         <Link to="/home" className="editorial-link">
           <span className="text-[10px] font-medium tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
             SADDER DAYS
           </span>
         </Link>
-      </motion.div>
 
-      {/* Top Right - Cart */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="corner-nav corner-nav-tr"
-      >
+        {/* Center Navigation */}
+        <div className="flex items-center gap-6 md:gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`text-[10px] md:text-xs tracking-widest-custom editorial-link drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] ${
+                location.pathname === link.path
+                  ? "text-foreground"
+                  : "text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Cart - Right */}
         <button
           onClick={() => setIsOpen(true)}
           className="relative text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
         >
-          <img src={crossLogo} alt="Cart" className="h-20 w-auto invert" />
+          <img src={crossLogo} alt="Cart" className="h-10 w-auto invert" />
           {cartCount > 0 && (
             <span className="absolute -bottom-1 -right-2 text-[8px] font-medium tracking-widest-custom">
               {cartCount}
             </span>
           )}
         </button>
-      </motion.div>
-
-      {/* Bottom Left - Primary Nav */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="corner-nav corner-nav-bl"
-      >
-        <div className="absolute -inset-6 -z-10 rounded-full bg-secondary/80 blur-2xl" />
-        <nav className="flex flex-col gap-2">
-          {[
-            { name: "SHOP", path: "/merch" },
-            { name: "MUSIC", path: "/music" },
-            { name: "TOUR", path: "/tour" },
-          ].map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-xs tracking-widest-custom editorial-link drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] ${
-                location.pathname === link.path
-                  ? "text-foreground"
-                  : "text-foreground/70 hover:text-foreground"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-      </motion.div>
-
-      {/* Bottom Right - Secondary Nav */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="corner-nav corner-nav-br"
-      >
-        <div className="absolute -inset-6 -z-10 rounded-full bg-secondary/80 blur-2xl" />
-        <nav className="flex flex-col gap-2 text-right">
-          {[
-            { name: "LAB", path: "/lab" },
-            { name: "MEMBERS", path: "/members" },
-            { name: "ABOUT", path: "/about" },
-          ].map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-xs tracking-widest-custom editorial-link drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] ${
-                location.pathname === link.path
-                  ? "text-foreground"
-                  : "text-foreground/70 hover:text-foreground"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-      </motion.div>
-    </>
+      </nav>
+    </motion.header>
   );
 };
 
