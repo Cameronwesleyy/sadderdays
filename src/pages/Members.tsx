@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Instagram, ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
@@ -8,6 +8,21 @@ import grantEyes from "@/assets/grant-eyes.jpg";
 import cameronEyes from "@/assets/cameron-eyes.jpg";
 import grantTitle from "@/assets/grant-title.png";
 import cameronTitle from "@/assets/cameron-title.png";
+import cameronCycle1 from "@/assets/cameron-cycle-1.jpg";
+import cameronCycle2 from "@/assets/cameron-cycle-2.jpg";
+import cameronCycle3 from "@/assets/cameron-cycle-3.jpg";
+import cameronCycle4 from "@/assets/cameron-cycle-4.jpg";
+import cameronCycle5 from "@/assets/cameron-cycle-5.jpg";
+import cameronCycle6 from "@/assets/cameron-cycle-6.jpg";
+import cameronCycle7 from "@/assets/cameron-cycle-7.jpg";
+import cameronCycle8 from "@/assets/cameron-cycle-8.jpg";
+import cameronCycle9 from "@/assets/cameron-cycle-9.jpg";
+import cameronCycle10 from "@/assets/cameron-cycle-10.jpg";
+
+const cameronCycleImages = [
+  cameronCycle1, cameronCycle2, cameronCycle3, cameronCycle4, cameronCycle5,
+  cameronCycle6, cameronCycle7, cameronCycle8, cameronCycle9, cameronCycle10
+];
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -70,11 +85,15 @@ const members = [
 
 const MemberCard = ({ 
   member, 
-  index, 
+  index,
+  cameronCycleIndex,
 }: { 
   member: typeof members[0]; 
   index: number;
+  cameronCycleIndex: number;
 }) => {
+  const isCameron = member.name === "CAMERON";
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -177,16 +196,34 @@ const MemberCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
-      {/* Video Sliver Placeholder */}
-      <div className="h-16 bg-black/40 flex items-center justify-center">
-        <span className="text-[10px] tracking-widest text-white/40">VIDEO SLIVER</span>
-      </div>
+      {/* Stop Motion / Video Sliver */}
+      {isCameron ? (
+        <div className="h-24 overflow-hidden">
+          <img 
+            src={cameronCycleImages[cameronCycleIndex]} 
+            alt="Cameron" 
+            className="w-full h-full object-cover object-top"
+          />
+        </div>
+      ) : (
+        <div className="h-16 bg-black/40 flex items-center justify-center">
+          <span className="text-[10px] tracking-widest text-white/40">VIDEO SLIVER</span>
+        </div>
+      )}
     </motion.div>
   );
 };
 
 const Members = () => {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const [cameronCycleIndex, setCameronCycleIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCameronCycleIndex((prev) => (prev + 1) % cameronCycleImages.length);
+    }, 150);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const x = e.clientX / window.innerWidth;
@@ -219,6 +256,7 @@ const Members = () => {
               key={member.name} 
               member={member} 
               index={index}
+              cameronCycleIndex={cameronCycleIndex}
             />
           ))}
         </div>
