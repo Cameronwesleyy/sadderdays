@@ -82,7 +82,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
         <img 
           src={member.titleImage} 
           alt={member.name}
-          className="h-16 md:h-20 w-auto"
+          className="w-full h-auto max-h-24 md:max-h-32 object-contain object-left"
         />
       </div>
 
