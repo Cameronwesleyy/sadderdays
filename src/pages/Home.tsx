@@ -191,6 +191,45 @@ const Home = () => {
           </motion.div>
         </section>
 
+        {/* Mood Section - About */}
+        <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
+          <motion.div initial={{
+          opacity: 0
+        }} whileInView={{
+          opacity: 1
+        }} viewport={{
+          once: true
+        }} className="md:col-span-5">
+            <img src={napkin} alt="I've Had Sadder Days" className="w-full max-w-4xl object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)] rotate-3" />
+          </motion.div>
+
+          <motion.div initial={{
+          opacity: 0
+        }} whileInView={{
+          opacity: 1
+        }} viewport={{
+          once: true
+        }} className="md:col-span-4 md:col-start-8 md:self-end">
+            <Link to="/about" className="block">
+              <h2 className="font-display text-6xl md:text-8xl tracking-tighter-custom mb-4 hover:text-muted-foreground transition-colors text-left">ABOUT SADDER DAYS</h2>
+            </Link>
+            <div className="flex gap-2 justify-end">
+              
+              
+            </div>
+          </motion.div>
+
+          <motion.p initial={{
+          opacity: 0
+        }} whileInView={{
+          opacity: 1
+        }} viewport={{
+          once: true
+        }} className="md:col-span-12 text-sm text-muted-foreground mt-8">
+            ​
+          </motion.p>
+        </section>
+
         {/* Film Strip Gallery */}
         <section className="py-16">
           <div className="px-6 md:px-12 mb-8">
@@ -305,45 +344,6 @@ const Home = () => {
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">04 — TOKYO</p>
             </motion.div>
           </div>
-        </section>
-
-        {/* Mood Section */}
-        <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
-          <motion.div initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="md:col-span-5">
-            <img src={napkin} alt="I've Had Sadder Days" className="w-full max-w-4xl object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)] rotate-3" />
-          </motion.div>
-
-          <motion.div initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="md:col-span-4 md:col-start-8 md:self-end">
-            <Link to="/about" className="block">
-              <h2 className="font-display text-6xl md:text-8xl tracking-tighter-custom mb-4 hover:text-muted-foreground transition-colors text-left">ABOUT SADDER DAYS</h2>
-            </Link>
-            <div className="flex gap-2 justify-end">
-              
-              
-            </div>
-          </motion.div>
-
-          <motion.p initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="md:col-span-12 text-sm text-muted-foreground mt-8">
-            ​
-          </motion.p>
         </section>
 
         {/* Booking / Footer Section */}
