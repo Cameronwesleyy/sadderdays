@@ -112,7 +112,7 @@ const MemberCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
-      className={`flex flex-col w-full max-w-md ${index === 0 ? 'md:mt-0' : 'md:mt-24'}`}
+      className="flex flex-col w-full max-w-md"
     >
       {/* Film Strip - TOP */}
       <div className="bg-black py-2 px-1">
