@@ -220,28 +220,28 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="md:col-span-12 flex justify-center gap-6 mt-16 mb-8"
+            className="md:col-span-12 flex justify-center gap-10 mt-16 mb-8"
           >
-            <div className="flex items-center gap-2 transform -rotate-2 hover:rotate-0 transition-transform cursor-pointer">
+            <div className="flex items-center gap-3 transform -rotate-2 hover:rotate-0 transition-transform cursor-pointer">
               <div 
-                className="w-10 h-14 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.15)] border border-black/10"
+                className="w-16 h-24 rounded-sm border border-black/10"
                 style={{ backgroundColor: '#0B0C0B' }}
               />
-              <span className="text-[10px] tracking-widest-custom text-muted-foreground">0B0C0B</span>
+              <span className="text-xs tracking-widest-custom text-muted-foreground">0B0C0B</span>
             </div>
-            <div className="flex items-center gap-2 transform rotate-1 hover:rotate-0 transition-transform cursor-pointer">
+            <div className="flex items-center gap-3 transform rotate-1 hover:rotate-0 transition-transform cursor-pointer">
               <div 
-                className="w-10 h-14 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] border border-black/5"
+                className="w-16 h-24 rounded-sm border border-black/5"
                 style={{ backgroundColor: '#FFEBF5' }}
               />
-              <span className="text-[10px] tracking-widest-custom text-muted-foreground">FFEBF5</span>
+              <span className="text-xs tracking-widest-custom text-muted-foreground">FFEBF5</span>
             </div>
-            <div className="flex items-center gap-2 transform -rotate-1 hover:rotate-0 transition-transform cursor-pointer">
+            <div className="flex items-center gap-3 transform -rotate-1 hover:rotate-0 transition-transform cursor-pointer">
               <div 
-                className="w-10 h-14 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.08)] border border-black/10"
+                className="w-16 h-24 rounded-sm border border-black/10"
                 style={{ backgroundColor: '#FBFCFC' }}
               />
-              <span className="text-[10px] tracking-widest-custom text-muted-foreground">FBFCFC</span>
+              <span className="text-xs tracking-widest-custom text-muted-foreground">FBFCFC</span>
             </div>
           </motion.div>
         </section>
