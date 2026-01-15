@@ -215,7 +215,7 @@ const Home = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-1 px-4 py-2"
+                className="flex items-center px-4 py-2"
                 style={{ width: "max-content" }}
               >
                 {galleryImages.map((img, i) => (
@@ -231,7 +231,7 @@ const Home = () => {
                       whileHover={{ scale: 1.05 }}
                       src={img.src}
                       alt={img.alt}
-                      className="h-32 md:h-44 w-auto object-cover cursor-pointer grayscale hover:grayscale-0 transition-all duration-500"
+                      className="h-32 md:h-44 w-auto object-cover cursor-pointer transition-transform duration-300"
                     />
                   </motion.div>
                 ))}
