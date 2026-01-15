@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import handsCover from "@/assets/hands-cover.jpg";
@@ -11,12 +11,20 @@ import aboutRotate4 from "@/assets/about-rotate-4.jpg";
 const rotatingImages = [aboutRotate1, aboutRotate2, aboutRotate3, aboutRotate4];
 
 const About = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [gridImages, setGridImages] = useState([...rotatingImages]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % rotatingImages.length);
-    }, 2000);
+      setGridImages(prev => {
+        const shuffled = [...prev];
+        // Shuffle array positions rapidly
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+      });
+    }, 150);
     return () => clearInterval(interval);
   }, []);
 
@@ -50,20 +58,16 @@ const About = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="md:col-span-6 relative overflow-hidden"
+            className="md:col-span-5 grid grid-cols-2 grid-rows-2 gap-1"
           >
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={currentImageIndex}
-                src={rotatingImages[currentImageIndex]}
+            {gridImages.map((img, i) => (
+              <img
+                key={i}
+                src={img}
                 alt="Sadder Days"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full aspect-[4/5] object-cover object-top"
+                className="w-full aspect-square object-cover"
               />
-            </AnimatePresence>
+            ))}
           </motion.div>
 
           <motion.div
