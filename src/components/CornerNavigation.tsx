@@ -32,9 +32,16 @@ const CornerNavigation = () => {
         animate={{ opacity: 1, y: 0 }}
         className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
       >
-        {/* Pink glow behind button */}
+        {/* Pink glow behind button - #FFEBF5 */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-12 bg-sd-pink/60 blur-[30px] rounded-full" />
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-16 rounded-full blur-[40px]"
+            style={{ backgroundColor: "rgba(255, 235, 245, 0.8)" }}
+          />
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-10 rounded-full blur-[20px]"
+            style={{ backgroundColor: "rgba(255, 235, 245, 1)" }}
+          />
         </div>
         
         <button
@@ -53,9 +60,24 @@ const CornerNavigation = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 backdrop-blur-md bg-sd-pink/20"
+            className="fixed inset-0 z-40 backdrop-blur-lg"
+            style={{ backgroundColor: "rgba(255, 235, 245, 0.25)" }}
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
+            {/* Multiple pink glow orbs for ambient effect */}
+            <div 
+              className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-60"
+              style={{ backgroundColor: "#FFEBF5" }}
+            />
+            <div 
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-[100px] opacity-50"
+              style={{ backgroundColor: "#FFEBF5" }}
+            />
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px] opacity-40"
+              style={{ backgroundColor: "#FFEBF5" }}
+            />
+
+            <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
               {/* Logo */}
               <Link 
                 to="/home" 
@@ -79,11 +101,14 @@ const CornerNavigation = () => {
                     <Link
                       to={link.path}
                       onClick={() => setMenuOpen(false)}
-                      className={`text-2xl md:text-4xl font-display tracking-tighter-custom transition-all duration-200 hover:text-sd-pink hover:scale-105 ${
+                      className={`text-2xl md:text-4xl font-display tracking-tighter-custom transition-all duration-200 hover:scale-105 ${
                         location.pathname === link.path
-                          ? "text-sd-pink"
-                          : "text-foreground/80"
+                          ? "text-foreground"
+                          : "text-foreground/70 hover:text-foreground"
                       }`}
+                      style={{ 
+                        textShadow: location.pathname === link.path ? "0 0 20px rgba(255, 235, 245, 0.8)" : "none"
+                      }}
                     >
                       {link.name}
                     </Link>
