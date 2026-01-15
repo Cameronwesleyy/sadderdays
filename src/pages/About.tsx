@@ -2,33 +2,31 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import duoPortrait from "@/assets/duo-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
-import crossLogo from "@/assets/cross-logo.png";
+import aboutHero from "@/assets/about-hero.png";
 
 const About = () => {
   return (
     <PageTransition>
       <div className="min-h-screen">
         {/* Hero */}
-        <section className="relative min-h-[70vh] p-6 md:p-12 flex flex-col">
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="font-display text-massive tracking-tighter-custom"
-          >
-            ABOUT
-            <br />
-            <span className="text-muted-foreground">US</span>
-          </motion.h1>
-          
-          {/* Cross Logo */}
+        <section className="relative min-h-[70vh] p-6 md:p-12 flex flex-col items-center justify-center">
           <motion.img
-            src={crossLogo}
-            alt="Sadder Days Cross"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 0.8, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="w-12 md:w-16 h-auto mt-8"
+            src={aboutHero}
+            alt="I've Had Sadder Days"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-md md:max-w-lg w-full h-auto"
           />
+          
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="font-display text-4xl md:text-6xl tracking-tighter-custom mt-8 text-center"
+          >
+            ABOUT <span className="text-muted-foreground">US</span>
+          </motion.h1>
         </section>
 
         {/* Content grid */}
