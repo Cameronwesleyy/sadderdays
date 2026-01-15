@@ -6,6 +6,7 @@ import duoPortrait from "@/assets/duo-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
+import napkin from "@/assets/napkin.png";
 import merch01 from "@/assets/merch-01.jpg";
 import merch02 from "@/assets/merch-02.jpg";
 import merch03 from "@/assets/merch-03.jpg";
@@ -315,7 +316,7 @@ const Home = () => {
         }} viewport={{
           once: true
         }} className="md:col-span-5">
-            <img src={grantPortrait} alt="Mood" className="w-full aspect-[3/4] object-cover" />
+            <img src={napkin} alt="I've Had Sadder Days" className="w-full aspect-[3/4] object-contain" />
           </motion.div>
 
           <motion.div initial={{
