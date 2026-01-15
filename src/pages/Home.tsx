@@ -72,6 +72,7 @@ const galleryImages = [{
 }];
 const Home = () => {
   const [currentMerchIndex, setCurrentMerchIndex] = useState(0);
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -83,7 +84,11 @@ const Home = () => {
   return <PageTransition>
       <div className="min-h-screen">
         {/* Hero Section - Full bleed image with overlapping text */}
-        <section className="relative h-screen">
+        <section 
+          className="relative h-screen"
+          onMouseEnter={() => setIsHeroHovered(true)}
+          onMouseLeave={() => setIsHeroHovered(false)}
+        >
           <img src={heroCar} alt="Sadder Days" className="w-full h-full object-cover" />
           {/* Dark gradient overlay for text visibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -97,7 +102,10 @@ const Home = () => {
           duration: 0.8,
           delay: 0.2
         }} className="absolute bottom-8 left-6 md:left-12">
-            <h1 className="font-display text-massive text-background mix-blend-difference">
+            <h1 
+              className="font-display text-massive transition-colors duration-300"
+              style={{ color: isHeroHovered ? '#FFEBF5' : 'white' }}
+            >
               SADDER
               <br />
               DAYS
