@@ -1,10 +1,25 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
-import duoPortrait from "@/assets/duo-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
 import aboutHero from "@/assets/about-hero.png";
+import aboutRotate1 from "@/assets/about-rotate-1.jpg";
+import aboutRotate2 from "@/assets/about-rotate-2.jpg";
+import aboutRotate3 from "@/assets/about-rotate-3.jpg";
+import aboutRotate4 from "@/assets/about-rotate-4.jpg";
+
+const rotatingImages = [aboutRotate1, aboutRotate2, aboutRotate3, aboutRotate4];
 
 const About = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % rotatingImages.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <PageTransition>
       <div className="min-h-screen">
@@ -35,13 +50,20 @@ const About = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="md:col-span-6"
+            className="md:col-span-6 relative overflow-hidden"
           >
-            <img
-              src={duoPortrait}
-              alt="Sadder Days"
-              className="w-full aspect-[4/5] object-cover object-top"
-            />
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentImageIndex}
+                src={rotatingImages[currentImageIndex]}
+                alt="Sadder Days"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-full aspect-[4/5] object-cover object-top"
+              />
+            </AnimatePresence>
           </motion.div>
 
           <motion.div
