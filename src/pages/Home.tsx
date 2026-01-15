@@ -10,6 +10,29 @@ import merch01 from "@/assets/merch-01.jpg";
 import merch02 from "@/assets/merch-02.jpg";
 import merch03 from "@/assets/merch-03.jpg";
 import merch04 from "@/assets/merch-04.jpg";
+import albumHaze from "@/assets/album-haze.jpg";
+import yinYangCover from "@/assets/yin-yang-cover.jpg";
+import galleryGrant1 from "@/assets/gallery-grant-1.jpg";
+import galleryGrant2 from "@/assets/gallery-grant-2.jpg";
+import galleryCar1 from "@/assets/gallery-car-1.jpg";
+import galleryCar2 from "@/assets/gallery-car-2.jpg";
+import galleryCar3 from "@/assets/gallery-car-3.jpg";
+import galleryCameron1 from "@/assets/gallery-cameron-1.jpg";
+
+const galleryImages = [
+  { src: albumHaze, alt: "Album Haze", height: "h-48" },
+  { src: galleryGrant1, alt: "Grant", height: "h-64" },
+  { src: yinYangCover, alt: "Yin Yang", height: "h-40" },
+  { src: galleryCar1, alt: "Car shoot", height: "h-56" },
+  { src: galleryCameron1, alt: "Cameron", height: "h-52" },
+  { src: handsCover, alt: "Hands", height: "h-44" },
+  { src: galleryGrant2, alt: "Grant", height: "h-60" },
+  { src: galleryCar2, alt: "Car shoot", height: "h-48" },
+  { src: grantPortrait, alt: "Grant Portrait", height: "h-56" },
+  { src: galleryCar3, alt: "Car shoot", height: "h-52" },
+  { src: cameronPortrait, alt: "Cameron Portrait", height: "h-64" },
+  { src: merch01, alt: "Merch", height: "h-40" },
+];
 const Home = () => {
   return <PageTransition>
       <div className="min-h-screen">
@@ -116,7 +139,7 @@ const Home = () => {
           </motion.div>
         </section>
 
-        {/* Highlighted Works - with filmstrip */}
+        {/* Highlighted Works - with staggered scrollable gallery */}
         <section className="px-6 md:px-12 py-16">
           <motion.div initial={{
           opacity: 0
@@ -135,20 +158,35 @@ const Home = () => {
             </p>
           </motion.div>
 
-          {/* Filmstrip of images */}
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} className="filmstrip bg-foreground px-2">
-            {[merch01, merch02, merch03, merch04, grantPortrait, cameronPortrait, handsCover].map((img, i) => <motion.img key={i} whileHover={{
-            scale: 1.05
-          }} src={img} alt={`Work ${i + 1}`} className="h-24 md:h-32 w-auto object-cover flex-shrink-0 cursor-pointer" />)}
-          </motion.div>
+          {/* Staggered scrollable gallery */}
+          <div className="overflow-x-auto scrollbar-hide -mx-6 md:-mx-12 px-6 md:px-12">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="flex gap-3 items-end pb-4"
+              style={{ width: "max-content" }}
+            >
+              {galleryImages.map((img, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className={`flex-shrink-0 ${i % 2 === 0 ? 'self-end' : 'self-start'}`}
+                  style={{ marginTop: i % 3 === 0 ? '0' : i % 3 === 1 ? '2rem' : '4rem' }}
+                >
+                  <motion.img
+                    whileHover={{ scale: 1.03 }}
+                    src={img.src}
+                    alt={img.alt}
+                    className={`${img.height} w-auto object-cover cursor-pointer grayscale hover:grayscale-0 transition-all duration-500`}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </section>
 
         {/* The Runway / Tour Section */}
