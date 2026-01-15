@@ -160,9 +160,9 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
           alt={`${member.name}`}
           className="w-full object-cover"
           style={{ 
-            height: '300%',
-            objectPosition: index === 0 ? 'center 22%' : 'center 30%',
-            transform: 'scale(1.4)'
+            height: '400%',
+            objectPosition: index === 0 ? 'center 20%' : 'center 30%',
+            transform: 'scale(1.6)'
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
