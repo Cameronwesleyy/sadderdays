@@ -213,9 +213,20 @@ const Home = () => {
             <Link to="/about" className="block">
               <h2 className="font-display text-6xl md:text-8xl tracking-tighter-custom mb-4 hover:text-muted-foreground transition-colors text-left">ABOUT SADDER DAYS</h2>
             </Link>
-            <div className="flex gap-2 justify-end">
-              
-              
+            {/* Color Swatches */}
+            <div className="flex gap-3 mt-6">
+              <div 
+                className="w-12 h-16 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.15)] border border-black/10 transform -rotate-2 hover:rotate-0 transition-transform cursor-pointer"
+                style={{ backgroundColor: '#0B0C0B' }}
+              />
+              <div 
+                className="w-12 h-16 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] border border-black/5 transform rotate-1 hover:rotate-0 transition-transform cursor-pointer"
+                style={{ backgroundColor: '#FFEBF5' }}
+              />
+              <div 
+                className="w-12 h-16 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.08)] border border-black/10 transform -rotate-1 hover:rotate-0 transition-transform cursor-pointer"
+                style={{ backgroundColor: '#FBFCFC' }}
+              />
             </div>
           </motion.div>
 
