@@ -287,7 +287,7 @@ const Home = () => {
           }} viewport={{
             once: true
           }}>
-              <img src={tourDuo} alt="Tour" className="max-w-3xl w-full aspect-[16/9] object-cover object-center" />
+              <img src={tourDuo} alt="Tour" className="max-w-2xl w-full aspect-[16/9] object-cover object-center" />
             </motion.div>
 
             <motion.div initial={{
