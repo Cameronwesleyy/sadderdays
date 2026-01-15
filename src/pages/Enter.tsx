@@ -45,11 +45,11 @@ const Enter = () => {
                 <motion.div
                   className="absolute inset-0 flex items-center justify-center"
                   animate={{ 
-                    opacity: [0.6, 1, 0.6],
+                    opacity: [0.7, 1, 0.7],
                   }}
                   transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <p className="text-xs md:text-sm tracking-[0.5em] font-light text-white/80 drop-shadow-lg">
+                  <p className="text-sm md:text-base tracking-[0.4em] font-medium text-white drop-shadow-lg">
                     PUSH TO ENTER
                   </p>
                 </motion.div>
@@ -57,7 +57,7 @@ const Enter = () => {
             </>
           ) : (
             <>
-              {/* Left half - slides left */}
+              {/* Left half - follows hand contour, slides left */}
               <motion.div
                 initial={{ x: 0 }}
                 animate={{ x: "-100%" }}
@@ -66,7 +66,7 @@ const Enter = () => {
                   ease: [0.65, 0, 0.35, 1],
                 }}
                 className="absolute inset-0 overflow-hidden"
-                style={{ clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)' }}
+                style={{ clipPath: 'polygon(0 0, 35% 0, 45% 25%, 55% 45%, 60% 65%, 55% 85%, 45% 100%, 0 100%)' }}
               >
                 <img
                   src={handsEnter}
@@ -75,7 +75,7 @@ const Enter = () => {
                 />
               </motion.div>
 
-              {/* Right half - slides right */}
+              {/* Right half - follows hand contour, slides right */}
               <motion.div
                 initial={{ x: 0 }}
                 animate={{ x: "100%" }}
@@ -84,7 +84,7 @@ const Enter = () => {
                   ease: [0.65, 0, 0.35, 1],
                 }}
                 className="absolute inset-0 overflow-hidden"
-                style={{ clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)' }}
+                style={{ clipPath: 'polygon(35% 0, 100% 0, 100% 100%, 45% 100%, 55% 85%, 60% 65%, 55% 45%, 45% 25%)' }}
               >
                 <img
                   src={handsEnter}
