@@ -76,13 +76,14 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
     >
       {/* Role and Name */}
       <div className="px-6 pt-6 pb-4">
-        <p className="text-[10px] tracking-widest text-muted-foreground mb-2">
+        <p className="text-[10px] tracking-widest text-muted-foreground mb-4">
           {member.role}
         </p>
         <img 
           src={member.titleImage} 
           alt={member.name}
-          className="w-full h-auto max-h-24 md:max-h-32 object-contain object-left"
+          className="w-full h-auto"
+          style={{ minHeight: '80px' }}
         />
       </div>
 
