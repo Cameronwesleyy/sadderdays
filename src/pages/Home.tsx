@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import PageTransition from "@/components/PageTransition";
+import heroCar from "@/assets/hero-car.jpg";
 import duoPortrait from "@/assets/duo-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
@@ -14,7 +15,7 @@ const Home = () => {
       <div className="min-h-screen">
         {/* Hero Section - Full bleed image with overlapping text */}
         <section className="relative h-screen">
-          <img src={duoPortrait} alt="Sadder Days" className="w-full h-full object-cover" />
+          <img src={heroCar} alt="Sadder Days" className="w-full h-full object-cover" />
           {/* Dark gradient overlay for text visibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <motion.div initial={{
