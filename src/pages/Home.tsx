@@ -139,55 +139,6 @@ const Home = () => {
           </motion.div>
         </section>
 
-        {/* Highlighted Works - with staggered scrollable gallery */}
-        <section className="px-6 md:px-12 py-16">
-          <motion.div initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="mb-8 border-solid border-primary">
-            <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-sd-pink">
-              VISUAL
-              <br className="" />
-              GALLERY
-            </h2>
-            <p className="font-display text-2xl md:text-4xl tracking-tighter-custom text-muted-foreground">
-              23-24
-            </p>
-          </motion.div>
-
-          {/* Staggered scrollable gallery */}
-          <div className="overflow-x-auto scrollbar-hide -mx-6 md:-mx-12 px-6 md:px-12">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="flex gap-3 items-end pb-4"
-              style={{ width: "max-content" }}
-            >
-              {galleryImages.map((img, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className={`flex-shrink-0 ${i % 2 === 0 ? 'self-end' : 'self-start'}`}
-                  style={{ marginTop: i % 3 === 0 ? '0' : i % 3 === 1 ? '2rem' : '4rem' }}
-                >
-                  <motion.img
-                    whileHover={{ scale: 1.03 }}
-                    src={img.src}
-                    alt={img.alt}
-                    className={`${img.height} w-auto object-cover cursor-pointer grayscale hover:grayscale-0 transition-all duration-500`}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
 
         {/* The Runway / Tour Section */}
         <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12 min-h-[70vh]">
