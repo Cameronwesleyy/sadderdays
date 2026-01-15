@@ -34,24 +34,6 @@ const Home = () => {
               DAYS
             </h1>
           </motion.div>
-          <motion.p initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} transition={{
-          delay: 0.6
-        }} className="absolute bottom-8 left-6 md:left-12 text-[10px] tracking-widest-custom text-background/80" style={{ top: 'auto' }}>
-            CAMERON
-          </motion.p>
-          <motion.p initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} transition={{
-          delay: 0.6
-        }} className="absolute bottom-8 right-6 md:right-12 text-[10px] tracking-widest-custom text-background/80">
-            GRANT
-          </motion.p>
         </section>
 
         {/* Asymmetric section - Text left, image right */}
