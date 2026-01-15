@@ -114,11 +114,36 @@ const MemberCard = ({
       transition={{ duration: 0.6, delay: index * 0.15 }}
       className="flex flex-col bg-white/5 backdrop-blur-sm w-full max-w-md"
     >
-      {/* Role and Name */}
+      {/* Film Strip - TOP */}
+      <div className="bg-black py-2 px-1">
+        <div className="flex gap-1 overflow-x-auto scrollbar-hide">
+          {(isCameron ? cameronCycleImages : grantCycleImages).map((img, i) => (
+            <img 
+              key={i}
+              src={img} 
+              alt={`${member.name} ${i + 1}`} 
+              className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Eyes Close-up Image - TOP */}
+      <div className="relative h-28 overflow-hidden bg-black">
+        <img
+          src={member.eyesImage}
+          alt={`${member.name}`}
+          className="w-full h-full object-cover"
+          style={{
+            objectPosition: `center ${member.eyesCrop.position}%`,
+            transform: `scale(${member.eyesCrop.scale})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
+      </div>
+
+      {/* Name */}
       <div className="px-6 pt-6 pb-4">
-        <p className="text-[10px] tracking-widest text-white/60 mb-4">
-          {member.role}
-        </p>
         <img 
           src={member.titleImage} 
           alt={member.name}
@@ -194,33 +219,11 @@ const MemberCard = ({
         </div>
       </div>
 
-
-      {/* Eyes Close-up Image */}
-      <div className="relative h-28 overflow-hidden">
-        <img
-          src={member.eyesImage}
-          alt={`${member.name}`}
-          className="w-full h-full object-cover"
-          style={{
-            objectPosition: `center ${member.eyesCrop.position}%`,
-            transform: `scale(${member.eyesCrop.scale})`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-      </div>
-
-      {/* Film Strip */}
-      <div className="bg-black py-2 px-1">
-        <div className="flex gap-1 overflow-x-auto scrollbar-hide">
-          {(isCameron ? cameronCycleImages : grantCycleImages).map((img, i) => (
-            <img 
-              key={i}
-              src={img} 
-              alt={`${member.name} ${i + 1}`} 
-              className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
-            />
-          ))}
-        </div>
+      {/* Role Label - BOTTOM */}
+      <div className="px-6 py-4 border-t border-white/10">
+        <p className="text-[10px] tracking-widest text-white/60 text-center">
+          {member.role}
+        </p>
       </div>
     </motion.div>
   );
