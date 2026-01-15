@@ -112,7 +112,7 @@ const MemberCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
-      className="flex flex-col bg-white/5 backdrop-blur-sm w-full max-w-md"
+      className={`flex flex-col w-full max-w-md ${index === 0 ? 'md:mt-0' : 'md:mt-24'}`}
     >
       {/* Film Strip - TOP */}
       <div className="bg-black py-2 px-1">
@@ -126,20 +126,6 @@ const MemberCard = ({
             />
           ))}
         </div>
-      </div>
-
-      {/* Eyes Close-up Image - TOP */}
-      <div className="relative h-28 overflow-hidden bg-black">
-        <img
-          src={member.eyesImage}
-          alt={`${member.name}`}
-          className="w-full h-full object-cover"
-          style={{
-            objectPosition: `center ${member.eyesCrop.position}%`,
-            transform: `scale(${member.eyesCrop.scale})`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
       </div>
 
       {/* Name */}
@@ -219,11 +205,25 @@ const MemberCard = ({
         </div>
       </div>
 
-      {/* Role Label - BOTTOM */}
+      {/* Role Label */}
       <div className="px-6 py-4 border-t border-white/10">
         <p className="text-[10px] tracking-widest text-white/60 text-center">
           {member.role}
         </p>
+      </div>
+
+      {/* Eyes Close-up Image - BOTTOM */}
+      <div className="relative h-28 overflow-hidden bg-black">
+        <img
+          src={member.eyesImage}
+          alt={`${member.name}`}
+          className="w-full h-full object-cover"
+          style={{
+            objectPosition: `center ${member.eyesCrop.position}%`,
+            transform: `scale(${member.eyesCrop.scale})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
     </motion.div>
   );
