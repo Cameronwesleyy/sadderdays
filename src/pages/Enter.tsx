@@ -57,17 +57,17 @@ const Enter = () => {
             </>
           ) : (
             <>
-              {/* Left hand (palm up) - slides down-left */}
+              {/* Left/bottom hand (palm up) - slides down-left */}
               <motion.div
                 initial={{ x: 0, y: 0 }}
-                animate={{ x: "-60%", y: "40%" }}
+                animate={{ x: "-50%", y: "50%" }}
                 transition={{ 
                   duration: 1.1,
                   ease: [0.65, 0, 0.35, 1],
                 }}
                 className="absolute inset-0 overflow-hidden"
                 style={{ 
-                  clipPath: 'polygon(0 0, 0 100%, 45% 100%, 52% 92%, 55% 82%, 50% 72%, 42% 62%, 38% 52%, 40% 42%, 48% 32%, 55% 22%, 50% 12%, 42% 5%, 30% 0)'
+                  clipPath: 'polygon(0 0, 0 100%, 28% 100%, 32% 95%, 38% 88%, 42% 80%, 44% 72%, 43% 65%, 40% 58%, 38% 52%, 40% 45%, 45% 38%, 52% 32%, 58% 28%, 62% 22%, 60% 15%, 55% 10%, 48% 6%, 40% 3%, 32% 0)'
                 }}
               >
                 <img
@@ -77,17 +77,17 @@ const Enter = () => {
                 />
               </motion.div>
 
-              {/* Right hand (back of hand) - slides up-right */}
+              {/* Right/top hand (back of hand) - slides up-right */}
               <motion.div
                 initial={{ x: 0, y: 0 }}
-                animate={{ x: "60%", y: "-40%" }}
+                animate={{ x: "50%", y: "-50%" }}
                 transition={{ 
                   duration: 1.1,
                   ease: [0.65, 0, 0.35, 1],
                 }}
                 className="absolute inset-0 overflow-hidden"
                 style={{ 
-                  clipPath: 'polygon(30% 0, 42% 5%, 50% 12%, 55% 22%, 48% 32%, 40% 42%, 38% 52%, 42% 62%, 50% 72%, 55% 82%, 52% 92%, 45% 100%, 100% 100%, 100% 0)'
+                  clipPath: 'polygon(32% 0, 40% 3%, 48% 6%, 55% 10%, 60% 15%, 62% 22%, 58% 28%, 52% 32%, 45% 38%, 40% 45%, 38% 52%, 40% 58%, 43% 65%, 44% 72%, 42% 80%, 38% 88%, 32% 95%, 28% 100%, 100% 100%, 100% 0)'
                 }}
               >
                 <img
