@@ -170,10 +170,6 @@ const Music = () => {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   
-                  {/* Cross overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <CrossIcon className="w-12 h-12 text-background/80 drop-shadow-lg" />
-                  </div>
 
                   {/* Hover overlay with play buttons */}
                   <div className={`absolute inset-0 bg-background/90 flex flex-col items-center justify-center gap-3 transition-opacity duration-300 ${
