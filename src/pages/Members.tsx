@@ -153,13 +153,18 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
       </div>
 
       {/* Eyes Close-up Image */}
-      <div className="relative h-24 overflow-hidden">
+      <div className="relative h-28 overflow-hidden">
         <img
           src={member.eyesImage}
           alt={`${member.name}`}
-          className="w-full h-full object-cover object-[center_35%]"
+          className="w-full object-cover"
+          style={{ 
+            height: '200%',
+            objectPosition: index === 0 ? 'center 32%' : 'center 35%',
+            transform: 'scale(1.2)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
       {/* Video Sliver Placeholder */}
