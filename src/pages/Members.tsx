@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
-import { Instagram, ExternalLink } from "lucide-react";
+import { Instagram, ExternalLink, Settings } from "lucide-react";
 import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
+import cameronPortrait from "@/assets/cameron-portrait.jpg"; // Long hair - Cameron
+import grantPortrait from "@/assets/grant-portrait.jpg"; // Other person - Grant
 import grantEyes from "@/assets/grant-eyes.jpg";
 import cameronEyes from "@/assets/cameron-eyes.jpg";
 import grantTitle from "@/assets/grant-title.png";
 import cameronTitle from "@/assets/cameron-title.png";
+import { Slider } from "@/components/ui/slider";
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -25,8 +28,6 @@ const members = [
     titleImage: grantTitle,
     role: "Drums / Percussion",
     eyesImage: grantEyes,
-    cropPosition: 60,
-    cropScale: 2,
     favoriteColor: "Celestine Blue",
     personality: "ENFJ-A",
     birthday: "06/12/2003",
@@ -45,8 +46,6 @@ const members = [
     titleImage: cameronTitle,
     role: "Guitar / Production",
     eyesImage: cameronEyes,
-    cropPosition: 40,
-    cropScale: 1.6,
     favoriteColor: "Forest Green",
     personality: "INFP-A",
     birthday: "08/08/2002",
@@ -68,7 +67,24 @@ const members = [
   },
 ];
 
-const MemberCard = ({ member, index }: { member: typeof members[0]; index: number }) => {
+interface CropSettings {
+  position: number;
+  scale: number;
+}
+
+const MemberCard = ({ 
+  member, 
+  index, 
+  cropSettings,
+  showControls,
+  onCropChange 
+}: { 
+  member: typeof members[0]; 
+  index: number;
+  cropSettings: CropSettings;
+  showControls: boolean;
+  onCropChange: (settings: CropSettings) => void;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -156,6 +172,43 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
         </div>
       </div>
 
+      {/* Admin Controls for Eye Crop */}
+      {showControls && (
+        <div className="px-6 py-3 bg-black/40 border-t border-white/10">
+          <p className="text-[9px] tracking-widest text-white/60 mb-2">{member.name} EYE CROP CONTROLS</p>
+          <div className="space-y-3">
+            <div>
+              <div className="flex justify-between text-[10px] text-white/50 mb-1">
+                <span>Position (Y)</span>
+                <span>{cropSettings.position}%</span>
+              </div>
+              <Slider
+                value={[cropSettings.position]}
+                onValueChange={(value) => onCropChange({ ...cropSettings, position: value[0] })}
+                min={0}
+                max={100}
+                step={1}
+                className="w-full"
+              />
+            </div>
+            <div>
+              <div className="flex justify-between text-[10px] text-white/50 mb-1">
+                <span>Scale</span>
+                <span>{cropSettings.scale.toFixed(1)}x</span>
+              </div>
+              <Slider
+                value={[cropSettings.scale]}
+                onValueChange={(value) => onCropChange({ ...cropSettings, scale: value[0] })}
+                min={1}
+                max={4}
+                step={0.1}
+                className="w-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Eyes Close-up Image */}
       <div className="relative h-28 overflow-hidden">
         <img
@@ -163,8 +216,8 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
           alt={`${member.name}`}
           className="w-full h-full object-cover"
           style={{
-            objectPosition: `center ${member.cropPosition}%`,
-            transform: `scale(${member.cropScale})`,
+            objectPosition: `center ${cropSettings.position}%`,
+            transform: `scale(${cropSettings.scale})`,
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -180,12 +233,18 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
 
 const Members = () => {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const [showControls, setShowControls] = useState(false);
+  const [grantCrop, setGrantCrop] = useState<CropSettings>({ position: 60, scale: 2 });
+  const [cameronCrop, setCameronCrop] = useState<CropSettings>({ position: 40, scale: 1.6 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const x = e.clientX / window.innerWidth;
     const y = e.clientY / window.innerHeight;
     setMousePos({ x, y });
   };
+
+  const cropSettings = [grantCrop, cameronCrop];
+  const setCropSettings = [setGrantCrop, setCameronCrop];
 
   return (
     <PageTransition>
@@ -205,12 +264,38 @@ const Members = () => {
           }}
         />
 
+        {/* Admin Toggle Button */}
+        <button
+          onClick={() => setShowControls(!showControls)}
+          className={`fixed top-20 right-4 z-50 p-2 rounded-full transition-all ${
+            showControls ? 'bg-white/20 text-white' : 'bg-white/5 text-white/40 hover:text-white/70'
+          }`}
+          title="Toggle crop controls"
+        >
+          <Settings size={18} />
+        </button>
+
         {/* Side by side centered layout */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl relative z-10">
           {members.map((member, index) => (
-            <MemberCard key={member.name} member={member} index={index} />
+            <MemberCard 
+              key={member.name} 
+              member={member} 
+              index={index}
+              cropSettings={cropSettings[index]}
+              showControls={showControls}
+              onCropChange={setCropSettings[index]}
+            />
           ))}
         </div>
+
+        {/* Display current values when controls are showing */}
+        {showControls && (
+          <div className="fixed bottom-4 left-4 z-50 bg-black/80 text-white/70 text-[10px] p-3 rounded font-mono">
+            <p>Grant: position={grantCrop.position}%, scale={grantCrop.scale}</p>
+            <p>Cameron: position={cameronCrop.position}%, scale={cameronCrop.scale}</p>
+          </div>
+        )}
       </div>
     </PageTransition>
   );
