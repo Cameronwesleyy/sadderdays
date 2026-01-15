@@ -3,6 +3,8 @@ import { Instagram, ExternalLink } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import cameronPortrait from "@/assets/cameron-portrait.jpg"; // Long hair - Cameron
 import grantPortrait from "@/assets/grant-portrait.jpg"; // Other person - Grant
+import grantTitle from "@/assets/grant-title.png";
+import cameronTitle from "@/assets/cameron-title.png";
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -19,6 +21,7 @@ const PatreonIcon = () => (
 const members = [
   {
     name: "GRANT",
+    titleImage: grantTitle,
     role: "Drums / Percussion",
     eyesImage: grantPortrait,
     favoriteColor: "Celestine Blue",
@@ -36,6 +39,7 @@ const members = [
   },
   {
     name: "CAMERON",
+    titleImage: cameronTitle,
     role: "Guitar / Production",
     eyesImage: cameronPortrait,
     favoriteColor: "Forest Green",
@@ -75,9 +79,11 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
         <p className="text-[10px] tracking-widest text-muted-foreground mb-2">
           {member.role}
         </p>
-        <h2 className="text-4xl md:text-5xl font-black tracking-tighter">
-          {member.name}
-        </h2>
+        <img 
+          src={member.titleImage} 
+          alt={member.name}
+          className="h-16 md:h-20 w-auto"
+        />
       </div>
 
       {/* Stats Grid */}
