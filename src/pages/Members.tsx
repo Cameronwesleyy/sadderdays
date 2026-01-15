@@ -4,6 +4,7 @@ import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
 import cameronPortrait from "@/assets/cameron-portrait.jpg"; // Long hair - Cameron
 import grantPortrait from "@/assets/grant-portrait.jpg"; // Other person - Grant
+import grantEyes from "@/assets/grant-eyes.jpg";
 import grantTitle from "@/assets/grant-title.png";
 import cameronTitle from "@/assets/cameron-title.png";
 
@@ -24,7 +25,7 @@ const members = [
     name: "GRANT",
     titleImage: grantTitle,
     role: "Drums / Percussion",
-    eyesImage: cameronPortrait,
+    eyesImage: grantEyes,
     favoriteColor: "Celestine Blue",
     personality: "ENFJ-A",
     birthday: "06/12/2003",
@@ -159,9 +160,9 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
           alt={`${member.name}`}
           className="w-full object-cover"
           style={{ 
-            height: '250%',
-            objectPosition: index === 0 ? 'center 28%' : 'center 30%',
-            transform: 'scale(1.3)'
+            height: '300%',
+            objectPosition: index === 0 ? 'center 22%' : 'center 30%',
+            transform: 'scale(1.4)'
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
