@@ -49,19 +49,18 @@ const Enter = () => {
     { y: col3Y, x: col3X, direction: 1 },
   ];
 
-  // Pre-generate explosion values for all letters
-  const explosionData = useMemo(() => {
-    const data: { x: number; y: number; rotate: number; scale: number }[][][] = [];
+  // Pre-generate gentle shift values for all letters
+  const shiftData = useMemo(() => {
+    const data: { x: number; y: number; rotate: number }[][][] = [];
     for (let col = 0; col < columns; col++) {
       data[col] = [];
       for (let row = 0; row < rowsPerColumn * 2; row++) {
         data[col][row] = [];
         for (let char = 0; char < text.length; char++) {
           data[col][row][char] = {
-            x: (Math.random() - 0.5) * window.innerWidth * 2,
-            y: (Math.random() - 0.5) * window.innerHeight * 2,
-            rotate: (Math.random() - 0.5) * 1080,
-            scale: 0.3 + Math.random() * 2,
+            x: (Math.random() - 0.5) * 40,
+            y: (Math.random() - 0.5) * 30,
+            rotate: (Math.random() - 0.5) * 15,
           };
         }
       }
@@ -118,7 +117,7 @@ const Enter = () => {
                           const isPink = isPinkRow;
                           const textColor = isPink ? pinkColor : "white";
                           const finalOpacity = isPink ? 0.85 : baseOpacity;
-                          const explosion = explosionData[colIndex]?.[actualRowIndex]?.[charIndex] || { x: 0, y: 0, rotate: 0, scale: 1 };
+                          const shift = shiftData[colIndex]?.[actualRowIndex]?.[charIndex] || { x: 0, y: 0, rotate: 0 };
                           
                           return (
                             <motion.span
@@ -130,23 +129,20 @@ const Enter = () => {
                                 fontWeight: 100,
                               }}
                               animate={isHovering ? {
-                                x: explosion.x,
-                                y: explosion.y,
-                                rotate: explosion.rotate,
-                                scale: explosion.scale,
-                                opacity: finalOpacity * 0.6,
+                                x: shift.x,
+                                y: shift.y,
+                                rotate: shift.rotate,
+                                opacity: finalOpacity,
                               } : {
                                 x: 0,
                                 y: 0,
                                 rotate: 0,
-                                scale: 1,
                                 opacity: finalOpacity,
                               }}
                               transition={{
                                 type: "spring",
-                                stiffness: 80,
-                                damping: 12,
-                                delay: (colIndex * 0.05) + (charIndex * 0.01),
+                                stiffness: 120,
+                                damping: 20,
                               }}
                             >
                               {char}
