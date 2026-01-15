@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import heroCar from "@/assets/hero-car.jpg";
 import duoPortrait from "@/assets/duo-portrait.jpg";
@@ -11,6 +12,8 @@ import merch01 from "@/assets/merch-01.jpg";
 import merch02 from "@/assets/merch-02.jpg";
 import merch03 from "@/assets/merch-03.jpg";
 import merch04 from "@/assets/merch-04.jpg";
+import merch05 from "@/assets/merch-05.jpg";
+import merch06 from "@/assets/merch-06.jpg";
 import albumHaze from "@/assets/album-haze.jpg";
 import yinYangCover from "@/assets/yin-yang-cover.jpg";
 import galleryGrant1 from "@/assets/gallery-grant-1.jpg";
@@ -20,6 +23,8 @@ import galleryCar2 from "@/assets/gallery-car-2.jpg";
 import galleryCar3 from "@/assets/gallery-car-3.jpg";
 import galleryCameron1 from "@/assets/gallery-cameron-1.jpg";
 import tourDuo from "@/assets/tour-duo.jpg";
+
+const merchImages = [merch01, merch02, merch03, merch04, merch05, merch06];
 const galleryImages = [{
   src: galleryGrant1,
   alt: "Grant",
@@ -66,6 +71,15 @@ const galleryImages = [{
   height: "h-40"
 }];
 const Home = () => {
+  const [currentMerchIndex, setCurrentMerchIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMerchIndex((prev) => (prev + 1) % merchImages.length);
+    }, 150);
+    return () => clearInterval(interval);
+  }, []);
+
   return <PageTransition>
       <div className="min-h-screen">
         {/* Hero Section - Full bleed image with overlapping text */}
@@ -169,11 +183,12 @@ const Home = () => {
           opacity: 1
         }} viewport={{
           once: true
-        }} className="md:col-span-6 md:col-start-6 grid grid-cols-2 gap-2">
-            <img src={merch01} alt="Merch 1" className="w-full aspect-square object-cover" />
-            <img src={merch02} alt="Merch 2" className="w-full aspect-square object-cover" />
-            <img src={merch03} alt="Merch 3" className="w-full aspect-square object-cover" />
-            <img src={merch04} alt="Merch 4" className="w-full aspect-square object-cover" />
+        }} className="md:col-span-4 md:col-start-6">
+            <img 
+              src={merchImages[currentMerchIndex]} 
+              alt="Merch" 
+              className="w-full max-w-md aspect-square object-cover" 
+            />
           </motion.div>
           <motion.div initial={{
           opacity: 0,
