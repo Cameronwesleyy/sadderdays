@@ -12,28 +12,17 @@ const Enter = () => {
     setIsExiting(true);
     setTimeout(() => {
       navigate("/home");
-    }, 1200);
+    }, 1000);
   };
-
-  // Generate random directions for fabric pieces
-  const fabricPieces = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: (Math.random() - 0.5) * 1500,
-    y: (Math.random() - 0.5) * 1500,
-    rotation: (Math.random() - 0.5) * 720,
-    delay: Math.random() * 0.2,
-    originX: `${(i % 4) * 25 + 12.5}%`,
-    originY: `${Math.floor(i / 4) * 33 + 16.5}%`,
-  }));
 
   return (
     <motion.div
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-transparent z-50 overflow-hidden cursor-pointer flex items-center justify-center"
+      className="fixed inset-0 bg-background z-50 overflow-hidden cursor-pointer flex items-center justify-center"
       onClick={handleEnter}
     >
       {/* Napkin container */}
-      <div className="relative">
+      <div className="relative w-72 md:w-96 aspect-square">
         <AnimatePresence>
           {!isExiting ? (
             <motion.div
@@ -46,8 +35,7 @@ const Enter = () => {
               <motion.img
                 src={napkin}
                 alt="Sadder Days Napkin"
-                className="w-72 md:w-96 h-auto"
-                style={{ mixBlendMode: 'multiply' }}
+                className="w-full h-auto"
                 animate={{
                   y: [0, -5, 0],
                 }}
@@ -57,60 +45,62 @@ const Enter = () => {
               {/* Push to enter text overlay */}
               <motion.p
                 animate={{ 
-                  opacity: [0.5, 1, 0.5],
+                  opacity: [0.4, 0.8, 0.4],
                 }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute bottom-8 text-[10px] md:text-xs tracking-[0.4em] font-light text-neutral-500"
+                className="absolute bottom-4 text-[10px] md:text-xs tracking-[0.4em] font-light text-neutral-400"
               >
                 PUSH TO ENTER
               </motion.p>
             </motion.div>
           ) : (
-            // Flying fabric pieces
+            // Torn halves flying apart
             <>
-              {fabricPieces.map((piece) => (
-                <motion.div
-                  key={piece.id}
-                  initial={{ 
-                    opacity: 1, 
-                    x: 0, 
-                    y: 0, 
-                    rotate: 0,
-                    scale: 1,
-                  }}
-                  animate={{ 
-                    opacity: 0,
-                    x: piece.x,
-                    y: piece.y,
-                    rotate: piece.rotation,
-                    scale: 0.3,
-                  }}
-                  transition={{ 
-                    duration: 1,
-                    delay: piece.delay,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  className="absolute"
-                  style={{
-                    width: '25%',
-                    height: '33%',
-                    overflow: 'hidden',
-                    left: `${(piece.id % 4) * 25}%`,
-                    top: `${Math.floor(piece.id / 4) * 33}%`,
-                  }}
-                >
-                  <img
-                    src={napkin}
-                    alt=""
-                    className="w-72 md:w-96 h-auto absolute"
-                    style={{ 
-                      mixBlendMode: 'multiply',
-                      left: `-${(piece.id % 4) * 100}%`,
-                      top: `-${Math.floor(piece.id / 4) * 100}%`,
-                    }}
-                  />
-                </motion.div>
-              ))}
+              {/* Left half */}
+              <motion.div
+                initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
+                animate={{ 
+                  x: -300, 
+                  y: -100, 
+                  rotate: -25,
+                  opacity: 0,
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="absolute inset-0 overflow-hidden"
+                style={{ clipPath: 'polygon(0 0, 52% 0, 48% 100%, 0 100%)' }}
+              >
+                <img
+                  src={napkin}
+                  alt=""
+                  className="w-full h-auto"
+                />
+              </motion.div>
+
+              {/* Right half */}
+              <motion.div
+                initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
+                animate={{ 
+                  x: 300, 
+                  y: 100, 
+                  rotate: 25,
+                  opacity: 0,
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="absolute inset-0 overflow-hidden"
+                style={{ clipPath: 'polygon(48% 0, 100% 0, 100% 100%, 52% 100%)' }}
+              >
+                <img
+                  src={napkin}
+                  alt=""
+                  className="w-full h-auto"
+                />
+              </motion.div>
             </>
           )}
         </AnimatePresence>
