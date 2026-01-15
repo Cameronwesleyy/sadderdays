@@ -161,7 +161,7 @@ const MemberCard = ({ member, index }: { member: typeof members[0]; index: numbe
           className="w-full object-cover"
           style={{ 
             height: '400%',
-            objectPosition: index === 0 ? 'center 20%' : 'center 30%',
+            objectPosition: index === 0 ? 'center 18%' : 'center 30%',
             transform: 'scale(1.6)'
           }}
         />
