@@ -86,11 +86,9 @@ const members = [
 const MemberCard = ({ 
   member, 
   index,
-  cameronCycleIndex,
 }: { 
   member: typeof members[0]; 
   index: number;
-  cameronCycleIndex: number;
 }) => {
   const isCameron = member.name === "CAMERON";
   
@@ -196,14 +194,19 @@ const MemberCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
-      {/* Stop Motion / Video Sliver */}
+      {/* Film Strip / Video Sliver */}
       {isCameron ? (
-        <div className="h-24 overflow-hidden">
-          <img 
-            src={cameronCycleImages[cameronCycleIndex]} 
-            alt="Cameron" 
-            className="w-full h-full object-cover object-top"
-          />
+        <div className="bg-black py-2 px-1">
+          <div className="flex gap-1 overflow-x-auto scrollbar-hide">
+            {cameronCycleImages.map((img, i) => (
+              <img 
+                key={i}
+                src={img} 
+                alt={`Cameron ${i + 1}`} 
+                className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <div className="h-16 bg-black/40 flex items-center justify-center">
@@ -216,14 +219,6 @@ const MemberCard = ({
 
 const Members = () => {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
-  const [cameronCycleIndex, setCameronCycleIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCameronCycleIndex((prev) => (prev + 1) % cameronCycleImages.length);
-    }, 150);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const x = e.clientX / window.innerWidth;
@@ -256,7 +251,6 @@ const Members = () => {
               key={member.name} 
               member={member} 
               index={index}
-              cameronCycleIndex={cameronCycleIndex}
             />
           ))}
         </div>
