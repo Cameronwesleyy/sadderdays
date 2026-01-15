@@ -1,12 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
+import { useState, useEffect } from "react";
 import crossLogo from "@/assets/cross-logo.png";
 
 const CornerNavigation = () => {
   const location = useLocation();
   const { items, setIsOpen } = useCart();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Hide on Enter page
   if (location.pathname === "/") {
@@ -26,11 +36,15 @@ const CornerNavigation = () => {
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-4"
+      className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 ${
+        scrolled ? "backdrop-blur-md bg-background/30" : ""
+      }`}
     >
       {/* Pink glow background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-16 bg-secondary/60 blur-3xl rounded-full" />
+      <div className="absolute inset-0 -z-10 overflow-visible">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full h-24 bg-sd-pink/50 blur-[60px] rounded-full" />
+        <div className="absolute -top-2 left-1/4 w-48 h-16 bg-sd-pink/40 blur-[40px] rounded-full" />
+        <div className="absolute -top-2 right-1/4 w-48 h-16 bg-sd-pink/40 blur-[40px] rounded-full" />
       </div>
       
       <nav className="flex items-center justify-between max-w-7xl mx-auto">
