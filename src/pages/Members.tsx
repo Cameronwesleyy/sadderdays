@@ -18,10 +18,25 @@ import cameronCycle7 from "@/assets/cameron-cycle-7.jpg";
 import cameronCycle8 from "@/assets/cameron-cycle-8.jpg";
 import cameronCycle9 from "@/assets/cameron-cycle-9.jpg";
 import cameronCycle10 from "@/assets/cameron-cycle-10.jpg";
+import grantCycle1 from "@/assets/grant-cycle-1.jpg";
+import grantCycle2 from "@/assets/grant-cycle-2.jpg";
+import grantCycle3 from "@/assets/grant-cycle-3.jpg";
+import grantCycle4 from "@/assets/grant-cycle-4.jpg";
+import grantCycle5 from "@/assets/grant-cycle-5.jpg";
+import grantCycle6 from "@/assets/grant-cycle-6.jpg";
+import grantCycle7 from "@/assets/grant-cycle-7.jpg";
+import grantCycle8 from "@/assets/grant-cycle-8.jpg";
+import grantCycle9 from "@/assets/grant-cycle-9.jpg";
+import grantCycle10 from "@/assets/grant-cycle-10.jpg";
 
 const cameronCycleImages = [
   cameronCycle1, cameronCycle2, cameronCycle3, cameronCycle4, cameronCycle5,
   cameronCycle6, cameronCycle7, cameronCycle8, cameronCycle9, cameronCycle10
+];
+
+const grantCycleImages = [
+  grantCycle1, grantCycle2, grantCycle3, grantCycle4, grantCycle5,
+  grantCycle6, grantCycle7, grantCycle8, grantCycle9, grantCycle10
 ];
 
 const TikTokIcon = () => (
@@ -194,25 +209,19 @@ const MemberCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
-      {/* Film Strip / Video Sliver */}
-      {isCameron ? (
-        <div className="bg-black py-2 px-1">
-          <div className="flex gap-1 overflow-x-auto scrollbar-hide">
-            {cameronCycleImages.map((img, i) => (
-              <img 
-                key={i}
-                src={img} 
-                alt={`Cameron ${i + 1}`} 
-                className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
-              />
-            ))}
-          </div>
+      {/* Film Strip */}
+      <div className="bg-black py-2 px-1">
+        <div className="flex gap-1 overflow-x-auto scrollbar-hide">
+          {(isCameron ? cameronCycleImages : grantCycleImages).map((img, i) => (
+            <img 
+              key={i}
+              src={img} 
+              alt={`${member.name} ${i + 1}`} 
+              className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+            />
+          ))}
         </div>
-      ) : (
-        <div className="h-16 bg-black/40 flex items-center justify-center">
-          <span className="text-[10px] tracking-widest text-white/40">VIDEO SLIVER</span>
-        </div>
-      )}
+      </div>
     </motion.div>
   );
 };
