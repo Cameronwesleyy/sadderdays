@@ -262,24 +262,32 @@ const Home = () => {
             </motion.div>
           </div>
 
-          <motion.div initial={{
-          opacity: 0,
-          y: 30
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }}>
-            <img src={tourDuo} alt="Tour" className="max-w-3xl w-full aspect-[16/9] object-cover object-center" />
-            
-            <div className="flex flex-wrap gap-x-8 gap-y-2 mt-6">
+          <div className="flex justify-between items-start gap-8">
+            <motion.div initial={{
+            opacity: 0,
+            y: 30
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} viewport={{
+            once: true
+          }}>
+              <img src={tourDuo} alt="Tour" className="max-w-3xl w-full aspect-[16/9] object-cover object-center" />
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="space-y-2 flex-shrink-0 text-right"
+            >
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">01 — NEW YORK</p>
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">02 — LOS ANGELES</p>
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">03 — LONDON</p>
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">04 — TOKYO</p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </section>
 
         {/* Mood Section */}
