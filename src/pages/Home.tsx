@@ -213,32 +213,37 @@ const Home = () => {
             <Link to="/about" className="block">
               <h2 className="font-display text-6xl md:text-8xl tracking-tighter-custom mb-4 hover:text-muted-foreground transition-colors text-left">ABOUT SADDER DAYS</h2>
             </Link>
-            {/* Color Swatches */}
-            <div className="flex gap-3 mt-6">
-              <div 
-                className="w-12 h-16 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.15)] border border-black/10 transform -rotate-2 hover:rotate-0 transition-transform cursor-pointer"
-                style={{ backgroundColor: '#0B0C0B' }}
-              />
-              <div 
-                className="w-12 h-16 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] border border-black/5 transform rotate-1 hover:rotate-0 transition-transform cursor-pointer"
-                style={{ backgroundColor: '#FFEBF5' }}
-              />
-              <div 
-                className="w-12 h-16 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.08)] border border-black/10 transform -rotate-1 hover:rotate-0 transition-transform cursor-pointer"
-                style={{ backgroundColor: '#FBFCFC' }}
-              />
-            </div>
           </motion.div>
 
-          <motion.p initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="md:col-span-12 text-sm text-muted-foreground mt-8">
-            ​
-          </motion.p>
+          {/* Color Swatches - Floating centered */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="md:col-span-12 flex justify-center gap-6 mt-16 mb-8"
+          >
+            <div className="flex items-center gap-2 transform -rotate-2 hover:rotate-0 transition-transform cursor-pointer">
+              <div 
+                className="w-10 h-14 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.15)] border border-black/10"
+                style={{ backgroundColor: '#0B0C0B' }}
+              />
+              <span className="text-[10px] tracking-widest-custom text-muted-foreground">0B0C0B</span>
+            </div>
+            <div className="flex items-center gap-2 transform rotate-1 hover:rotate-0 transition-transform cursor-pointer">
+              <div 
+                className="w-10 h-14 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] border border-black/5"
+                style={{ backgroundColor: '#FFEBF5' }}
+              />
+              <span className="text-[10px] tracking-widest-custom text-muted-foreground">FFEBF5</span>
+            </div>
+            <div className="flex items-center gap-2 transform -rotate-1 hover:rotate-0 transition-transform cursor-pointer">
+              <div 
+                className="w-10 h-14 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.08)] border border-black/10"
+                style={{ backgroundColor: '#FBFCFC' }}
+              />
+              <span className="text-[10px] tracking-widest-custom text-muted-foreground">FBFCFC</span>
+            </div>
+          </motion.div>
         </section>
 
         {/* Film Strip Gallery */}
