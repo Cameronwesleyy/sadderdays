@@ -271,7 +271,7 @@ const Home = () => {
         }} viewport={{
           once: true
         }}>
-            <img src={tourDuo} alt="Tour" className="w-full aspect-[16/9] object-cover object-center" />
+            <img src={tourDuo} alt="Tour" className="max-w-3xl w-full aspect-[16/9] object-cover object-center" />
             
             <div className="flex flex-wrap gap-x-8 gap-y-2 mt-6">
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">01 — NEW YORK</p>
