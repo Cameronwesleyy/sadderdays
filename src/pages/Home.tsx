@@ -80,7 +80,7 @@ const Home = () => {
         }} transition={{
           delay: 0.1
         }} className="md:col-span-3 md:-mt-32">
-            <img alt="Cameron" className="w-full aspect-[4/5] object-cover" src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" />
+            <img alt="Cameron" className="w-full aspect-[16/9] object-cover" src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" />
           </motion.div>
         </section>
 
