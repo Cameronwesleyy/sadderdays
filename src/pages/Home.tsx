@@ -139,7 +139,7 @@ const Home = () => {
         </section>
 
         {/* Highlighted Works - with staggered scrollable gallery */}
-        <section className="bg-black px-6 md:px-12 py-16">
+        <section className="px-6 md:px-12 py-16">
           <motion.div initial={{
           opacity: 0
         }} whileInView={{
