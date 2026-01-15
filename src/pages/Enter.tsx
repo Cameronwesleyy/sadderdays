@@ -57,16 +57,18 @@ const Enter = () => {
             </>
           ) : (
             <>
-              {/* Left half - follows hand contour, slides left */}
+              {/* Left hand (palm up) - slides down-left */}
               <motion.div
-                initial={{ x: 0 }}
-                animate={{ x: "-100%" }}
+                initial={{ x: 0, y: 0 }}
+                animate={{ x: "-60%", y: "40%" }}
                 transition={{ 
-                  duration: 1,
+                  duration: 1.1,
                   ease: [0.65, 0, 0.35, 1],
                 }}
                 className="absolute inset-0 overflow-hidden"
-                style={{ clipPath: 'polygon(0 0, 35% 0, 45% 25%, 55% 45%, 60% 65%, 55% 85%, 45% 100%, 0 100%)' }}
+                style={{ 
+                  clipPath: 'polygon(0 0, 0 100%, 45% 100%, 52% 92%, 55% 82%, 50% 72%, 42% 62%, 38% 52%, 40% 42%, 48% 32%, 55% 22%, 50% 12%, 42% 5%, 30% 0)'
+                }}
               >
                 <img
                   src={handsEnter}
@@ -75,16 +77,18 @@ const Enter = () => {
                 />
               </motion.div>
 
-              {/* Right half - follows hand contour, slides right */}
+              {/* Right hand (back of hand) - slides up-right */}
               <motion.div
-                initial={{ x: 0 }}
-                animate={{ x: "100%" }}
+                initial={{ x: 0, y: 0 }}
+                animate={{ x: "60%", y: "-40%" }}
                 transition={{ 
-                  duration: 1,
+                  duration: 1.1,
                   ease: [0.65, 0, 0.35, 1],
                 }}
                 className="absolute inset-0 overflow-hidden"
-                style={{ clipPath: 'polygon(35% 0, 100% 0, 100% 100%, 45% 100%, 55% 85%, 60% 65%, 55% 45%, 45% 25%)' }}
+                style={{ 
+                  clipPath: 'polygon(30% 0, 42% 5%, 50% 12%, 55% 22%, 48% 32%, 40% 42%, 38% 52%, 42% 62%, 50% 72%, 55% 82%, 52% 92%, 45% 100%, 100% 100%, 100% 0)'
+                }}
               >
                 <img
                   src={handsEnter}
