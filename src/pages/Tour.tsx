@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
+import Footer from "@/components/Footer";
 
 const tourDates = [
   { date: "MAR 15", city: "NEW YORK", venue: "Terminal 5", status: "available" },
@@ -86,6 +87,7 @@ const Tour = () => {
           </motion.p>
         </div>
       </div>
+      <Footer />
     </PageTransition>
   );
 };

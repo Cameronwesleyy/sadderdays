@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, ArrowRight } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
+import Footer from "@/components/Footer";
 import CoinFlipGame from "@/components/CoinFlipGame";
 import yinYangLogo from "@/assets/yin-yang-logo.png";
 
@@ -55,6 +56,7 @@ const Lab = () => {
           </AnimatePresence>
         </div>
       </div>
+      <Footer />
     </PageTransition>
   );
 };

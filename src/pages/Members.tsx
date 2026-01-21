@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
+import Footer from "@/components/Footer";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import grantEyes from "@/assets/grant-eyes.jpg";
@@ -352,6 +353,7 @@ const Members = () => {
             />
           ))}
         </div>
+        <Footer />
       </div>
 
       {/* Lightbox */}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play, ExternalLink } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
+import Footer from "@/components/Footer";
 import CrossIcon from "@/components/CrossIcon";
 
 const releases = [
@@ -229,6 +230,7 @@ const Music = () => {
           </motion.div>
         </div>
       </div>
+      <Footer />
     </PageTransition>
   );
 };

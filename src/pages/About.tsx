@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
+import Footer from "@/components/Footer";
 import handsCover from "@/assets/hands-cover.jpg";
 import aboutHero from "@/assets/about-hero.png";
 import aboutRotate1 from "@/assets/about-rotate-1.jpg";
@@ -143,18 +144,7 @@ const About = () => {
           </motion.div>
         </section>
 
-        {/* Contact */}
-        <section className="bg-foreground text-background p-6 md:p-12">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <p className="text-[10px] tracking-widest-custom text-background/50 mb-4">
-                CONTACT
-              </p>
-              <p className="text-sm mb-2">hello@sadderdays.world</p>
-              <p className="text-sm text-background/70">booking@sadderdays.world</p>
-            </div>
-          </div>
-        </section>
+        <Footer />
       </div>
     </PageTransition>
   );

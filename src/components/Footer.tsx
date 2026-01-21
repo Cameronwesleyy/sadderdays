@@ -30,13 +30,23 @@ const Footer = () => {
               REPRESENTATION
             </p>
             <p className="text-sm mb-4">SADDER DAYS MGMT</p>
-            <p className="text-sm text-background/70">hello@sadderdays.world</p>
+            <a 
+              href="mailto:hello@sadderdays.world"
+              className="text-sm text-background/70 hover:text-background transition-colors hover:underline underline-offset-4"
+            >
+              hello@sadderdays.world
+            </a>
           </div>
           <div className="md:col-span-4">
             <p className="text-[10px] tracking-widest-custom text-background/50 mb-2">
               PROJECT & DIRECT INQUIRIES
             </p>
-            <p className="text-sm">booking@sadderdays.world</p>
+            <a 
+              href="mailto:booking@sadderdays.world"
+              className="text-sm text-background hover:text-background/80 transition-colors hover:underline underline-offset-4"
+            >
+              booking@sadderdays.world
+            </a>
           </div>
         </div>
       </section>
