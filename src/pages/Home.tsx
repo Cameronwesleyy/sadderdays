@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import { useCart } from "@/context/CartContext";
 import EmailSignupPopup from "@/components/EmailSignupPopup";
+import PixelatedImage from "@/components/PixelatedImage";
 import crossLogo from "@/assets/cross-logo.png";
 import heroCar from "@/assets/hero-car.jpg";
 import duoPortrait from "@/assets/duo-portrait.jpg";
@@ -251,14 +252,13 @@ const Home = () => {
           opacity: 1
         }} viewport={{
           once: true
-        }} className="md:col-span-4 md:col-start-6 relative">
-            <img 
+        }} className="md:col-span-4 md:col-start-6 relative overflow-hidden">
+            <PixelatedImage 
               src={apparelMain} 
               alt="Apparel" 
-              className="w-full max-w-md aspect-square object-cover blur-sm"
-              style={{ imageRendering: 'pixelated', filter: 'blur(8px) saturate(0.8)' }}
+              className="w-full max-w-md aspect-square"
+              pixelSize={10}
             />
-            <div className="absolute inset-0 bg-foreground/10 backdrop-blur-[2px]" />
           </motion.div>
           <motion.div initial={{
           opacity: 0,
