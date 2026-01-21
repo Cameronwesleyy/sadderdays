@@ -269,9 +269,10 @@ const Home = () => {
           once: true
         }} className="md:col-span-4 md:col-start-1 md:row-start-1 md:self-end">
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">APPAREL</h2>
-            <Link to="/merch" className="text-[10px] tracking-widest-custom editorial-link">
-              BROWSE MERCH
-            </Link>
+            <span className="inline-flex items-center gap-2 text-[10px] tracking-widest-custom text-muted-foreground cursor-default">
+              COMING SOON
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
+            </span>
           </motion.div>
         </section>
 
