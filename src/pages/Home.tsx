@@ -253,13 +253,13 @@ const Home = () => {
             initial={{ opacity: 0 }} 
             whileInView={{ opacity: 1 }} 
             viewport={{ once: true }}
-            className="w-full max-w-2xl mx-auto md:mx-0 mb-8"
+            className="max-w-sm mb-8"
           >
             <PixelatedImage 
               src={apparelMain} 
               alt="Apparel" 
-              className="w-full aspect-[4/3]"
-              pixelSize={10}
+              className="w-full aspect-square"
+              pixelSize={8}
             />
           </motion.div>
 
