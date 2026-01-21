@@ -169,17 +169,15 @@ const Home = () => {
           </motion.div>
         </section>
 
-        {/* Asymmetric section - Text left, image right */}
-        <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12 min-h-[80vh] items-center">
-          <motion.div initial={{
-          opacity: 0,
-          x: -20
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true
-        }} className="md:col-span-5">
+        {/* Asymmetric section - Text left, stacked images right */}
+        <section className="grid md:grid-cols-12 gap-6 p-6 md:p-12 min-h-[80vh] items-center">
+          {/* Left - Text */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }} 
+            whileInView={{ opacity: 1, x: 0 }} 
+            viewport={{ once: true }} 
+            className="md:col-span-4 flex flex-col justify-center"
+          >
             <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom mb-6">
               I'VE HAD
               <br />
@@ -212,31 +210,33 @@ const Home = () => {
             </div>
           </motion.div>
 
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} className="md:col-span-6 md:col-start-7">
-            <img alt="Grant" className="w-full aspect-[16/9] object-cover" src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" />
-          </motion.div>
+          {/* Right - Stacked images */}
+          <div className="md:col-span-7 md:col-start-6 flex flex-col gap-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }}
+            >
+              <img 
+                alt="Grant" 
+                className="w-full aspect-[4/3] object-cover" 
+                src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
+              />
+            </motion.div>
 
-          <motion.div initial={{
-          opacity: 0,
-          y: 40
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          delay: 0.1
-        }} className="md:col-span-5 md:-mt-32">
-            <img alt="Cameron" className="w-full aspect-[16/9] object-cover" src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" />
-          </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ delay: 0.1 }}
+            >
+              <img 
+                alt="Cameron" 
+                className="w-full aspect-[4/3] object-cover" 
+                src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
+              />
+            </motion.div>
+          </div>
         </section>
 
         {/* About Me floating section */}
