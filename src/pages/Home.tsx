@@ -103,8 +103,23 @@ const Home = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
         >
-          {/* Left nav links */}
+        {/* Left nav links */}
           <div className="flex items-center gap-4 md:gap-6">
+            {/* Shop link with strikethrough and sliding date */}
+            <div className="relative group">
+              <span className="text-[9px] md:text-[10px] tracking-widest-custom text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] line-through decoration-1">
+                SHOP
+              </span>
+              <motion.span 
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.4 }}
+                className="absolute left-0 top-full text-[7px] md:text-[8px] tracking-widest-custom whitespace-nowrap"
+                style={{ color: "#FFEBF5" }}
+              >
+                FEB 2026
+              </motion.span>
+            </div>
             {navLinks.map((link) => (
               <Link
                 key={link.path}
