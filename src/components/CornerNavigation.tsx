@@ -121,12 +121,14 @@ const CornerNavigation = () => {
                         <span className="text-2xl md:text-4xl font-display tracking-tighter-custom text-foreground/70 line-through decoration-2">
                           {link.name}
                         </span>
-                        <span 
-                          className="absolute left-1/2 -translate-x-1/2 top-full text-[10px] md:text-xs tracking-widest-custom whitespace-nowrap mt-1"
-                          style={{ color: "#FFEBF5" }}
+                        <motion.span 
+                          initial={{ opacity: 0, y: -8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 + index * 0.05, duration: 0.4 }}
+                          className="absolute left-1/2 -translate-x-1/2 top-full text-[10px] md:text-xs tracking-widest-custom whitespace-nowrap mt-1 text-foreground"
                         >
                           FEB 2026
-                        </span>
+                        </motion.span>
                       </div>
                     ) : (
                       <Link
