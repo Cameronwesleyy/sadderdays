@@ -56,6 +56,7 @@ export default {
         charcoal: "hsl(var(--charcoal))",
         yin: "hsl(var(--yin))",
         yang: "hsl(var(--yang))",
+        "sd-pink": "hsl(var(--sd-pink))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

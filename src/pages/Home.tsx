@@ -162,7 +162,7 @@ const Home = () => {
             viewport={{ once: true }} 
             className="md:col-span-4 flex flex-col justify-center"
           >
-            <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom mb-6">
+            <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom mb-6 text-sd-pink drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
               I'VE HAD
               <br />
               SADDER DAYS
