@@ -219,7 +219,7 @@ const Home = () => {
               <img 
                 alt="Cameron" 
                 className="w-full aspect-[9/16] object-cover" 
-                src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
+                src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
               />
             </motion.div>
 
@@ -233,7 +233,7 @@ const Home = () => {
               <img 
                 alt="Grant" 
                 className="w-full aspect-[9/16] object-cover" 
-                src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
+                src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
               />
             </motion.div>
           </div>
