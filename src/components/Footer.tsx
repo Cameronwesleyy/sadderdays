@@ -22,7 +22,7 @@ const Footer = () => {
       <section 
         className="text-background p-6 md:p-12"
         style={{
-          background: "linear-gradient(to bottom, #1a1a1a 0%, #1a1a1a 70%, #FFEBF5 100%)"
+          background: "linear-gradient(to bottom, #1a1a1a 0%, #1a1a1a 50%, #2a2a2a 65%, #4a3a42 75%, #8a6a78 85%, #d4a8bc 92%, #FFEBF5 100%)"
         }}
       >
         <div className="grid md:grid-cols-12 gap-8 mb-12">
