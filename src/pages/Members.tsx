@@ -54,26 +54,6 @@ const PatreonIcon = () => (
 
 const members = [
   {
-    name: "GRANT",
-    titleImage: grantTitle,
-    titleScale: 1,
-    role: "Drums / Percussion",
-    eyesImage: grantEyes,
-    eyesCrop: { position: 13, scale: 4.0 },
-    favoriteColor: "Celestine Blue",
-    personality: "ENFJ-A",
-    birthday: "06/12/2003",
-    sun: "Gemini",
-    moon: "Sagittarius",
-    rising: "Scorpio",
-    bio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
-    socials: [
-      { name: "Instagram", icon: Instagram, href: "#" },
-      { name: "TikTok", icon: TikTokIcon, href: "#" },
-      { name: "Patreon", icon: PatreonIcon, href: "#" },
-    ],
-  },
-  {
     name: "CAMERON",
     titleImage: cameronTitle,
     titleScale: 1.15,
@@ -97,6 +77,26 @@ const members = [
       { name: "Equipment", href: "#" },
       { name: "Wallpapers", href: "#" },
       { name: "Playlist", href: "#" },
+    ],
+  },
+  {
+    name: "GRANT",
+    titleImage: grantTitle,
+    titleScale: 1,
+    role: "Drums / Percussion",
+    eyesImage: grantEyes,
+    eyesCrop: { position: 13, scale: 4.0 },
+    favoriteColor: "Celestine Blue",
+    personality: "ENFJ-A",
+    birthday: "06/12/2003",
+    sun: "Gemini",
+    moon: "Sagittarius",
+    rising: "Scorpio",
+    bio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
+    socials: [
+      { name: "Instagram", icon: Instagram, href: "#" },
+      { name: "TikTok", icon: TikTokIcon, href: "#" },
+      { name: "Patreon", icon: PatreonIcon, href: "#" },
     ],
   },
 ];
