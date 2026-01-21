@@ -246,49 +246,51 @@ const Home = () => {
           </div>
         </section>
 
-        {/* About Me floating section */}
-        <section className="grid md:grid-cols-12 gap-4 p-6 md:p-12">
-          <motion.div initial={{
-          opacity: 0
-        }} whileInView={{
-          opacity: 1
-        }} viewport={{
-          once: true
-        }} className="md:col-span-4 md:col-start-6 relative overflow-hidden">
+        {/* Apparel Section */}
+        <section className="p-6 md:p-12">
+          {/* Image */}
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            whileInView={{ opacity: 1 }} 
+            viewport={{ once: true }}
+            className="w-full max-w-2xl mx-auto md:mx-0 mb-8"
+          >
             <PixelatedImage 
               src={apparelMain} 
               alt="Apparel" 
-              className="w-full max-w-md aspect-square"
+              className="w-full aspect-[4/3]"
               pixelSize={10}
             />
           </motion.div>
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} className="md:col-span-4 md:col-start-1 md:row-start-1 md:self-end">
-            <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">APPAREL</h2>
-            <div className="space-y-3">
-              <div className="group relative inline-block cursor-default">
-                <span className="inline-flex items-center gap-2 text-[10px] tracking-widest-custom text-muted-foreground group-hover:text-foreground transition-colors">
+
+          {/* Text below image */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row md:items-start md:justify-between gap-6"
+          >
+            {/* Left side - Title and CTA */}
+            <div className="text-left">
+              <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-4">APPAREL</h2>
+              <div className="flex items-center gap-6">
+                <span className="inline-flex items-center gap-2 text-xs font-medium tracking-widest-custom text-foreground">
                   COMING SOON
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
                 </span>
-                <span className="absolute left-0 top-full mt-2 px-3 py-1.5 bg-foreground text-background text-[9px] tracking-widest-custom whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                  DROPPING SPRING 2026
-                </span>
+                <button 
+                  onClick={() => setShowEmailPopup(true)}
+                  className="text-xs font-medium tracking-widest-custom text-sd-pink hover:text-foreground transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]"
+                >
+                  NOTIFY ME →
+                </button>
               </div>
-              <button 
-                onClick={() => setShowEmailPopup(true)}
-                className="block text-[10px] tracking-widest-custom text-sd-pink hover:text-foreground transition-colors"
-              >
-                NOTIFY ME →
-              </button>
             </div>
+
+            {/* Right side - Lorem ipsum */}
+            <p className="text-xs tracking-widest-custom text-foreground uppercase leading-relaxed max-w-xs md:text-right">
+              LOREM IPSUM DOLOR SIT AMET CONSECTETUR. ADIPISCING ELIT SED DO EIUSMOD TEMPOR.
+            </p>
           </motion.div>
         </section>
 
