@@ -195,7 +195,7 @@ const Home = () => {
           </motion.div>
 
           {/* Right - Stacked images */}
-          <div className="md:col-span-7 md:col-start-6 flex flex-col gap-4">
+          <div className="md:col-span-6 md:col-start-6 flex flex-col gap-3">
             <motion.div 
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
@@ -203,7 +203,7 @@ const Home = () => {
             >
               <img 
                 alt="Grant" 
-                className="w-full aspect-[4/3] object-cover" 
+                className="w-full aspect-[3/2] object-cover" 
                 src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
               />
             </motion.div>
@@ -216,7 +216,7 @@ const Home = () => {
             >
               <img 
                 alt="Cameron" 
-                className="w-full aspect-[4/3] object-cover" 
+                className="w-full aspect-[3/2] object-cover" 
                 src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
               />
             </motion.div>
