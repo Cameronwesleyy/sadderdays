@@ -104,7 +104,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative w-full max-w-lg overflow-hidden rounded-lg bg-[#FFEBF5]/90 backdrop-blur-sm"
+            className="relative w-full max-w-lg overflow-hidden rounded-lg bg-[#FFEBF5]/90 backdrop-blur-sm shadow-2xl shadow-black/30"
           >
 
             <button
@@ -117,52 +117,77 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
 
             <div className="relative z-10 px-8 py-12 flex flex-col items-center text-center">
               {/* Cross Logo */}
-              <img
+              <motion.img
                 src={crossLogo}
                 alt="Sadder Days"
                 className="w-16 h-16 md:w-20 md:h-20 object-contain mb-6"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
               />
 
               {/* Heading */}
-              <h2 className="font-display text-3xl md:text-4xl tracking-tight text-foreground mb-2">
+              <motion.h2 
+                className="font-display text-3xl md:text-4xl tracking-tight text-foreground mb-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.3 }}
+              >
                 Never miss a moment.
-              </h2>
-              <p className="text-foreground/70 text-sm mb-8">
+              </motion.h2>
+              <motion.p 
+                className="text-foreground/70 text-sm mb-8"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
+              >
                 Sign up to our email list now!
-              </p>
+              </motion.p>
 
               <form onSubmit={handleSubmit} className="w-full space-y-4">
-                <input
+                <motion.input
                   type="text"
                   placeholder="First name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30"
+                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-shadow"
                   maxLength={100}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.25, duration: 0.3 }}
                 />
-                <input
+                <motion.input
                   type="text"
                   placeholder="Last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30"
+                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-shadow"
                   maxLength={100}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
                 />
-                <input
+                <motion.input
                   type="email"
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30"
+                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-shadow"
                   maxLength={255}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.35, duration: 0.3 }}
                 />
-                <button
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
                   className="w-full py-4 bg-foreground text-background font-medium tracking-wider rounded-lg hover:bg-foreground/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.3 }}
                 >
                   {isSubmitting ? "Signing Up..." : "Sign Up"}
-                </button>
+                </motion.button>
               </form>
 
               <p className="text-foreground/50 text-xs mt-6 max-w-sm">
