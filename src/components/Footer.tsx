@@ -128,21 +128,18 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="mt-16 pt-8 border-t border-border/20 flex flex-col items-center gap-2">
+          <div className="mt-16 pt-8 border-t border-border/20 flex flex-col items-center gap-1">
             <p className="text-xs text-muted-foreground">
               © 2025 SADDER DAYS. ALL RIGHTS RESERVED.
             </p>
-            <p className="text-xs text-muted-foreground tracking-widest-custom">
-              WEBSITE DESIGN + CONFIGURATION BY{" "}
-              <a 
-                href="https://rainabhatia.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-foreground font-medium hover:opacity-70 transition-opacity underline underline-offset-4"
-              >
-                RAINA BHATIA
-              </a>
-            </p>
+            <a 
+              href="https://rainabhatia.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[10px] text-muted-foreground/70 hover:text-foreground transition-colors"
+            >
+              @RAINABHATIA
+            </a>
           </div>
         </div>
       </div>
