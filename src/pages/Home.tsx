@@ -69,6 +69,8 @@ const navLinks = [
   { name: "ABOUT", path: "/about" },
   { name: "MUSIC", path: "/music" },
   { name: "TOUR", path: "/tour" },
+  { name: "LAB", path: "/lab" },
+  { name: "MEMBERS", path: "/members" },
 ];
 
 const Home = () => {
