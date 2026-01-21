@@ -176,7 +176,7 @@ const Home = () => {
             viewport={{ once: true }} 
             className="md:col-span-4 flex flex-col justify-between h-full py-4"
           >
-            <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-foreground">
+            <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom text-sd-pink drop-shadow-[0_4px_20px_rgba(0,0,0,0.35)] hover:text-foreground transition-colors duration-300 cursor-default">
               I'VE HAD
               <br />
               SADDER DAYS
