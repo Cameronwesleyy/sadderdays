@@ -208,17 +208,18 @@ const Home = () => {
             </div>
           </motion.div>
 
-          {/* Right - Stacked images */}
-          <div className="md:col-span-6 md:col-start-6 flex flex-col gap-3">
+          {/* Right - Side by side images */}
+          <div className="md:col-span-6 md:col-start-6 flex gap-3">
             <motion.div 
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }}
+              className="flex-1"
             >
               <img 
-                alt="Grant" 
-                className="w-full aspect-[3/2] object-cover" 
-                src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
+                alt="Cameron" 
+                className="w-full aspect-[9/16] object-cover" 
+                src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
               />
             </motion.div>
 
@@ -227,11 +228,12 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
               transition={{ delay: 0.1 }}
+              className="flex-1"
             >
               <img 
-                alt="Cameron" 
-                className="w-full aspect-[3/2] object-cover" 
-                src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
+                alt="Grant" 
+                className="w-full aspect-[9/16] object-cover" 
+                src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
               />
             </motion.div>
           </div>
