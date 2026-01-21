@@ -168,7 +168,7 @@ const Home = () => {
         </section>
 
         {/* Asymmetric section - Text left, stacked images right */}
-        <section className="grid md:grid-cols-12 gap-6 p-6 md:p-12 min-h-[80vh] items-center">
+        <section className="grid md:grid-cols-12 gap-6 pl-4 pr-6 md:pl-6 md:pr-12 py-6 md:py-12 min-h-[80vh] items-center">
           {/* Left - Text */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }} 
@@ -181,6 +181,9 @@ const Home = () => {
               <br />
               SADDER DAYS
             </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-xs">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+            </p>
             <div className="flex items-center gap-4">
               <Link to="/music" className="text-[10px] tracking-widest-custom editorial-link">
                  LISTEN HERE
@@ -209,7 +212,7 @@ const Home = () => {
           </motion.div>
 
           {/* Right - Side by side images */}
-          <div className="md:col-span-6 md:col-start-6 flex gap-3">
+          <div className="md:col-span-7 md:col-start-5 flex gap-1">
             <motion.div 
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
@@ -218,7 +221,7 @@ const Home = () => {
             >
               <img 
                 alt="Cameron" 
-                className="w-full aspect-[9/16] object-cover" 
+                className="w-full aspect-[3/4] object-cover"
                 src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
               />
             </motion.div>
@@ -232,7 +235,7 @@ const Home = () => {
             >
               <img 
                 alt="Grant" 
-                className="w-full aspect-[9/16] object-cover" 
+                className="w-full aspect-[3/4] object-cover" 
                 src="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" 
               />
             </motion.div>
