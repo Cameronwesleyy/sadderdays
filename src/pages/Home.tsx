@@ -182,7 +182,7 @@ const Home = () => {
               SADDER DAYS
             </h2>
             <div className="mt-auto">
-              <p className="text-[10px] tracking-widest-custom text-foreground uppercase leading-relaxed max-w-[180px] mb-6">
+              <p className="text-xs font-medium tracking-widest-custom text-foreground uppercase leading-relaxed max-w-[180px] mb-6">
                 LOREM IPSUM DOLOR SIT AMET CONSECTETUR ADIPISCING ELIT.
               </p>
               <div className="flex items-center gap-4">
