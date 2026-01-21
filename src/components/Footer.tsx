@@ -52,7 +52,7 @@ const Footer = () => {
         </div>
         
         {/* Sadderdays.world + Yin Yang in dark section */}
-        <div className="flex flex-col items-center pt-8 border-t border-background/20">
+        <div className="flex flex-col items-center pt-8 border-t-2" style={{ borderColor: "#FFEBF5" }}>
           <p className="text-xs text-background tracking-widest-custom mb-4">
             SADDERDAYS.WORLD
           </p>
