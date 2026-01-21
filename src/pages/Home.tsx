@@ -66,7 +66,6 @@ const galleryImages = [{
 }];
 const navLinks = [
   { name: "ABOUT", path: "/about" },
-  { name: "SHOP", path: "/merch" },
   { name: "MUSIC", path: "/music" },
   { name: "TOUR", path: "/tour" },
 ];
@@ -252,12 +251,14 @@ const Home = () => {
           opacity: 1
         }} viewport={{
           once: true
-        }} className="md:col-span-4 md:col-start-6">
+        }} className="md:col-span-4 md:col-start-6 relative">
             <img 
               src={apparelMain} 
               alt="Apparel" 
-              className="w-full max-w-md aspect-square object-cover" 
+              className="w-full max-w-md aspect-square object-cover blur-sm"
+              style={{ imageRendering: 'pixelated', filter: 'blur(8px) saturate(0.8)' }}
             />
+            <div className="absolute inset-0 bg-foreground/10 backdrop-blur-[2px]" />
           </motion.div>
           <motion.div initial={{
           opacity: 0,
@@ -269,14 +270,22 @@ const Home = () => {
           once: true
         }} className="md:col-span-4 md:col-start-1 md:row-start-1 md:self-end">
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">APPAREL</h2>
-            <div className="group relative inline-block cursor-default">
-              <span className="inline-flex items-center gap-2 text-[10px] tracking-widest-custom text-muted-foreground group-hover:text-foreground transition-colors">
-                COMING SOON
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
-              </span>
-              <span className="absolute left-0 top-full mt-2 px-3 py-1.5 bg-foreground text-background text-[9px] tracking-widest-custom whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                DROPPING SPRING 2026
-              </span>
+            <div className="space-y-3">
+              <div className="group relative inline-block cursor-default">
+                <span className="inline-flex items-center gap-2 text-[10px] tracking-widest-custom text-muted-foreground group-hover:text-foreground transition-colors">
+                  COMING SOON
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
+                </span>
+                <span className="absolute left-0 top-full mt-2 px-3 py-1.5 bg-foreground text-background text-[9px] tracking-widest-custom whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                  DROPPING SPRING 2026
+                </span>
+              </div>
+              <button 
+                onClick={() => setShowEmailPopup(true)}
+                className="block text-[10px] tracking-widest-custom text-sd-pink hover:text-foreground transition-colors"
+              >
+                NOTIFY ME →
+              </button>
             </div>
           </motion.div>
         </section>
