@@ -4,7 +4,6 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import crossLogo from "@/assets/cross-logo.png";
-import duoPortrait from "@/assets/duo-portrait.jpg";
 
 interface EmailSignupPopupProps {
   isOpen: boolean;
@@ -105,28 +104,17 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative w-full max-w-lg overflow-hidden"
+            className="relative w-full max-w-lg overflow-hidden rounded-lg bg-[#FFEBF5]/90 backdrop-blur-sm"
           >
-            {/* Background Image */}
-            <div className="absolute inset-0">
-              <img
-                src={duoPortrait}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/60" />
-            </div>
 
-            {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 text-white/70 hover:text-white transition-colors"
+              className="absolute top-4 right-4 z-10 text-foreground/70 hover:text-foreground transition-colors"
               aria-label="Close"
             >
               <X size={24} />
             </button>
 
-            {/* Content */}
             <div className="relative z-10 px-8 py-12 flex flex-col items-center text-center">
               {/* Cross Logo */}
               <img
@@ -136,21 +124,20 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
               />
 
               {/* Heading */}
-              <h2 className="font-display text-3xl md:text-4xl tracking-tight text-[#F5E6D3] mb-2">
+              <h2 className="font-display text-3xl md:text-4xl tracking-tight text-foreground mb-2">
                 Never miss a moment.
               </h2>
-              <p className="text-[#F5E6D3]/80 text-sm mb-8">
+              <p className="text-foreground/70 text-sm mb-8">
                 Sign up to our email list now!
               </p>
 
-              {/* Form */}
               <form onSubmit={handleSubmit} className="w-full space-y-4">
                 <input
                   type="text"
                   placeholder="First name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-5 py-4 bg-[#F5E6D3] text-black/70 placeholder:text-black/40 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30"
                   maxLength={100}
                 />
                 <input
@@ -158,7 +145,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                   placeholder="Last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-5 py-4 bg-[#F5E6D3] text-black/70 placeholder:text-black/40 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30"
                   maxLength={100}
                 />
                 <input
@@ -166,20 +153,19 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-5 py-4 bg-[#F5E6D3] text-black/70 placeholder:text-black/40 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30"
                   maxLength={255}
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-black text-[#F5E6D3] font-medium tracking-wider rounded-lg hover:bg-black/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-foreground text-background font-medium tracking-wider rounded-lg hover:bg-foreground/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Signing Up..." : "Sign Up"}
                 </button>
               </form>
 
-              {/* Disclaimer */}
-              <p className="text-[#F5E6D3]/60 text-xs mt-6 max-w-sm">
+              <p className="text-foreground/50 text-xs mt-6 max-w-sm">
                 You are signing up to receive communication via email and can unsubscribe at any time.
               </p>
             </div>
