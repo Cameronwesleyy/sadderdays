@@ -343,7 +343,7 @@ const Members = () => {
         </div>
 
         {/* Side by side centered layout */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl relative z-10">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl relative z-10 mb-16">
           {members.map((member, index) => (
             <MemberCard 
               key={member.name} 
@@ -353,8 +353,8 @@ const Members = () => {
             />
           ))}
         </div>
-        <Footer />
       </div>
+      <Footer />
 
       {/* Lightbox */}
       <AnimatePresence>
