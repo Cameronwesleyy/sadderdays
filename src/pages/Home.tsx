@@ -365,6 +365,9 @@ const Home = () => {
                 <br />
                 GALLERY
               </h2>
+              <p className="text-xs tracking-widest-custom text-foreground mt-2">
+                NYC, 2024-2025
+              </p>
             </motion.div>
           </div>
 
