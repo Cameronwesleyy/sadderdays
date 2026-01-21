@@ -141,7 +141,7 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="absolute bottom-4 right-6 text-[9px] md:text-[10px] tracking-widest-custom text-white/70 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
+            className="absolute bottom-6 right-6 z-10 text-[10px] md:text-xs tracking-widest-custom text-white font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
           >
             CAMERON AND GRANT, NYC 2026
           </motion.p>
