@@ -108,8 +108,12 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
           >
 
             <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 text-foreground/70 hover:text-foreground transition-colors"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              className="absolute top-4 right-4 z-20 p-2 text-foreground/70 hover:text-foreground transition-colors pointer-events-auto"
               aria-label="Close"
             >
               <X size={24} />
