@@ -7,7 +7,7 @@ import { useCart } from "@/context/CartContext";
 import EmailSignupPopup from "@/components/EmailSignupPopup";
 import PixelatedImage from "@/components/PixelatedImage";
 import crossLogo from "@/assets/cross-logo.png";
-import heroCar from "@/assets/hero-car.jpg";
+import heroDuo from "@/assets/hero-duo.jpg";
 import duoPortrait from "@/assets/duo-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
@@ -152,7 +152,7 @@ const Home = () => {
           onMouseEnter={() => setIsHeroHovered(true)}
           onMouseLeave={() => setIsHeroHovered(false)}
         >
-          <img src={heroCar} alt="Sadder Days" className="w-full h-full object-cover" />
+          <img src={heroDuo} alt="Sadder Days" className="w-full h-full object-cover object-top" />
           
           {/* Bottom caption */}
           <motion.p
