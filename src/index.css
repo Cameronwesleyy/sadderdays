@@ -84,10 +84,11 @@
     box-sizing: border-box;
   }
 
-  html, body {
+  html, body, #root {
     margin: 0;
     padding: 0;
     width: 100%;
+    min-width: 100vw;
     overflow-x: hidden;
   }
 
@@ -99,6 +100,10 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 300;
+  }
+
+  #root {
+    max-width: none !important;
   }
 
   ::selection {
