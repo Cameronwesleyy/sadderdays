@@ -239,11 +239,11 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }}
-              className="flex-1"
+              className="flex-1 overflow-hidden"
             >
               <img 
                 alt="Cameron" 
-                className="w-full aspect-[3/4] object-cover"
+                className="w-full aspect-[3/4] object-cover scale-110"
                 src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
               />
             </motion.div>
