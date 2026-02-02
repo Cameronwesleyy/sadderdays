@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 import EmailSignupPopup from "@/components/EmailSignupPopup";
 import PixelatedImage from "@/components/PixelatedImage";
+import ScrollRevealHero from "@/components/ScrollRevealHero";
 import crossLogo from "@/assets/cross-logo.png";
 import heroDuo from "@/assets/hero-duo.jpg";
 import duoPortrait from "@/assets/duo-portrait.jpg";
@@ -146,14 +147,12 @@ const Home = () => {
           </button>
         </motion.nav>
 
-        {/* Hero Section - Full bleed image with overlapping text */}
-        <section 
-          className="relative h-screen w-screen overflow-hidden"
-          onMouseEnter={() => setIsHeroHovered(true)}
-          onMouseLeave={() => setIsHeroHovered(false)}
+        {/* Hero Section - Scroll to reveal full image */}
+        <ScrollRevealHero 
+          imageSrc={heroDuo} 
+          imageAlt="Sadder Days"
+          onHoverChange={setIsHeroHovered}
         >
-          <img src={heroDuo} alt="Sadder Days" className="absolute inset-0 w-full h-full object-cover object-[center_40%]" />
-          
           {/* Bottom caption */}
           <motion.p
             initial={{ opacity: 0 }}
@@ -164,18 +163,16 @@ const Home = () => {
             CAMERON AND GRANT, NYC 2026
           </motion.p>
           
-          {/* Dark gradient overlay for text visibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
           <motion.div initial={{
-          opacity: 0,
-          y: 40
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.8,
-          delay: 0.2
-        }} className="absolute bottom-8 left-6 md:left-12">
+            opacity: 0,
+            y: 40
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.8,
+            delay: 0.2
+          }} className="absolute bottom-8 left-6 md:left-12">
             <h1 
               className="font-display text-massive transition-colors duration-300"
               style={{ color: isHeroHovered ? '#FFEBF5' : 'white' }}
@@ -185,7 +182,7 @@ const Home = () => {
               DAYS
             </h1>
           </motion.div>
-        </section>
+        </ScrollRevealHero>
 
         {/* Asymmetric section - Text left, stacked images right */}
         <section className="grid md:grid-cols-12 gap-6 pl-4 pr-6 md:pl-6 md:pr-12 py-6 md:py-12 min-h-[80vh] items-center">
