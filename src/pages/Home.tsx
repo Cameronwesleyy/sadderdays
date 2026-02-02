@@ -152,7 +152,22 @@ const Home = () => {
           onMouseEnter={() => setIsHeroHovered(true)}
           onMouseLeave={() => setIsHeroHovered(false)}
         >
-          <img src={heroDuo} alt="Sadder Days" className="absolute inset-0 w-full h-full object-cover object-[center_12%] scale-100" />
+          {/*
+            Show the full image (no cropping) while still filling the viewport:
+            - Back layer: blurred/zoomed cover to avoid any empty/white bars
+            - Front layer: contain to keep the entire photo visible (faces + hands)
+          */}
+          <img
+            src={heroDuo}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover scale-110 blur-xl opacity-70"
+          />
+          <img
+            src={heroDuo}
+            alt="Sadder Days"
+            className="absolute inset-0 h-full w-full object-contain"
+          />
           
           {/* Bottom caption */}
           <motion.p
