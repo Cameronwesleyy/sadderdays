@@ -7,6 +7,7 @@ import { useCart } from "@/context/CartContext";
 import EmailSignupPopup from "@/components/EmailSignupPopup";
 import PixelatedImage from "@/components/PixelatedImage";
 import ScrollRevealHero from "@/components/ScrollRevealHero";
+import ThemeToggle from "@/components/ThemeToggle";
 import crossLogo from "@/assets/cross-logo.png";
 import heroDuo from "@/assets/hero-duo.jpg";
 import duoPortrait from "@/assets/duo-portrait.jpg";
@@ -133,18 +134,21 @@ const Home = () => {
             ))}
           </div>
 
-          {/* Right - Cart button */}
-          <button
-            onClick={() => setIsOpen(true)}
-            className="relative text-white hover:opacity-70 transition-opacity"
-          >
-            <img src={crossLogo} alt="Cart" className="h-10 md:h-[50px] w-auto drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
-            {cartCount > 0 && (
-              <span className="absolute -bottom-1 -right-2 text-[8px] font-medium tracking-widest-custom text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-                {cartCount}
-              </span>
-            )}
-          </button>
+          {/* Right - Theme toggle and Cart button */}
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsOpen(true)}
+              className="relative text-white hover:opacity-70 transition-opacity"
+            >
+              <img src={crossLogo} alt="Cart" className="h-10 md:h-[50px] w-auto drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
+              {cartCount > 0 && (
+                <span className="absolute -bottom-1 -right-2 text-[8px] font-medium tracking-widest-custom text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          </div>
         </motion.nav>
 
         {/* Hero Section - Scroll to reveal full image */}
