@@ -4,6 +4,7 @@ import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import crossLogo from "@/assets/cross-logo.png";
 import yinyangLogo from "@/assets/yinyang-menu-logo.png";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const CornerNavigation = () => {
   const location = useLocation();
@@ -53,17 +54,18 @@ const CornerNavigation = () => {
         </button>
       </motion.div>
 
-      {/* Cart/Bag Button - Fixed top right */}
+      {/* Cart/Bag Button and Theme Toggle - Fixed top right */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="fixed top-4 right-6 z-50"
+        className="fixed top-4 right-6 z-50 flex items-center gap-3"
       >
+        <ThemeToggle />
         <button
           onClick={() => setIsOpen(true)}
           className="relative text-foreground hover:opacity-70 transition-opacity"
         >
-          <img src={crossLogo} alt="Cart" className="h-[60px] w-auto invert" />
+          <img src={crossLogo} alt="Cart" className="h-[60px] w-auto invert dark:invert-0" />
           {cartCount > 0 && (
             <span className="absolute -bottom-1 -right-2 text-[8px] font-medium tracking-widest-custom">
               {cartCount}
