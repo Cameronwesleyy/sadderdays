@@ -148,11 +148,11 @@ const Home = () => {
 
         {/* Hero Section - Full bleed image with overlapping text */}
         <section 
-          className="relative min-h-[110vh] w-screen overflow-hidden"
+          className="relative h-screen w-screen overflow-hidden"
           onMouseEnter={() => setIsHeroHovered(true)}
           onMouseLeave={() => setIsHeroHovered(false)}
         >
-          <img src={heroDuo} alt="Sadder Days" className="absolute inset-0 w-full h-full object-cover object-top" />
+          <img src={heroDuo} alt="Sadder Days" className="absolute inset-0 w-full h-full object-cover" />
           
           {/* Bottom caption */}
           <motion.p
