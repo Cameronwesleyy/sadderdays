@@ -152,7 +152,7 @@ const Home = () => {
           onMouseEnter={() => setIsHeroHovered(true)}
           onMouseLeave={() => setIsHeroHovered(false)}
         >
-          <img src={heroDuo} alt="Sadder Days" className="absolute inset-0 w-full h-full object-cover object-[center_30%] scale-105" />
+          <img src={heroDuo} alt="Sadder Days" className="absolute inset-0 w-full h-full object-cover object-[center_12%] scale-100" />
           
           {/* Bottom caption */}
           <motion.p
