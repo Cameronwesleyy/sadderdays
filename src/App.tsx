@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { CartProvider } from "@/context/CartContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import CornerNavigation from "@/components/CornerNavigation";
 import GrainOverlay from "@/components/GrainOverlay";
 import CartDrawer from "@/components/CartDrawer";
@@ -23,33 +24,35 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <CartProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <GrainOverlay />
-          <CornerNavigation />
-          <CartDrawer />
-          <AnimatePresence mode="wait">
-            <main className="min-h-screen">
-              <Routes>
-                <Route path="/" element={<Enter />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/merch" element={<Merch />} />
-                <Route path="/product/:id" element={<Product />} />
-                <Route path="/music" element={<Music />} />
-                <Route path="/members" element={<Members />} />
-                <Route path="/tour" element={<Tour />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/lab" element={<Lab />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-          </AnimatePresence>
-        </BrowserRouter>
-      </CartProvider>
-    </TooltipProvider>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <TooltipProvider>
+        <CartProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <GrainOverlay />
+            <CornerNavigation />
+            <CartDrawer />
+            <AnimatePresence mode="wait">
+              <main className="min-h-screen">
+                <Routes>
+                  <Route path="/" element={<Enter />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/merch" element={<Merch />} />
+                  <Route path="/product/:id" element={<Product />} />
+                  <Route path="/music" element={<Music />} />
+                  <Route path="/members" element={<Members />} />
+                  <Route path="/tour" element={<Tour />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/lab" element={<Lab />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </AnimatePresence>
+          </BrowserRouter>
+        </CartProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
