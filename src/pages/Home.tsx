@@ -244,7 +244,7 @@ const Home = () => {
             >
               <img 
                 alt="Cameron" 
-                className="w-full aspect-[3/4] object-cover scale-110"
+                className="w-full aspect-[3/4] object-cover scale-[1.15]"
                 src="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" 
               />
             </motion.div>
