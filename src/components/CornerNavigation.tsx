@@ -104,8 +104,13 @@ const CornerNavigation = () => {
             <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
               {/* Close button - centered with navigation */}
               <motion.button
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  delay: 0.15, 
+                  duration: 0.4, 
+                  ease: [0.25, 0.46, 0.45, 0.94] 
+                }}
                 onClick={() => setMenuOpen(false)}
                 className="text-[10px] font-medium tracking-widest-custom text-foreground hover:opacity-70 transition-opacity mb-4"
               >
