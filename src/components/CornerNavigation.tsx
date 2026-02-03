@@ -28,31 +28,33 @@ const CornerNavigation = () => {
 
   return (
     <>
-      {/* Menu Button - Centered at top */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
-      >
-        {/* Pink glow behind button - #FFEBF5 */}
-        <div className="absolute inset-0 -z-10">
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-16 rounded-full blur-[40px]"
-            style={{ backgroundColor: "rgba(255, 235, 245, 0.8)" }}
-          />
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-10 rounded-full blur-[20px]"
-            style={{ backgroundColor: "rgba(255, 235, 245, 1)" }}
-          />
-        </div>
-        
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="text-[10px] font-medium tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
+      {/* Menu Button - Centered at top (only when menu is closed) */}
+      {!menuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
         >
-          {menuOpen ? "CLOSE" : "MENU"}
-        </button>
-      </motion.div>
+          {/* Pink glow behind button - #FFEBF5 */}
+          <div className="absolute inset-0 -z-10">
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-16 rounded-full blur-[40px]"
+              style={{ backgroundColor: "rgba(255, 235, 245, 0.8)" }}
+            />
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-10 rounded-full blur-[20px]"
+              style={{ backgroundColor: "rgba(255, 235, 245, 1)" }}
+            />
+          </div>
+          
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="text-[10px] font-medium tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
+          >
+            MENU
+          </button>
+        </motion.div>
+      )}
 
       {/* Cart/Bag Button and Theme Toggle - Fixed top right */}
       <motion.div
@@ -100,11 +102,21 @@ const CornerNavigation = () => {
             />
 
             <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
+              {/* Close button - centered with navigation */}
+              <motion.button
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                onClick={() => setMenuOpen(false)}
+                className="text-[10px] font-medium tracking-widest-custom text-foreground hover:opacity-70 transition-opacity mb-4"
+              >
+                CLOSE
+              </motion.button>
+
               {/* Logo */}
               <Link 
                 to="/home" 
                 onClick={() => setMenuOpen(false)}
-                className="mb-8 hover:opacity-70 transition-opacity"
+                className="hover:opacity-70 transition-opacity"
               >
                 <img src={yinyangLogo} alt="Sadder Days" className="h-16 md:h-20 w-auto" />
               </Link>
