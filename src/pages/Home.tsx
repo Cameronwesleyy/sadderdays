@@ -197,7 +197,7 @@ const Home = () => {
             viewport={{ once: true }} 
             className="md:col-span-4 flex flex-col justify-between h-full py-4"
           >
-            <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom text-sd-pink drop-shadow-[0_4px_20px_rgba(0,0,0,0.35)] hover:text-foreground transition-colors duration-300 cursor-default">
+            <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom text-sd-pink hover:text-foreground transition-colors duration-300 cursor-default">
               I'VE HAD
               <br />
               SADDER DAYS
@@ -345,7 +345,7 @@ const Home = () => {
           once: true
         }} className="md:col-span-4 md:col-start-8 md:self-end">
             <Link to="/about" className="block">
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-8xl tracking-tighter-custom mb-4 text-sd-pink drop-shadow-[0_4px_20px_rgba(0,0,0,0.35)] hover:text-foreground transition-colors duration-300 text-left">ABOUT SADDER DAYS</h2>
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-8xl tracking-tighter-custom mb-4 text-sd-pink hover:text-foreground transition-colors duration-300 text-left">ABOUT SADDER DAYS</h2>
             </Link>
           </motion.div>
 
