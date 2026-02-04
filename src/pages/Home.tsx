@@ -195,7 +195,7 @@ const Home = () => {
             initial={{ opacity: 0, x: -20 }} 
             whileInView={{ opacity: 1, x: 0 }} 
             viewport={{ once: true }} 
-            className="md:col-span-4 flex flex-col justify-between h-full py-4"
+            className="md:col-span-4 flex flex-col justify-between h-full py-4 relative z-10"
           >
             <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom text-sd-pink hover:text-foreground transition-colors duration-300 cursor-default">
               I'VE HAD
