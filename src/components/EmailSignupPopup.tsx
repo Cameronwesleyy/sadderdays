@@ -113,7 +113,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                 e.stopPropagation();
                 onClose();
               }}
-              className="absolute top-4 right-4 z-20 p-2 text-foreground/70 hover:text-foreground transition-colors pointer-events-auto"
+              className="absolute top-4 right-4 z-20 p-2 text-gray-800/70 hover:text-gray-900 transition-colors pointer-events-auto"
               aria-label="Close"
             >
               <X size={24} />
@@ -132,7 +132,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
 
               {/* Heading */}
               <motion.h2 
-                className="font-display text-3xl md:text-4xl tracking-tight text-foreground mb-2"
+                className="font-display text-3xl md:text-4xl tracking-tight text-gray-900 mb-2"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.3 }}
@@ -140,7 +140,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                 Never miss a moment.
               </motion.h2>
               <motion.p 
-                className="text-foreground/70 text-sm mb-8"
+                className="text-gray-700 text-sm mb-8"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.3 }}
@@ -154,7 +154,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                   placeholder="First name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-shadow"
+                  className="w-full px-5 py-4 bg-white/80 text-gray-900 placeholder:text-gray-500 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-shadow"
                   maxLength={100}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -165,7 +165,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                   placeholder="Last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-shadow"
+                  className="w-full px-5 py-4 bg-white/80 text-gray-900 placeholder:text-gray-500 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-shadow"
                   maxLength={100}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -176,7 +176,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/80 text-foreground placeholder:text-foreground/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-shadow"
+                  className="w-full px-5 py-4 bg-white/80 text-gray-900 placeholder:text-gray-500 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-shadow"
                   maxLength={255}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -185,7 +185,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-foreground text-background font-medium tracking-wider rounded-lg hover:bg-foreground/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-gray-900 text-white font-medium tracking-wider rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.3 }}
@@ -194,7 +194,7 @@ const EmailSignupPopup = ({ isOpen, onClose }: EmailSignupPopupProps) => {
                 </motion.button>
               </form>
 
-              <p className="text-foreground/50 text-xs mt-6 max-w-sm">
+              <p className="text-gray-600 text-xs mt-6 max-w-sm">
                 You are signing up to receive communication via email and can unsubscribe at any time.
               </p>
             </div>
