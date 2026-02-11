@@ -5,7 +5,6 @@ import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 import EmailSignupPopup from "@/components/EmailSignupPopup";
-import PixelatedImage from "@/components/PixelatedImage";
 import ScrollRevealHero from "@/components/ScrollRevealHero";
 import ThemeToggle from "@/components/ThemeToggle";
 import crossLogo from "@/assets/cross-logo.png";
@@ -15,9 +14,9 @@ import grantPortrait from "@/assets/grant-portrait.jpg";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import handsCover from "@/assets/hands-cover.jpg";
 import napkin from "@/assets/napkin.png";
-import apparelMain from "@/assets/apparel-main.jpg";
-import apparel02 from "@/assets/apparel-02.png";
-import apparel03 from "@/assets/apparel-03.png";
+import shopFront from "@/assets/shop-front.jpg";
+import shopBack from "@/assets/shop-back.jpg";
+import shopDetail from "@/assets/shop-detail.jpg";
 import albumHaze from "@/assets/album-haze.jpg";
 import yinYangCover from "@/assets/yin-yang-cover.jpg";
 import galleryGrant1 from "@/assets/gallery-grant-1.jpg";
@@ -274,23 +273,20 @@ const Home = () => {
             viewport={{ once: true }}
             className="flex gap-2 mb-8"
           >
-            <PixelatedImage 
-              src={apparelMain} 
-              alt="Apparel" 
-              className="w-48 md:w-56 aspect-square"
-              pixelSize={8}
+            <img 
+              src={shopFront} 
+              alt="Apparel front" 
+              className="w-48 md:w-56 aspect-square object-cover"
             />
-            <PixelatedImage 
-              src={apparel02} 
-              alt="Apparel" 
-              className="w-48 md:w-56 aspect-square"
-              pixelSize={8}
+            <img 
+              src={shopBack} 
+              alt="Apparel back" 
+              className="w-48 md:w-56 aspect-square object-cover"
             />
-            <PixelatedImage 
-              src={apparel03} 
-              alt="Apparel" 
-              className="w-48 md:w-56 aspect-square"
-              pixelSize={8}
+            <img 
+              src={shopDetail} 
+              alt="Apparel detail" 
+              className="w-48 md:w-56 aspect-square object-cover"
             />
           </motion.div>
 
