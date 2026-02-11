@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2 } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Upload, Home, Image } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -82,11 +82,101 @@ interface MusicRelease {
   sort_order: number;
 }
 
-type Tab = "copy" | "members" | "tour" | "music" | "shopify";
+type Tab = "home" | "copy" | "members" | "tour" | "music" | "shopify";
+
+// ─── Image Drop Zone ─────────────────────────────────────────────
+const ImageDropZone = ({
+  label,
+  currentUrl,
+  contentKey,
+  onUpload,
+}: {
+  label: string;
+  currentUrl: string;
+  contentKey: string;
+  onUpload: (key: string, url: string) => void;
+}) => {
+  const [dragging, setDragging] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const uploadFile = async (file: File) => {
+    setUploading(true);
+    const ext = file.name.split(".").pop();
+    const path = `home/${contentKey}-${Date.now()}.${ext}`;
+    const { error } = await supabase.storage.from("site-images").upload(path, file, { upsert: true });
+    if (error) {
+      toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+      setUploading(false);
+      return;
+    }
+    const { data: urlData } = supabase.storage.from("site-images").getPublicUrl(path);
+    onUpload(contentKey, urlData.publicUrl);
+    setUploading(false);
+  };
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith("image/")) uploadFile(file);
+  }, [contentKey]);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(true);
+  }, []);
+
+  return (
+    <div className="mb-6">
+      <label className="block text-[9px] tracking-widest-custom text-white/50 mb-2">
+        {label.toUpperCase()}
+      </label>
+      <div
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={() => setDragging(false)}
+        onClick={() => inputRef.current?.click()}
+        className={`border-2 border-dashed ${dragging ? "border-white/60 bg-white/10" : "border-white/20"} p-4 cursor-pointer hover:border-white/40 transition-colors flex items-center gap-4`}
+      >
+        {currentUrl ? (
+          <img src={currentUrl} alt={label} className="w-20 h-20 object-cover flex-shrink-0" />
+        ) : (
+          <div className="w-20 h-20 bg-white/5 flex items-center justify-center flex-shrink-0">
+            <Image size={20} className="text-white/20" />
+          </div>
+        )}
+        <div className="flex-1">
+          {uploading ? (
+            <p className="text-xs text-white/60">Uploading...</p>
+          ) : (
+            <>
+              <p className="text-xs text-white/60">
+                <Upload size={12} className="inline mr-1" />
+                Drag & drop or click to upload
+              </p>
+              <p className="text-[10px] text-white/30 mt-1">JPG, PNG, WEBP</p>
+            </>
+          )}
+        </div>
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) uploadFile(file);
+        }}
+      />
+    </div>
+  );
+};
 
 // ─── Main Dashboard ──────────────────────────────────────────────
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<Tab>("copy");
+  const [activeTab, setActiveTab] = useState<Tab>("home");
   const [content, setContent] = useState<Record<string, string>>({});
   const [tourDates, setTourDates] = useState<TourDate[]>([]);
   const [releases, setReleases] = useState<MusicRelease[]>([]);
@@ -128,11 +218,9 @@ const AdminDashboard = () => {
   const saveAll = async () => {
     setSaving(true);
     try {
-      // Save content
       for (const [id, contentVal] of Object.entries(content)) {
         await supabase.from("site_content").upsert({ id, content: contentVal, updated_at: new Date().toISOString() });
       }
-      // Save tour dates
       for (const td of tourDates) {
         if (td.id.startsWith("new-")) {
           const { id: _, ...rest } = td;
@@ -141,7 +229,6 @@ const AdminDashboard = () => {
           await supabase.from("tour_dates").upsert(td);
         }
       }
-      // Save releases
       for (const r of releases) {
         if (r.id.startsWith("new-")) {
           const { id: _, ...rest } = r;
@@ -150,7 +237,6 @@ const AdminDashboard = () => {
           await supabase.from("music_releases").upsert(r);
         }
       }
-      // Save shopify settings
       await supabase.from("admin_settings").upsert({ id: "shopify_store_url", value: shopifyUrl, updated_at: new Date().toISOString() });
       await supabase.from("admin_settings").upsert({ id: "shopify_access_token", value: shopifyToken, updated_at: new Date().toISOString() });
 
@@ -163,6 +249,7 @@ const AdminDashboard = () => {
   };
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    { id: "home", label: "HOME PAGE", icon: <Home size={14} /> },
     { id: "copy", label: "ABOUT / COPY", icon: <FileText size={14} /> },
     { id: "members", label: "MEMBERS", icon: <Users size={14} /> },
     { id: "tour", label: "TOUR DATES", icon: <MapPin size={14} /> },
@@ -209,6 +296,37 @@ const AdminDashboard = () => {
         {/* Content */}
         <div className="flex-1 p-8 max-w-4xl overflow-y-auto">
           <AnimatePresence mode="wait">
+            {activeTab === "home" && (
+              <TabPanel key="home">
+                <SectionTitle>Home Page Copy</SectionTitle>
+                <Field label="Hero Caption" value={content.home_hero_caption || ""} onChange={(v) => updateContent("home_hero_caption", v)} placeholder="CAMERON AND GRANT, NYC 2026" />
+                <Field label="Section Title" value={content.home_section_title || ""} onChange={(v) => updateContent("home_section_title", v)} placeholder="I'VE HAD SADDER DAYS" />
+                <Field label="Section Copy" value={content.home_section_copy || ""} onChange={(v) => updateContent("home_section_copy", v)} />
+                <Field label="Shop Launch Date" value={content.home_shop_date || ""} onChange={(v) => updateContent("home_shop_date", v)} placeholder="FEB 2026" />
+                <Field label="Shop Description" value={content.home_shop_copy || ""} onChange={(v) => updateContent("home_shop_copy", v)} />
+                <Field label="Gallery Subtitle" value={content.home_gallery_subtitle || ""} onChange={(v) => updateContent("home_gallery_subtitle", v)} placeholder="NYC, 2024-2025" />
+
+                <SectionTitle className="mt-12">Home Page Images</SectionTitle>
+                <p className="text-white/40 text-xs mb-6">Drag & drop images to replace them. Leave empty to use defaults.</p>
+
+                <ImageDropZone label="Hero Image" currentUrl={content.home_hero_image || ""} contentKey="home_hero_image" onUpload={updateContent} />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <ImageDropZone label="Portrait Left" currentUrl={content.home_portrait_left || ""} contentKey="home_portrait_left" onUpload={updateContent} />
+                  <ImageDropZone label="Portrait Right" currentUrl={content.home_portrait_right || ""} contentKey="home_portrait_right" onUpload={updateContent} />
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <ImageDropZone label="Shop Image 1" currentUrl={content.home_shop_image_1 || ""} contentKey="home_shop_image_1" onUpload={updateContent} />
+                  <ImageDropZone label="Shop Image 2" currentUrl={content.home_shop_image_2 || ""} contentKey="home_shop_image_2" onUpload={updateContent} />
+                  <ImageDropZone label="Shop Image 3" currentUrl={content.home_shop_image_3 || ""} contentKey="home_shop_image_3" onUpload={updateContent} />
+                </div>
+
+                <ImageDropZone label="Napkin / About Image" currentUrl={content.home_napkin_image || ""} contentKey="home_napkin_image" onUpload={updateContent} />
+                <ImageDropZone label="Tour Section Image" currentUrl={content.home_tour_image || ""} contentKey="home_tour_image" onUpload={updateContent} />
+              </TabPanel>
+            )}
+
             {activeTab === "copy" && (
               <TabPanel key="copy">
                 <SectionTitle>About Page Copy</SectionTitle>
@@ -419,18 +537,8 @@ const AdminDashboard = () => {
                     <span className="text-[10px] tracking-widest-custom text-white/60">STORE CONNECTION</span>
                   </div>
 
-                  <Field
-                    label="Shopify Store URL"
-                    value={shopifyUrl}
-                    onChange={setShopifyUrl}
-                    placeholder="yourstore.myshopify.com"
-                  />
-                  <Field
-                    label="Storefront Access Token"
-                    value={shopifyToken}
-                    onChange={setShopifyToken}
-                    placeholder="shpat_xxxxxxxxxxxxx"
-                  />
+                  <Field label="Shopify Store URL" value={shopifyUrl} onChange={setShopifyUrl} placeholder="yourstore.myshopify.com" />
+                  <Field label="Storefront Access Token" value={shopifyToken} onChange={setShopifyToken} placeholder="shpat_xxxxxxxxxxxxx" />
 
                   <div className="p-4 bg-white/5 border border-white/10">
                     <p className="text-[10px] tracking-widest-custom text-white/50 mb-3">HOW TO GET YOUR TOKEN</p>
