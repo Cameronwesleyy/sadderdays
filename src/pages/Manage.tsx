@@ -153,6 +153,7 @@ const AdminDashboard = () => {
   const [shopifyUrl, setShopifyUrl] = useState("");
   const [shopifyToken, setShopifyToken] = useState("");
   const [shopLive, setShopLive] = useState(false);
+  const [tourLive, setTourLive] = useState(false);
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [saving, setSaving] = useState(false);
 
@@ -180,6 +181,7 @@ const AdminDashboard = () => {
         if (s.id === "shopify_store_url") setShopifyUrl(s.value);
         if (s.id === "shopify_access_token") setShopifyToken(s.value);
         if (s.id === "shop_live") setShopLive(s.value === "true");
+        if (s.id === "tour_live") setTourLive(s.value === "true");
       });
     }
     if (contentRes.data) {
@@ -228,6 +230,7 @@ const AdminDashboard = () => {
       await supabase.from("admin_settings").upsert({ id: "shopify_store_url", value: shopifyUrl, updated_at: new Date().toISOString() });
       await supabase.from("admin_settings").upsert({ id: "shopify_access_token", value: shopifyToken, updated_at: new Date().toISOString() });
       await supabase.from("admin_settings").upsert({ id: "shop_live", value: shopLive ? "true" : "false", updated_at: new Date().toISOString() });
+      await supabase.from("admin_settings").upsert({ id: "tour_live", value: tourLive ? "true" : "false", updated_at: new Date().toISOString() });
       if (quizQuestions.length > 0) {
         await supabase.from("site_content").upsert({ id: "lab_quiz_questions", content: JSON.stringify(quizQuestions), updated_at: new Date().toISOString() });
       }
@@ -408,6 +411,21 @@ const AdminDashboard = () => {
 
             {activeTab === "tour" && (
               <TabPanel key="tour">
+                {/* Tour Coming Soon Toggle */}
+                <div className="p-4 border border-white/10 mb-8 flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-white/80 mb-1">Tour is {tourLive ? "LIVE" : "COMING SOON"}</p>
+                    <p className="text-[10px] text-white/40">When off, the tour page shows "Coming Soon" and dates are blurred on the home page.</p>
+                  </div>
+                  <button
+                    onClick={() => setTourLive(!tourLive)}
+                    className={`flex items-center gap-2 px-4 py-2 text-[10px] tracking-widest-custom border transition-colors ${tourLive ? "border-green-400/40 text-green-400 bg-green-400/10" : "border-white/20 text-white/60 hover:bg-white/10"}`}
+                  >
+                    <Power size={12} />
+                    {tourLive ? "LIVE" : "OFF"}
+                  </button>
+                </div>
+
                 <div className="flex items-center justify-between mb-6">
                   <SectionTitle className="mb-0">Tour Dates</SectionTitle>
                   <button
