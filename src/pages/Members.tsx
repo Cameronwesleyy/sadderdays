@@ -196,29 +196,29 @@ const MemberCard = ({
 
       {/* Stats Grid */}
       <div className="px-6">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-white/20 text-xs">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-foreground/20 text-xs">
           <div>
-            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">FAVORITE COLOR</p>
-            <p className="font-medium text-white">{member.favoriteColor}</p>
+            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">FAVORITE COLOR</p>
+            <p className="font-medium text-foreground">{member.favoriteColor}</p>
           </div>
           <div>
-            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">PERSONALITY</p>
-            <p className="font-medium text-white">{member.personality}</p>
+            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">PERSONALITY</p>
+            <p className="font-medium text-foreground">{member.personality}</p>
           </div>
           <div>
-            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">BIRTHDAY</p>
-            <p className="font-medium text-white">{member.birthday}</p>
+            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">BIRTHDAY</p>
+            <p className="font-medium text-foreground">{member.birthday}</p>
           </div>
           <div>
-            <p className="text-[9px] tracking-widest text-white/50 mb-0.5">SIGNS</p>
-            <p className="font-medium text-white">{member.sun} · {member.moon} · {member.rising}</p>
+            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">SIGNS</p>
+            <p className="font-medium text-foreground">{member.sun} · {member.moon} · {member.rising}</p>
           </div>
         </div>
       </div>
 
       {/* Bio */}
       <div className="px-6 py-4 flex-1">
-        <p className="text-white/70 text-xs leading-relaxed">{bio}</p>
+        <p className="text-foreground/70 text-xs leading-relaxed">{bio}</p>
       </div>
 
       {/* Links */}
@@ -231,7 +231,7 @@ const MemberCard = ({
                 href={link.href}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-3 py-1.5 text-[10px] tracking-wider border border-white/30 text-white hover:border-white/60 hover:bg-white/10 transition-all flex items-center gap-1.5"
+                className="px-3 py-1.5 text-[10px] tracking-wider border border-foreground/30 text-foreground hover:border-foreground/60 hover:bg-foreground/10 transition-all flex items-center gap-1.5"
               >
                 {link.name}
                 <ExternalLink size={10} />
@@ -252,7 +252,7 @@ const MemberCard = ({
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2 border border-white/20 text-white hover:border-white/50 hover:bg-white/10 transition-all"
+              className="p-2 border border-foreground/20 text-foreground hover:border-foreground/50 hover:bg-foreground/10 transition-all"
               aria-label={social.name}
             >
               <SocialIcon name={social.name} />
@@ -262,12 +262,12 @@ const MemberCard = ({
       </div>
 
       {/* Role Label */}
-      <div className="px-6 py-4 border-t border-white/10">
-        <p className="text-[10px] tracking-widest text-white/60 text-center">{member.role}</p>
+      <div className="px-6 py-4 border-t border-foreground/10">
+        <p className="text-[10px] tracking-widest text-foreground/60 text-center">{member.role}</p>
       </div>
 
       {/* Eyes Close-up Image */}
-      <div className="relative h-28 overflow-hidden bg-black">
+      <div className="relative h-28 overflow-hidden bg-background">
         <img
           src={eyesImage}
           alt={`${member.name}`}
@@ -278,7 +278,7 @@ const MemberCard = ({
       </div>
 
       {/* Film Strip - BOTTOM */}
-      <div className="bg-black py-2 px-1">
+      <div className="bg-background py-2 px-1">
         <div className="flex gap-1 overflow-x-auto scrollbar-hide">
           {cycleImages.map((img, i) => (
             <img 
@@ -342,11 +342,7 @@ const Members = () => {
   return (
     <PageTransition>
       <div 
-        className="min-h-screen flex flex-col items-center px-4 py-8 relative"
-        style={{
-          backgroundColor: '#1a1a1a',
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E")`,
-        }}
+        className="min-h-screen flex flex-col items-center px-4 py-8 relative bg-background"
         onMouseMove={handleMouseMove}
       >
         {/* Pink glow following mouse */}
