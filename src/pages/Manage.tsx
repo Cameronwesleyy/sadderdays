@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power, GripVertical } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import ImageDropZone from "@/components/admin/ImageDropZone";
@@ -482,9 +482,28 @@ const AdminDashboard = () => {
                     <Plus size={12} /> ADD SHOW
                   </button>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {tourDates.map((td, i) => (
-                    <div key={td.id} className="p-4 border border-white/10 space-y-3">
+                    <div
+                      key={td.id}
+                      draggable
+                      onDragStart={(e) => { e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/drag-tour", String(i)); }}
+                      onDragOver={(e) => { e.preventDefault(); }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const from = Number(e.dataTransfer.getData("text/drag-tour"));
+                        if (isNaN(from) || from === i) return;
+                        const reordered = [...tourDates];
+                        const [moved] = reordered.splice(from, 1);
+                        reordered.splice(i, 0, moved);
+                        setTourDates(reordered.map((t, idx) => ({ ...t, sort_order: idx })));
+                      }}
+                      className="p-4 border border-white/10 space-y-3 cursor-grab active:cursor-grabbing hover:border-white/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <GripVertical size={14} className="text-white/30" />
+                        <span className="text-[9px] tracking-widest-custom text-white/40">#{i + 1}</span>
+                      </div>
                       <div className="grid grid-cols-3 gap-3">
                         <Field label="Date" value={td.date} onChange={(v) => {
                           const updated = [...tourDates];
@@ -568,9 +587,28 @@ const AdminDashboard = () => {
                     <Plus size={12} /> ADD RELEASE
                   </button>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {releases.map((r, i) => (
-                    <div key={r.id} className="p-4 border border-white/10 space-y-3">
+                    <div
+                      key={r.id}
+                      draggable
+                      onDragStart={(e) => { e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/drag-music", String(i)); }}
+                      onDragOver={(e) => { e.preventDefault(); }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const from = Number(e.dataTransfer.getData("text/drag-music"));
+                        if (isNaN(from) || from === i) return;
+                        const reordered = [...releases];
+                        const [moved] = reordered.splice(from, 1);
+                        reordered.splice(i, 0, moved);
+                        setReleases(reordered.map((rel, idx) => ({ ...rel, sort_order: idx })));
+                      }}
+                      className="p-4 border border-white/10 space-y-3 cursor-grab active:cursor-grabbing hover:border-white/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <GripVertical size={14} className="text-white/30" />
+                        <span className="text-[9px] tracking-widest-custom text-white/40">#{i + 1}</span>
+                      </div>
                       <div className="grid grid-cols-3 gap-3">
                         <Field label="Title" value={r.title} onChange={(v) => {
                           const updated = [...releases];
@@ -921,10 +959,15 @@ const SinglePinkSlider = ({
             background: `linear-gradient(to right, ${hslToHex(318, 52, 50)}, ${hslToHex(318, 68, 95)})`,
           }}
         />
-        <div
-          className="w-8 h-8 rounded border border-white/20 flex-shrink-0"
-          style={{ backgroundColor: value }}
-        />
+        <label className="relative w-8 h-8 rounded border border-white/20 flex-shrink-0 cursor-pointer overflow-hidden">
+          <div className="w-full h-full" style={{ backgroundColor: value }} />
+          <input
+            type="color"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+          />
+        </label>
         <input
           type="text"
           value={hexInput}
