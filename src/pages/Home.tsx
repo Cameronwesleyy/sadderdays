@@ -65,6 +65,7 @@ const Home = () => {
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const [cms, setCms] = useState<Record<string, string>>({});
   const [shopLive, setShopLive] = useState(false);
+  const [tourLive, setTourLive] = useState(false);
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("hasSeenEmailPopup");
@@ -80,14 +81,19 @@ const Home = () => {
   useEffect(() => {
     Promise.all([
       supabase.from("site_content").select("*"),
-      supabase.from("admin_settings").select("*").eq("id", "shop_live").single(),
-    ]).then(([contentRes, shopRes]) => {
+      supabase.from("admin_settings").select("*").in("id", ["shop_live", "tour_live"]),
+    ]).then(([contentRes, settingsRes]) => {
       if (contentRes.data) {
         const map: Record<string, string> = {};
         contentRes.data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
         setCms(map);
       }
-      if (shopRes.data?.value === "true") setShopLive(true);
+      if (settingsRes.data) {
+        settingsRes.data.forEach((s: { id: string; value: string }) => {
+          if (s.id === "shop_live") setShopLive(s.value === "true");
+          if (s.id === "tour_live") setTourLive(s.value === "true");
+        });
+      }
     });
   }, []);
 
@@ -379,9 +385,16 @@ const Home = () => {
                 <br />
                 shows
               </h2>
-              <Link to="/tour" className="text-[10px] tracking-widest-custom editorial-link">
-                VIEW TOUR DATES
-              </Link>
+              {tourLive ? (
+                <Link to="/tour" className="text-[10px] tracking-widest-custom editorial-link">
+                  VIEW TOUR DATES
+                </Link>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
+                  <span className="text-[10px] tracking-widest-custom text-muted-foreground">COMING SOON</span>
+                </div>
+              )}
             </motion.div>
           </div>
 
@@ -390,7 +403,7 @@ const Home = () => {
               <img src={tourImg} alt="Tour" className="max-w-2xl w-full aspect-[16/9] object-cover object-center" />
             </motion.div>
 
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="space-y-2 flex-shrink-0 text-right">
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className={`space-y-2 flex-shrink-0 text-right ${!tourLive ? "blur-sm select-none" : ""}`}>
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">01 — NEW YORK</p>
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">02 — LOS ANGELES</p>
               <p className="text-[10px] tracking-widest-custom text-muted-foreground">03 — LONDON</p>

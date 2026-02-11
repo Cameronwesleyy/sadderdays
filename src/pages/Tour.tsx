@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 
 const tourDates = [
   { date: "MAR 15", city: "NEW YORK", venue: "Terminal 5", status: "available" },
@@ -12,6 +14,42 @@ const tourDates = [
 ];
 
 const Tour = () => {
+  const [tourLive, setTourLive] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    supabase.from("admin_settings").select("*").eq("id", "tour_live").single().then(({ data }) => {
+      setTourLive(data?.value === "true");
+    });
+  }, []);
+
+  if (tourLive === null) return null;
+
+  if (!tourLive) {
+    return (
+      <PageTransition>
+        <div className="min-h-screen flex flex-col items-center justify-center px-6">
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-massive font-display tracking-tighter-custom mb-8"
+          >
+            TOUR
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center gap-3"
+          >
+            <span className="inline-block w-2 h-2 rounded-full bg-sd-pink animate-pulse" />
+            <span className="text-sm tracking-widest-custom text-muted-foreground">COMING SOON</span>
+          </motion.div>
+        </div>
+        <Footer />
+      </PageTransition>
+    );
+  }
+
   return (
     <PageTransition>
       <div className="min-h-screen px-6 py-24">
@@ -40,7 +78,6 @@ const Tour = () => {
                 transition={{ delay: 0.1 + index * 0.05 }}
                 className="brutalist-row group hover:bg-muted/30 transition-colors px-2"
               >
-                {/* Date - Bold */}
                 <div className="flex items-baseline gap-8">
                   <span className="text-2xl md:text-4xl font-display tracking-tighter-custom">
                     {show.date}
@@ -50,7 +87,6 @@ const Tour = () => {
                   </span>
                 </div>
 
-                {/* City - Tiny */}
                 <div className="flex items-center gap-4">
                   <span className="text-[10px] tracking-widest-custom text-muted-foreground">
                     {show.city}
@@ -76,7 +112,6 @@ const Tour = () => {
             ))}
           </motion.div>
 
-          {/* Footer note */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
