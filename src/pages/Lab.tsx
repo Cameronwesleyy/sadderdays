@@ -4,6 +4,7 @@ import { Download, ArrowRight } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
 import CoinFlipGame from "@/components/CoinFlipGame";
+import { supabase } from "@/integrations/supabase/client";
 import yinYangLogo from "@/assets/yin-yang-logo.png";
 
 const Lab = () => {
@@ -175,7 +176,7 @@ const YinYangGenerator = () => {
   );
 };
 
-const quizQuestions = [
+const defaultQuizQuestions = [
   {
     question: "When you close your eyes, do you see...",
     options: [
@@ -214,9 +215,21 @@ const quizQuestions = [
 ];
 
 const QuizSection = () => {
+  const [quizQuestions, setQuizQuestions] = useState(defaultQuizQuestions);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<"yin" | "yang" | null>(null);
+
+  useEffect(() => {
+    supabase.from("site_content").select("content").eq("id", "lab_quiz_questions").single().then(({ data }) => {
+      if (data?.content) {
+        try {
+          const parsed = JSON.parse(data.content);
+          if (parsed.length > 0) setQuizQuestions(parsed);
+        } catch { /* use defaults */ }
+      }
+    });
+  }, []);
 
   const handleAnswer = (side: string) => {
     const newAnswers = [...answers, side];

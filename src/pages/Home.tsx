@@ -64,6 +64,7 @@ const Home = () => {
   const { items, setIsOpen } = useCart();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const [cms, setCms] = useState<Record<string, string>>({});
+  const [shopLive, setShopLive] = useState(false);
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("hasSeenEmailPopup");
@@ -77,12 +78,16 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    supabase.from("site_content").select("*").then(({ data }) => {
-      if (data) {
+    Promise.all([
+      supabase.from("site_content").select("*"),
+      supabase.from("admin_settings").select("*").eq("id", "shop_live").single(),
+    ]).then(([contentRes, shopRes]) => {
+      if (contentRes.data) {
         const map: Record<string, string> = {};
-        data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
+        contentRes.data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
         setCms(map);
       }
+      if (shopRes.data?.value === "true") setShopLive(true);
     });
   }, []);
 
@@ -112,20 +117,26 @@ const Home = () => {
           className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
         >
           <div className="flex items-center gap-4 md:gap-6">
-            <div className="relative group">
-              <span className="text-[9px] md:text-[10px] tracking-widest-custom text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] line-through decoration-1">
+            {shopLive ? (
+              <Link to="/merch" className="text-[9px] md:text-[10px] tracking-widest-custom text-white/80 hover:text-white transition-colors drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
                 SHOP
-              </span>
-              <motion.span 
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.4 }}
-                className="absolute left-0 top-full text-[7px] md:text-[8px] tracking-widest-custom whitespace-nowrap"
-                style={{ color: "#FFEBF5" }}
-              >
-                {shopDate}
-              </motion.span>
-            </div>
+              </Link>
+            ) : (
+              <div className="relative group">
+                <span className="text-[9px] md:text-[10px] tracking-widest-custom text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] line-through decoration-1">
+                  SHOP
+                </span>
+                <motion.span 
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, duration: 0.4 }}
+                  className="absolute left-0 top-full text-[7px] md:text-[8px] tracking-widest-custom whitespace-nowrap"
+                  style={{ color: "#FFEBF5" }}
+                >
+                  {shopDate}
+                </motion.span>
+              </div>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -273,18 +284,24 @@ const Home = () => {
           >
             <div className="text-left">
               <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-4">SHOP SADDER DAYS</h2>
-              <div className="flex items-center gap-6">
-                <span className="inline-flex items-center gap-2 text-xs font-medium tracking-widest-custom text-foreground">
-                  COMING SOON
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
-                </span>
-                <button 
-                  onClick={() => setShowEmailPopup(true)}
-                  className="text-xs font-medium tracking-widest-custom text-sd-pink hover:text-foreground transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]"
-                >
-                  NOTIFY ME →
-                </button>
-              </div>
+              {shopLive ? (
+                <Link to="/merch" className="text-xs font-medium tracking-widest-custom text-sd-pink hover:text-foreground transition-colors">
+                  SHOP NOW →
+                </Link>
+              ) : (
+                <div className="flex items-center gap-6">
+                  <span className="inline-flex items-center gap-2 text-xs font-medium tracking-widest-custom text-foreground">
+                    COMING SOON
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
+                  </span>
+                  <button 
+                    onClick={() => setShowEmailPopup(true)}
+                    className="text-xs font-medium tracking-widest-custom text-sd-pink hover:text-foreground transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]"
+                  >
+                    NOTIFY ME →
+                  </button>
+                </div>
+              )}
             </div>
 
             <p className="text-xs tracking-widest-custom text-foreground uppercase leading-relaxed max-w-xs md:text-right">

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Upload, Home, Image } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Upload, Home, Image, FlaskConical, Power } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -82,7 +82,12 @@ interface MusicRelease {
   sort_order: number;
 }
 
-type Tab = "home" | "copy" | "members" | "tour" | "music" | "shopify";
+type Tab = "home" | "copy" | "members" | "tour" | "music" | "lab" | "shopify";
+
+interface QuizQuestion {
+  question: string;
+  options: { text: string; side: "yin" | "yang" }[];
+}
 
 // ─── Image Drop Zone ─────────────────────────────────────────────
 const ImageDropZone = ({
@@ -182,6 +187,8 @@ const AdminDashboard = () => {
   const [releases, setReleases] = useState<MusicRelease[]>([]);
   const [shopifyUrl, setShopifyUrl] = useState("");
   const [shopifyToken, setShopifyToken] = useState("");
+  const [shopLive, setShopLive] = useState(false);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -207,7 +214,14 @@ const AdminDashboard = () => {
       settingsRes.data.forEach((s: { id: string; value: string }) => {
         if (s.id === "shopify_store_url") setShopifyUrl(s.value);
         if (s.id === "shopify_access_token") setShopifyToken(s.value);
+        if (s.id === "shop_live") setShopLive(s.value === "true");
       });
+    }
+    if (contentRes.data) {
+      const qEntry = contentRes.data.find((r: { id: string }) => r.id === "lab_quiz_questions");
+      if (qEntry) {
+        try { setQuizQuestions(JSON.parse(qEntry.content)); } catch { /* ignore */ }
+      }
     }
   };
 
@@ -239,6 +253,10 @@ const AdminDashboard = () => {
       }
       await supabase.from("admin_settings").upsert({ id: "shopify_store_url", value: shopifyUrl, updated_at: new Date().toISOString() });
       await supabase.from("admin_settings").upsert({ id: "shopify_access_token", value: shopifyToken, updated_at: new Date().toISOString() });
+      await supabase.from("admin_settings").upsert({ id: "shop_live", value: shopLive ? "true" : "false", updated_at: new Date().toISOString() });
+      if (quizQuestions.length > 0) {
+        await supabase.from("site_content").upsert({ id: "lab_quiz_questions", content: JSON.stringify(quizQuestions), updated_at: new Date().toISOString() });
+      }
 
       toast({ title: "Changes saved", description: "Your updates are now live on the site." });
       await loadData();
@@ -254,6 +272,7 @@ const AdminDashboard = () => {
     { id: "members", label: "MEMBERS", icon: <Users size={14} /> },
     { id: "tour", label: "TOUR DATES", icon: <MapPin size={14} /> },
     { id: "music", label: "MUSIC", icon: <Music size={14} /> },
+    { id: "lab", label: "LAB", icon: <FlaskConical size={14} /> },
     { id: "shopify", label: "SHOPIFY", icon: <ShoppingBag size={14} /> },
   ];
 
@@ -524,8 +543,68 @@ const AdminDashboard = () => {
               </TabPanel>
             )}
 
+            {activeTab === "lab" && (
+              <TabPanel key="lab">
+                <SectionTitle>Yin or Yang Quiz</SectionTitle>
+                <p className="text-white/40 text-xs mb-6">Edit the quiz questions shown on the Lab page. Each question has two options — one for Yin, one for Yang.</p>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] tracking-widest-custom text-white/60">{quizQuestions.length} QUESTIONS</span>
+                  <button
+                    onClick={() => setQuizQuestions([...quizQuestions, { question: "", options: [{ text: "", side: "yin" }, { text: "", side: "yang" }] }])}
+                    className="flex items-center gap-2 px-3 py-2 text-[10px] tracking-widest-custom border border-white/20 hover:bg-white/10 transition-colors"
+                  >
+                    <Plus size={12} /> ADD QUESTION
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  {quizQuestions.map((q, i) => (
+                    <div key={i} className="p-4 border border-white/10 space-y-3">
+                      <Field label={`Question ${i + 1}`} value={q.question} onChange={(v) => {
+                        const updated = [...quizQuestions];
+                        updated[i] = { ...updated[i], question: v };
+                        setQuizQuestions(updated);
+                      }} placeholder="When you close your eyes, do you see..." />
+                      <div className="grid grid-cols-2 gap-3">
+                        <Field label="Yin Option" value={q.options[0]?.text || ""} onChange={(v) => {
+                          const updated = [...quizQuestions];
+                          updated[i] = { ...updated[i], options: [{ text: v, side: "yin" }, updated[i].options[1]] };
+                          setQuizQuestions(updated);
+                        }} placeholder="Light fading into softness" />
+                        <Field label="Yang Option" value={q.options[1]?.text || ""} onChange={(v) => {
+                          const updated = [...quizQuestions];
+                          updated[i] = { ...updated[i], options: [updated[i].options[0], { text: v, side: "yang" }] };
+                          setQuizQuestions(updated);
+                        }} placeholder="Deep shadows with hidden depths" />
+                      </div>
+                      <button
+                        onClick={() => setQuizQuestions(quizQuestions.filter((_, j) => j !== i))}
+                        className="flex items-center gap-2 px-3 py-2 text-[10px] tracking-widest-custom text-red-400 border border-red-400/30 hover:bg-red-400/10 transition-colors"
+                      >
+                        <Trash2 size={12} /> REMOVE
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </TabPanel>
+            )}
+
             {activeTab === "shopify" && (
               <TabPanel key="shopify">
+                <SectionTitle>Shop Status</SectionTitle>
+                <div className="p-4 border border-white/10 mb-8 flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-white/80 mb-1">Shop is {shopLive ? "LIVE" : "COMING SOON"}</p>
+                    <p className="text-[10px] text-white/40">When live, the "Coming Soon" label and strike-through are removed from the nav.</p>
+                  </div>
+                  <button
+                    onClick={() => setShopLive(!shopLive)}
+                    className={`flex items-center gap-2 px-4 py-2 text-[10px] tracking-widest-custom border transition-colors ${shopLive ? "border-green-400/40 text-green-400 bg-green-400/10" : "border-white/20 text-white/60 hover:bg-white/10"}`}
+                  >
+                    <Power size={12} />
+                    {shopLive ? "LIVE" : "OFF"}
+                  </button>
+                </div>
+
                 <SectionTitle>Connect Your Shopify Store</SectionTitle>
                 <p className="text-white/50 text-xs leading-relaxed mb-8">
                   Connect your existing Shopify store to power the shop page. Products, inventory, and checkout will all be handled through Shopify.

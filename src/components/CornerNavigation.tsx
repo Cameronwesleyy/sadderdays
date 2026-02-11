@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import crossLogo from "@/assets/cross-logo.png";
 import yinyangLogo from "@/assets/yinyang-menu-logo.png";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -11,6 +12,13 @@ const CornerNavigation = () => {
   const { items, setIsOpen } = useCart();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [shopLive, setShopLive] = useState(false);
+
+  useEffect(() => {
+    supabase.from("admin_settings").select("value").eq("id", "shop_live").single().then(({ data }) => {
+      if (data?.value === "true") setShopLive(true);
+    });
+  }, []);
 
   // Hide on Enter page and Home page
   if (location.pathname === "/" || location.pathname === "/home") {
@@ -135,7 +143,7 @@ const CornerNavigation = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    {link.name === "SHOP" ? (
+                    {link.name === "SHOP" && !shopLive ? (
                       <div className="relative text-center group cursor-pointer">
                         <span className="text-2xl md:text-4xl font-display tracking-tighter-custom text-foreground/70 line-through decoration-2 group-hover:hidden">
                           SHOP
@@ -157,6 +165,14 @@ const CornerNavigation = () => {
                           FEB 2026
                         </motion.span>
                       </div>
+                    ) : link.name === "SHOP" && shopLive ? (
+                      <Link
+                        to={link.path}
+                        onClick={() => setMenuOpen(false)}
+                        className="text-2xl md:text-4xl font-display tracking-tighter-custom text-foreground/70 hover:text-foreground transition-all duration-200 hover:scale-105"
+                      >
+                        SHOP
+                      </Link>
                     ) : (
                       <Link
                         to={link.path}
