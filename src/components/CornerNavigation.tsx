@@ -41,26 +41,28 @@ const CornerNavigation = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
+          className="fixed top-6 left-0 right-0 z-50 flex justify-center pointer-events-none"
         >
           {/* Pink glow behind button - #FFEBF5 */}
-          <div className="absolute inset-0 -z-10">
-            <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-16 rounded-full blur-[40px]"
-              style={{ backgroundColor: "rgba(255, 235, 245, 0.8)" }}
-            />
-            <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-10 rounded-full blur-[20px]"
-              style={{ backgroundColor: "rgba(255, 235, 245, 1)" }}
-            />
+          <div className="relative pointer-events-auto">
+            <div className="absolute inset-0 -z-10">
+              <div 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-16 rounded-full blur-[40px]"
+                style={{ backgroundColor: "rgba(255, 235, 245, 0.8)" }}
+              />
+              <div 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-10 rounded-full blur-[20px]"
+                style={{ backgroundColor: "rgba(255, 235, 245, 1)" }}
+              />
+            </div>
+            
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="text-[10px] font-semibold tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
+            >
+              MENU
+            </button>
           </div>
-          
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="text-[10px] font-semibold tracking-widest-custom text-foreground drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] hover:opacity-70 transition-opacity"
-          >
-            MENU
-          </button>
         </motion.div>
       )}
 
@@ -109,21 +111,26 @@ const CornerNavigation = () => {
               style={{ backgroundColor: "#FFEBF5" }}
             />
 
-            <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
-              {/* Close button - centered with navigation */}
-              <motion.button
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  delay: 0.15, 
-                  duration: 0.4, 
-                  ease: [0.25, 0.46, 0.45, 0.94] 
-                }}
+            {/* Close button - fixed at same position as MENU */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                delay: 0.15, 
+                duration: 0.4, 
+                ease: [0.25, 0.46, 0.45, 0.94] 
+              }}
+              className="fixed top-6 left-0 right-0 z-50 flex justify-center"
+            >
+              <button
                 onClick={() => setMenuOpen(false)}
-                className="text-[10px] font-semibold tracking-widest-custom text-foreground hover:opacity-70 transition-opacity mb-4"
+                className="text-[10px] font-semibold tracking-widest-custom text-foreground hover:opacity-70 transition-opacity"
               >
                 CLOSE
-              </motion.button>
+              </button>
+            </motion.div>
+
+            <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
 
               {/* Logo */}
               <Link 
