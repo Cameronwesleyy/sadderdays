@@ -200,7 +200,7 @@ const Home = () => {
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="absolute bottom-8 left-6 md:left-12">
             <h1 
               className="font-display text-massive transition-colors duration-300"
-              style={{ color: isHeroHovered ? '#FFEBF5' : '#e8a0cc' }}
+              style={{ color: isHeroHovered ? '#e8a0cc' : '#FFEBF5' }}
             >
               SADDER
               <br />
