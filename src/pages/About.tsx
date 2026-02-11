@@ -48,8 +48,9 @@ const About = () => {
     return () => clearInterval(interval);
   }, [rotateSource]);
 
-  const heroImg = cms.about_hero_image || aboutHero;
-  const handsImg = cms.about_hands_image || handsCover;
+  const cmsImg = (key: string, fallback: string) => { const v = cms[key]; return v && v !== "__removed__" ? v : fallback; };
+  const heroImg = cmsImg("about_hero_image", aboutHero);
+  const handsImg = cmsImg("about_hands_image", handsCover);
   const location = cms.about_location || "HOUSTON, TX";
   const bio1 = cms.about_bio || "Sadder Days combines influences from RnB, Jazz, and Classical music to create a unique metal experience that blends sensual grooves, elegant rhythms, and nocturnal soundscapes.";
   const bio2 = cms.about_bio_2 || "Members Grant and Cameron have been friends since elementary school, taking up their respective instruments in Summer 2020.";

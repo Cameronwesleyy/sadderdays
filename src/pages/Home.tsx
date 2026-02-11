@@ -91,15 +91,19 @@ const Home = () => {
     });
   }, []);
 
-  // Use CMS values with fallbacks to defaults
-  const heroImage = cms.home_hero_image || heroDuo;
-  const portraitLeft = cms.home_portrait_left || "/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg";
-  const portraitRight = cms.home_portrait_right || "/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg";
-  const shopImg1 = cms.home_shop_image_1 || shopFront;
-  const shopImg2 = cms.home_shop_image_2 || shopBack;
-  const shopImg3 = cms.home_shop_image_3 || shopDetail;
-  const napkinImg = cms.home_napkin_image || napkin;
-  const tourImg = cms.home_tour_image || tourDuo;
+  // Use CMS values with fallbacks to defaults (ignore "__removed__" sentinel)
+  const cmsImg = (key: string, fallback: string) => {
+    const v = cms[key];
+    return v && v !== "__removed__" ? v : fallback;
+  };
+  const heroImage = cmsImg("home_hero_image", heroDuo);
+  const portraitLeft = cmsImg("home_portrait_left", "/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg");
+  const portraitRight = cmsImg("home_portrait_right", "/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg");
+  const shopImg1 = cmsImg("home_shop_image_1", shopFront);
+  const shopImg2 = cmsImg("home_shop_image_2", shopBack);
+  const shopImg3 = cmsImg("home_shop_image_3", shopDetail);
+  const napkinImg = cmsImg("home_napkin_image", napkin);
+  const tourImg = cmsImg("home_tour_image", tourDuo);
   const heroCaption = cms.home_hero_caption || "CAMERON AND GRANT, NYC 2026";
   const sectionTitle = cms.home_section_title || "I'VE HAD SADDER DAYS";
   const sectionCopy = cms.home_section_copy || "LOREM IPSUM DOLOR SIT AMET CONSECTETUR ADIPISCING ELIT.";

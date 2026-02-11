@@ -149,6 +149,13 @@ const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryL
   );
 };
 
+const SocialIcon = ({ name }: { name: string }) => {
+  if (name.toLowerCase() === "instagram") return <Instagram className="w-4 h-4" />;
+  if (name.toLowerCase() === "tiktok") return <TikTokIcon />;
+  if (name.toLowerCase() === "patreon") return <PatreonIcon />;
+  return <ExternalLink className="w-4 h-4" />;
+};
+
 const MemberCard = ({ 
   member, 
   index,
@@ -156,6 +163,7 @@ const MemberCard = ({
   cycleImages,
   bio,
   links,
+  socials,
   onImageClick,
 }: { 
   member: typeof defaultMembers[0]; 
@@ -164,9 +172,11 @@ const MemberCard = ({
   cycleImages: string[];
   bio: string;
   links: { name: string; href: string }[] | undefined;
+  socials: { name: string; href: string }[] | undefined;
   onImageClick: (images: string[], startIndex: number, name: string) => void;
 }) => {
   const displayLinks = links && links.length > 0 ? links : member.links;
+  const displaySocials = socials && socials.length > 0 ? socials : member.socials;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -234,16 +244,18 @@ const MemberCard = ({
       {/* Social Links */}
       <div className="px-6 py-4">
         <div className="flex gap-1.5">
-          {member.socials.map(({ name, icon: Icon, href }) => (
+          {displaySocials.map((social) => (
             <motion.a
-              key={name}
-              href={href}
+              key={social.name}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="p-2 border border-white/20 text-white hover:border-white/50 hover:bg-white/10 transition-all"
-              aria-label={name}
+              aria-label={social.name}
             >
-              <Icon />
+              <SocialIcon name={social.name} />
             </motion.a>
           ))}
         </div>
@@ -315,14 +327,17 @@ const Members = () => {
     } catch { return fallback; }
   };
 
-  const cameronEyesImg = cms.members_cameron_eyes || cameronEyes;
-  const grantEyesImg = cms.members_grant_eyes || grantEyes;
+  const cmsImg = (key: string, fallback: string) => { const v = cms[key]; return v && v !== "__removed__" ? v : fallback; };
+  const cameronEyesImg = cmsImg("members_cameron_eyes", cameronEyes);
+  const grantEyesImg = cmsImg("members_grant_eyes", grantEyes);
   const cameronFilmstrip = parseGallery("members_cameron_filmstrip", defaultCameronCycle);
   const grantFilmstrip = parseGallery("members_grant_filmstrip", defaultGrantCycle);
   const cameronBio = cms.cameron_bio || defaultMembers[0].defaultBio;
   const grantBio = cms.grant_bio || defaultMembers[1].defaultBio;
   const cameronLinks = (() => { try { const p = JSON.parse(cms.cameron_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
   const grantLinks = (() => { try { const p = JSON.parse(cms.grant_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
+  const cameronSocials = (() => { try { const p = JSON.parse(cms.cameron_socials || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
+  const grantSocials = (() => { try { const p = JSON.parse(cms.grant_socials || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
 
   return (
     <PageTransition>
@@ -362,6 +377,7 @@ const Members = () => {
               cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
               bio={member.name === "CAMERON" ? cameronBio : grantBio}
               links={member.name === "CAMERON" ? cameronLinks : grantLinks}
+              socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
               onImageClick={openLightbox}
             />
           ))}

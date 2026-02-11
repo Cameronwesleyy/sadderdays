@@ -8,13 +8,17 @@ interface ImageDropZoneProps {
   currentUrl: string;
   contentKey: string;
   folder?: string;
+  defaultUrl?: string;
   onUpload: (key: string, url: string) => void;
 }
 
-const ImageDropZone = ({ label, currentUrl, contentKey, folder = "home", onUpload }: ImageDropZoneProps) => {
+const ImageDropZone = ({ label, currentUrl, contentKey, folder = "home", defaultUrl = "", onUpload }: ImageDropZoneProps) => {
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Show current CMS url, or fall back to default
+  const displayUrl = currentUrl || defaultUrl;
 
   const uploadFile = async (file: File) => {
     setUploading(true);
@@ -55,12 +59,12 @@ const ImageDropZone = ({ label, currentUrl, contentKey, folder = "home", onUploa
         onClick={() => inputRef.current?.click()}
         className={`relative border-2 border-dashed ${dragging ? "border-white/60 bg-white/10" : "border-white/20"} p-4 cursor-pointer hover:border-white/40 transition-colors flex items-center gap-4`}
       >
-        {currentUrl ? (
+        {displayUrl ? (
           <>
-            <img src={currentUrl} alt={label} className="w-20 h-20 object-cover flex-shrink-0" />
+            <img src={displayUrl} alt={label} className="w-20 h-20 object-cover flex-shrink-0" />
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); onUpload(contentKey, ""); }}
+              onClick={(e) => { e.stopPropagation(); onUpload(contentKey, "__removed__"); }}
               className="absolute top-2 right-2 p-1 bg-red-500/80 text-white hover:bg-red-500 transition-colors"
               title="Remove image"
             >
@@ -79,9 +83,12 @@ const ImageDropZone = ({ label, currentUrl, contentKey, folder = "home", onUploa
             <>
               <p className="text-xs text-white/60">
                 <Upload size={12} className="inline mr-1" />
-                Drag & drop or click to upload
+                Drag & drop or click to replace
               </p>
               <p className="text-[10px] text-white/30 mt-1">JPG, PNG, WEBP</p>
+              {!currentUrl && defaultUrl && (
+                <p className="text-[10px] text-white/20 mt-1">Showing default image</p>
+              )}
             </>
           )}
         </div>

@@ -41,12 +41,23 @@ import handsCover from "@/assets/hands-cover.jpg";
 import yinYangCover from "@/assets/yin-yang-cover.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
+import heroDuo from "@/assets/hero-duo.jpg";
+import shopFront from "@/assets/shop-front.jpg";
+import shopBack from "@/assets/shop-back.jpg";
+import shopDetail from "@/assets/shop-detail.jpg";
+import napkin from "@/assets/napkin.png";
+import tourDuo from "@/assets/tour-duo.jpg";
+import aboutHero from "@/assets/about-hero.png";
+import cameronEyes from "@/assets/cameron-eyes.jpg";
+import grantEyes from "@/assets/grant-eyes.jpg";
 
 const defaultCameronFilmstrip = [cameronCycle1, cameronCycle2, cameronCycle3, cameronCycle4, cameronCycle5, cameronCycle6, cameronCycle7, cameronCycle8, cameronCycle9, cameronCycle10];
 const defaultGrantFilmstrip = [grantCycle1, grantCycle2, grantCycle3, grantCycle4, grantCycle5, grantCycle6, grantCycle7, grantCycle8, grantCycle9, grantCycle10];
 const defaultAboutRotate = [aboutRotate1, aboutRotate2, aboutRotate3, aboutRotate4];
 const defaultHomeGallery = [galleryGrant1, yinYangCover, galleryCar1, galleryCameron1, handsCover, galleryGrant2, galleryCar2, grantPortrait, galleryCar3, cameronPortrait];
 const defaultCameronLinks = [{ name: "Get His Tone", href: "#" }, { name: "Equipment", href: "#" }, { name: "Wallpapers", href: "#" }, { name: "Playlist", href: "#" }];
+const defaultCameronSocials = [{ name: "Instagram", href: "#" }, { name: "TikTok", href: "#" }, { name: "Patreon", href: "#" }];
+const defaultGrantSocials = [{ name: "Instagram", href: "#" }, { name: "TikTok", href: "#" }, { name: "Patreon", href: "#" }];
 
 // ─── Password Gate ───────────────────────────────────────────────
 const PasswordGate = ({ onAuth }: { onAuth: () => void }) => {
@@ -291,21 +302,21 @@ const AdminDashboard = () => {
                 <SectionTitle className="mt-12">Home Page Images</SectionTitle>
                 <p className="text-white/40 text-xs mb-6">Drag & drop images to replace them. Leave empty to use defaults.</p>
 
-                <ImageDropZone label="Hero Image" currentUrl={content.home_hero_image || ""} contentKey="home_hero_image" onUpload={updateContent} />
+                <ImageDropZone label="Hero Image" currentUrl={content.home_hero_image || ""} defaultUrl={heroDuo} contentKey="home_hero_image" onUpload={updateContent} />
 
                 <div className="grid grid-cols-2 gap-4">
-                  <ImageDropZone label="Portrait Left" currentUrl={content.home_portrait_left || ""} contentKey="home_portrait_left" onUpload={updateContent} />
-                  <ImageDropZone label="Portrait Right" currentUrl={content.home_portrait_right || ""} contentKey="home_portrait_right" onUpload={updateContent} />
+                  <ImageDropZone label="Portrait Left" currentUrl={content.home_portrait_left || ""} defaultUrl="/lovable-uploads/c25da56a-07ab-49f8-9230-c3b55215f540.jpg" contentKey="home_portrait_left" onUpload={updateContent} />
+                  <ImageDropZone label="Portrait Right" currentUrl={content.home_portrait_right || ""} defaultUrl="/lovable-uploads/99f341b0-eb45-48be-b65f-2e29de6768d3.jpg" contentKey="home_portrait_right" onUpload={updateContent} />
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <ImageDropZone label="Shop Image 1" currentUrl={content.home_shop_image_1 || ""} contentKey="home_shop_image_1" onUpload={updateContent} />
-                  <ImageDropZone label="Shop Image 2" currentUrl={content.home_shop_image_2 || ""} contentKey="home_shop_image_2" onUpload={updateContent} />
-                  <ImageDropZone label="Shop Image 3" currentUrl={content.home_shop_image_3 || ""} contentKey="home_shop_image_3" onUpload={updateContent} />
+                  <ImageDropZone label="Shop Image 1" currentUrl={content.home_shop_image_1 || ""} defaultUrl={shopFront} contentKey="home_shop_image_1" onUpload={updateContent} />
+                  <ImageDropZone label="Shop Image 2" currentUrl={content.home_shop_image_2 || ""} defaultUrl={shopBack} contentKey="home_shop_image_2" onUpload={updateContent} />
+                  <ImageDropZone label="Shop Image 3" currentUrl={content.home_shop_image_3 || ""} defaultUrl={shopDetail} contentKey="home_shop_image_3" onUpload={updateContent} />
                 </div>
 
-                <ImageDropZone label="Napkin / About Image" currentUrl={content.home_napkin_image || ""} contentKey="home_napkin_image" onUpload={updateContent} />
-                <ImageDropZone label="Tour Section Image" currentUrl={content.home_tour_image || ""} contentKey="home_tour_image" onUpload={updateContent} />
+                <ImageDropZone label="Napkin / About Image" currentUrl={content.home_napkin_image || ""} defaultUrl={napkin} contentKey="home_napkin_image" onUpload={updateContent} />
+                <ImageDropZone label="Tour Section Image" currentUrl={content.home_tour_image || ""} defaultUrl={tourDuo} contentKey="home_tour_image" onUpload={updateContent} />
 
                 <SectionTitle className="mt-12">Visual Gallery</SectionTitle>
                 <p className="text-white/40 text-xs mb-4">Add, remove, or reorder gallery images. Drag & drop multiple images at once.</p>
@@ -334,8 +345,8 @@ const AdminDashboard = () => {
                 <TextArea label="Contact Info" value={content.contact_info || ""} onChange={(v) => updateContent("contact_info", v)} />
 
                 <SectionTitle className="mt-12">About Page Images</SectionTitle>
-                <ImageDropZone label="Hero / Napkin Image" currentUrl={content.about_hero_image || ""} contentKey="about_hero_image" folder="about" onUpload={updateContent} />
-                <ImageDropZone label="Hands / RnM Image" currentUrl={content.about_hands_image || ""} contentKey="about_hands_image" folder="about" onUpload={updateContent} />
+                <ImageDropZone label="Hero / Napkin Image" currentUrl={content.about_hero_image || ""} defaultUrl={aboutHero} contentKey="about_hero_image" folder="about" onUpload={updateContent} />
+                <ImageDropZone label="Hands / RnM Image" currentUrl={content.about_hands_image || ""} defaultUrl={handsCover} contentKey="about_hands_image" folder="about" onUpload={updateContent} />
                 <GalleryEditor
                   label="Rotating Grid Images (4 recommended)"
                   images={getGallery("about_rotate_images", defaultAboutRotate)}
@@ -356,7 +367,13 @@ const AdminDashboard = () => {
                   onChange={(links) => updateContent("cameron_links", JSON.stringify(links))}
                 />
 
-                <ImageDropZone label="Cameron Eyes Image" currentUrl={content.members_cameron_eyes || ""} contentKey="members_cameron_eyes" folder="members" onUpload={updateContent} />
+                <LinksEditor
+                  label="Cameron Socials"
+                  links={(() => { if (!("cameron_socials" in content)) return defaultCameronSocials; try { return JSON.parse(content.cameron_socials || "[]"); } catch { return defaultCameronSocials; } })()}
+                  onChange={(links) => updateContent("cameron_socials", JSON.stringify(links))}
+                />
+
+                <ImageDropZone label="Cameron Eyes Image" currentUrl={content.members_cameron_eyes || ""} defaultUrl={cameronEyes} contentKey="members_cameron_eyes" folder="members" onUpload={updateContent} />
                 <GalleryEditor
                   label="Cameron Film Strip"
                   images={getGallery("members_cameron_filmstrip", defaultCameronFilmstrip)}
@@ -373,7 +390,13 @@ const AdminDashboard = () => {
                   onChange={(links) => updateContent("grant_links", JSON.stringify(links))}
                 />
 
-                <ImageDropZone label="Grant Eyes Image" currentUrl={content.members_grant_eyes || ""} contentKey="members_grant_eyes" folder="members" onUpload={updateContent} />
+                <LinksEditor
+                  label="Grant Socials"
+                  links={(() => { if (!("grant_socials" in content)) return defaultGrantSocials; try { return JSON.parse(content.grant_socials || "[]"); } catch { return defaultGrantSocials; } })()}
+                  onChange={(links) => updateContent("grant_socials", JSON.stringify(links))}
+                />
+
+                <ImageDropZone label="Grant Eyes Image" currentUrl={content.members_grant_eyes || ""} defaultUrl={grantEyes} contentKey="members_grant_eyes" folder="members" onUpload={updateContent} />
                 <GalleryEditor
                   label="Grant Film Strip"
                   images={getGallery("members_grant_filmstrip", defaultGrantFilmstrip)}
@@ -466,7 +489,11 @@ const AdminDashboard = () => {
 
             {activeTab === "music" && (
               <TabPanel key="music">
-                <div className="flex items-center justify-between mb-6">
+                <SectionTitle>Streaming Profile Links</SectionTitle>
+                <Field label="Spotify Artist URL" value={content.music_spotify_url || "https://open.spotify.com/artist/09pCD0j6zTSon9okqgWkqE"} onChange={(v) => updateContent("music_spotify_url", v)} placeholder="https://open.spotify.com/artist/..." />
+                <Field label="Apple Music Artist URL" value={content.music_apple_url || "https://music.apple.com/us/artist/sadder-days/1563767142"} onChange={(v) => updateContent("music_apple_url", v)} placeholder="https://music.apple.com/us/artist/..." />
+
+                <div className="flex items-center justify-between mb-6 mt-10">
                   <SectionTitle className="mb-0">Music Releases</SectionTitle>
                   <button
                     onClick={() => setReleases([...releases, {
