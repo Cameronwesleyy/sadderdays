@@ -18,6 +18,7 @@ import Members from "./pages/Members";
 import Tour from "./pages/Tour";
 import About from "./pages/About";
 import Lab from "./pages/Lab";
+import Manage from "./pages/Manage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,8 @@ const App = () => (
                   <Route path="/tour" element={<Tour />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/lab" element={<Lab />} />
+                  <Route path="/manage" element={<Manage />} />
+                  <Route path="*" element={<NotFound />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

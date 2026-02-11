@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_settings: {
+        Row: {
+          id: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          id?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       email_subscribers: {
         Row: {
           email: string
@@ -38,6 +56,93 @@ export type Database = {
           is_active?: boolean
           last_name?: string
           subscribed_at?: string
+        }
+        Relationships: []
+      }
+      music_releases: {
+        Row: {
+          apple_url: string | null
+          cover_url: string
+          created_at: string
+          id: string
+          sort_order: number
+          spotify_url: string | null
+          title: string
+          type: string
+          year: string
+        }
+        Insert: {
+          apple_url?: string | null
+          cover_url: string
+          created_at?: string
+          id?: string
+          sort_order?: number
+          spotify_url?: string | null
+          title: string
+          type?: string
+          year: string
+        }
+        Update: {
+          apple_url?: string | null
+          cover_url?: string
+          created_at?: string
+          id?: string
+          sort_order?: number
+          spotify_url?: string | null
+          title?: string
+          type?: string
+          year?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          content: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tour_dates: {
+        Row: {
+          city: string
+          created_at: string
+          date: string
+          id: string
+          sort_order: number
+          status: string
+          ticket_link: string | null
+          venue: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          date: string
+          id?: string
+          sort_order?: number
+          status?: string
+          ticket_link?: string | null
+          venue: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          date?: string
+          id?: string
+          sort_order?: number
+          status?: string
+          ticket_link?: string | null
+          venue?: string
         }
         Relationships: []
       }
