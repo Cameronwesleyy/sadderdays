@@ -869,9 +869,23 @@ const SinglePinkSlider = ({
   onTextChange?: (text: string) => void;
 }) => {
   const [h, s, l] = hexToHsl(value);
+  const [hexInput, setHexInput] = useState(value.toUpperCase());
+
+  // Sync hexInput when value changes externally (e.g. from slider)
+  useEffect(() => {
+    setHexInput(value.toUpperCase());
+  }, [value]);
 
   const handleLightnessChange = (newL: number) => {
     onChange(hslToHex(h || 318, s || 52, newL));
+  };
+
+  const handleHexInput = (raw: string) => {
+    setHexInput(raw.toUpperCase());
+    const cleaned = raw.startsWith("#") ? raw : `#${raw}`;
+    if (/^#[0-9A-Fa-f]{6}$/.test(cleaned)) {
+      onChange(cleaned);
+    }
   };
 
   return (
@@ -911,7 +925,13 @@ const SinglePinkSlider = ({
           className="w-8 h-8 rounded border border-white/20 flex-shrink-0"
           style={{ backgroundColor: value }}
         />
-        <span className="text-xs font-mono text-white/70">{value.toUpperCase()}</span>
+        <input
+          type="text"
+          value={hexInput}
+          onChange={(e) => handleHexInput(e.target.value)}
+          className="w-24 bg-white/5 border border-white/20 text-white px-2 py-1 text-xs font-mono text-center focus:outline-none focus:border-white/50 transition-colors"
+          placeholder="#E8A0CC"
+        />
       </div>
     </div>
   );

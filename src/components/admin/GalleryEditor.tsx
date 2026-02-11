@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Plus, Trash2, Upload, Image, GripVertical } from "lucide-react";
+import { Plus, Trash2, Image, GripVertical } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -13,6 +13,8 @@ interface GalleryEditorProps {
 const GalleryEditor = ({ label, images, folder, onChange }: GalleryEditorProps) => {
   const [uploading, setUploading] = useState(false);
   const [draggingOver, setDraggingOver] = useState(false);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const uploadFile = async (file: File) => {
@@ -59,6 +61,41 @@ const GalleryEditor = ({ label, images, folder, onChange }: GalleryEditorProps) 
     onChange(images.filter((_, i) => i !== index));
   };
 
+  const handleItemDragStart = (e: React.DragEvent, index: number) => {
+    e.stopPropagation();
+    setDragIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", String(index));
+  };
+
+  const handleItemDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (dragIndex === null) return;
+    setDragOverIndex(index);
+  };
+
+  const handleItemDrop = (e: React.DragEvent, toIndex: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (dragIndex === null || dragIndex === toIndex) {
+      setDragIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+    const reordered = [...images];
+    const [moved] = reordered.splice(dragIndex, 1);
+    reordered.splice(toIndex, 0, moved);
+    onChange(reordered);
+    setDragIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleItemDragEnd = () => {
+    setDragIndex(null);
+    setDragOverIndex(null);
+  };
+
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3">
@@ -90,27 +127,43 @@ const GalleryEditor = ({ label, images, folder, onChange }: GalleryEditorProps) 
             <p className="text-[10px] text-white/20 mt-1">JPG, PNG, WEBP — multiple files supported</p>
           </div>
         ) : (
-          <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
-            {images.map((url, i) => (
-              <div key={i} className="relative group aspect-square">
-                <img src={url} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" />
-                <button
-                  onClick={() => removeImage(i)}
-                  className="absolute top-1 right-1 p-1 bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+          <>
+            <p className="text-[9px] text-white/30 mb-2 tracking-widest-custom">DRAG TO REORDER</p>
+            <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+              {images.map((url, i) => (
+                <div
+                  key={i}
+                  draggable
+                  onDragStart={(e) => handleItemDragStart(e, i)}
+                  onDragOver={(e) => handleItemDragOver(e, i)}
+                  onDrop={(e) => handleItemDrop(e, i)}
+                  onDragEnd={handleItemDragEnd}
+                  className={`relative group aspect-square cursor-grab active:cursor-grabbing transition-all ${
+                    dragIndex === i ? "opacity-30 scale-95" : ""
+                  } ${dragOverIndex === i && dragIndex !== i ? "ring-2 ring-white/60" : ""}`}
                 >
-                  <Trash2 size={10} />
-                </button>
-                <span className="absolute bottom-1 left-1 text-[8px] text-white/60 bg-black/60 px-1">
-                  {i + 1}
-                </span>
-              </div>
-            ))}
-            {uploading && (
-              <div className="aspect-square bg-white/5 flex items-center justify-center">
-                <p className="text-[10px] text-white/40">Uploading...</p>
-              </div>
-            )}
-          </div>
+                  <img src={url} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" />
+                  <div className="absolute top-1 left-1 p-0.5 bg-black/60 text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <GripVertical size={10} />
+                  </div>
+                  <button
+                    onClick={() => removeImage(i)}
+                    className="absolute top-1 right-1 p-1 bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Trash2 size={10} />
+                  </button>
+                  <span className="absolute bottom-1 left-1 text-[8px] text-white/60 bg-black/60 px-1">
+                    {i + 1}
+                  </span>
+                </div>
+              ))}
+              {uploading && (
+                <div className="aspect-square bg-white/5 flex items-center justify-center">
+                  <p className="text-[10px] text-white/40">Uploading...</p>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
 
