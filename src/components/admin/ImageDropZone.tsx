@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Upload, Image } from "lucide-react";
+import { Upload, Image, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -53,10 +53,20 @@ const ImageDropZone = ({ label, currentUrl, contentKey, folder = "home", onUploa
         onDragOver={handleDragOver}
         onDragLeave={() => setDragging(false)}
         onClick={() => inputRef.current?.click()}
-        className={`border-2 border-dashed ${dragging ? "border-white/60 bg-white/10" : "border-white/20"} p-4 cursor-pointer hover:border-white/40 transition-colors flex items-center gap-4`}
+        className={`relative border-2 border-dashed ${dragging ? "border-white/60 bg-white/10" : "border-white/20"} p-4 cursor-pointer hover:border-white/40 transition-colors flex items-center gap-4`}
       >
         {currentUrl ? (
-          <img src={currentUrl} alt={label} className="w-20 h-20 object-cover flex-shrink-0" />
+          <>
+            <img src={currentUrl} alt={label} className="w-20 h-20 object-cover flex-shrink-0" />
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onUpload(contentKey, ""); }}
+              className="absolute top-2 right-2 p-1 bg-red-500/80 text-white hover:bg-red-500 transition-colors"
+              title="Remove image"
+            >
+              <X size={12} />
+            </button>
+          </>
         ) : (
           <div className="w-20 h-20 bg-white/5 flex items-center justify-center flex-shrink-0">
             <Image size={20} className="text-white/20" />

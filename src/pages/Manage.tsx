@@ -184,7 +184,8 @@ const AdminDashboard = () => {
   };
 
   const getGallery = (key: string, defaults: string[] = []): string[] => {
-    try { const p = JSON.parse(content[key] || "[]"); return p.length > 0 ? p : defaults; } catch { return defaults; }
+    if (!(key in content)) return defaults;
+    try { return JSON.parse(content[key] || "[]"); } catch { return defaults; }
   };
 
   const setGallery = (key: string, images: string[]) => {
@@ -351,7 +352,7 @@ const AdminDashboard = () => {
 
                 <LinksEditor
                   label="Cameron Links"
-                  links={(() => { try { const p = JSON.parse(content.cameron_links || "[]"); return p.length > 0 ? p : defaultCameronLinks; } catch { return defaultCameronLinks; } })()}
+                  links={(() => { if (!("cameron_links" in content)) return defaultCameronLinks; try { return JSON.parse(content.cameron_links || "[]"); } catch { return defaultCameronLinks; } })()}
                   onChange={(links) => updateContent("cameron_links", JSON.stringify(links))}
                 />
 
@@ -368,7 +369,7 @@ const AdminDashboard = () => {
 
                 <LinksEditor
                   label="Grant Links"
-                  links={(() => { try { return JSON.parse(content.grant_links || "[]"); } catch { return []; } })()}
+                  links={(() => { if (!("grant_links" in content)) return []; try { return JSON.parse(content.grant_links || "[]"); } catch { return []; } })()}
                   onChange={(links) => updateContent("grant_links", JSON.stringify(links))}
                 />
 
