@@ -155,6 +155,7 @@ const MemberCard = ({
   eyesImage,
   cycleImages,
   bio,
+  links,
   onImageClick,
 }: { 
   member: typeof defaultMembers[0]; 
@@ -162,8 +163,10 @@ const MemberCard = ({
   eyesImage: string;
   cycleImages: string[];
   bio: string;
+  links: { name: string; href: string }[] | undefined;
   onImageClick: (images: string[], startIndex: number, name: string) => void;
 }) => {
+  const displayLinks = links && links.length > 0 ? links : member.links;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -172,12 +175,12 @@ const MemberCard = ({
       className="flex flex-col w-full max-w-md"
     >
       {/* Name */}
-      <div className="px-6 pt-6 pb-4">
+      <div className="px-6 pt-6 pb-4 flex justify-center md:justify-start">
         <img 
           src={member.titleImage} 
           alt={member.name}
-          className="w-full h-auto"
-          style={{ minHeight: '80px', transform: `scale(${member.titleScale})`, transformOrigin: 'left center' }}
+          className="w-full h-auto max-w-[280px] md:max-w-none"
+          style={{ minHeight: '80px', transform: `scale(${member.titleScale})`, transformOrigin: 'center' }}
         />
       </div>
 
@@ -209,10 +212,10 @@ const MemberCard = ({
       </div>
 
       {/* Links */}
-      {member.links && (
+      {displayLinks && displayLinks.length > 0 && (
         <div className="px-6 pb-3">
           <div className="flex flex-wrap gap-1.5">
-            {member.links.map((link) => (
+            {displayLinks.map((link) => (
               <motion.a
                 key={link.name}
                 href={link.href}
@@ -318,6 +321,8 @@ const Members = () => {
   const grantFilmstrip = parseGallery("members_grant_filmstrip", defaultGrantCycle);
   const cameronBio = cms.cameron_bio || defaultMembers[0].defaultBio;
   const grantBio = cms.grant_bio || defaultMembers[1].defaultBio;
+  const cameronLinks = (() => { try { const p = JSON.parse(cms.cameron_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
+  const grantLinks = (() => { try { const p = JSON.parse(cms.grant_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
 
   return (
     <PageTransition>
@@ -356,6 +361,7 @@ const Members = () => {
               eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
               cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
               bio={member.name === "CAMERON" ? cameronBio : grantBio}
+              links={member.name === "CAMERON" ? cameronLinks : grantLinks}
               onImageClick={openLightbox}
             />
           ))}

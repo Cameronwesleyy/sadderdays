@@ -306,6 +306,13 @@ const AdminDashboard = () => {
               <TabPanel key="members">
                 <SectionTitle>Cameron</SectionTitle>
                 <TextArea label="Cameron Bio" value={content.cameron_bio || ""} onChange={(v) => updateContent("cameron_bio", v)} rows={8} />
+
+                <LinksEditor
+                  label="Cameron Links"
+                  links={(() => { try { return JSON.parse(content.cameron_links || "[]"); } catch { return []; } })()}
+                  onChange={(links) => updateContent("cameron_links", JSON.stringify(links))}
+                />
+
                 <ImageDropZone label="Cameron Eyes Image" currentUrl={content.members_cameron_eyes || ""} contentKey="members_cameron_eyes" folder="members" onUpload={updateContent} />
                 <GalleryEditor
                   label="Cameron Film Strip"
@@ -316,6 +323,13 @@ const AdminDashboard = () => {
 
                 <SectionTitle className="mt-12">Grant</SectionTitle>
                 <TextArea label="Grant Bio" value={content.grant_bio || ""} onChange={(v) => updateContent("grant_bio", v)} rows={8} />
+
+                <LinksEditor
+                  label="Grant Links"
+                  links={(() => { try { return JSON.parse(content.grant_links || "[]"); } catch { return []; } })()}
+                  onChange={(links) => updateContent("grant_links", JSON.stringify(links))}
+                />
+
                 <ImageDropZone label="Grant Eyes Image" currentUrl={content.members_grant_eyes || ""} contentKey="members_grant_eyes" folder="members" onUpload={updateContent} />
                 <GalleryEditor
                   label="Grant Film Strip"
@@ -611,6 +625,64 @@ const AdminDashboard = () => {
     </div>
   );
 };
+
+// ─── Links Editor ────────────────────────────────────────────────
+const LinksEditor = ({
+  label,
+  links,
+  onChange,
+}: {
+  label: string;
+  links: { name: string; href: string }[];
+  onChange: (links: { name: string; href: string }[]) => void;
+}) => (
+  <div className="mb-6">
+    <div className="flex items-center justify-between mb-3">
+      <label className="text-[9px] tracking-widest-custom text-white/50">{label.toUpperCase()}</label>
+      <button
+        onClick={() => onChange([...links, { name: "", href: "" }])}
+        className="flex items-center gap-1 px-2 py-1 text-[10px] tracking-widest-custom border border-white/20 hover:bg-white/10 transition-colors"
+      >
+        <Plus size={10} /> ADD
+      </button>
+    </div>
+    <div className="space-y-2">
+      {links.map((link, i) => (
+        <div key={i} className="flex gap-2 items-center">
+          <input
+            type="text"
+            value={link.name}
+            onChange={(e) => {
+              const updated = [...links];
+              updated[i] = { ...updated[i], name: e.target.value };
+              onChange(updated);
+            }}
+            placeholder="Label"
+            className="flex-1 bg-white/5 border border-white/20 text-white px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors placeholder:text-white/20"
+          />
+          <input
+            type="text"
+            value={link.href}
+            onChange={(e) => {
+              const updated = [...links];
+              updated[i] = { ...updated[i], href: e.target.value };
+              onChange(updated);
+            }}
+            placeholder="URL"
+            className="flex-1 bg-white/5 border border-white/20 text-white px-3 py-2 text-sm focus:outline-none focus:border-white/50 transition-colors placeholder:text-white/20"
+          />
+          <button
+            onClick={() => onChange(links.filter((_, j) => j !== i))}
+            className="p-2 text-red-400 hover:bg-red-400/10 transition-colors"
+          >
+            <Trash2 size={12} />
+          </button>
+        </div>
+      ))}
+      {links.length === 0 && <p className="text-white/30 text-xs">No links yet. Using defaults.</p>}
+    </div>
+  </div>
+);
 
 // ─── Reusable Components ─────────────────────────────────────────
 const TabPanel = ({ children, ...props }: { children: React.ReactNode } & Record<string, unknown>) => (
