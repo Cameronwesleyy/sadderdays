@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Upload, Home, Image, FlaskConical, Power } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import ImageDropZone from "@/components/admin/ImageDropZone";
+import GalleryEditor from "@/components/admin/GalleryEditor";
 
 // ─── Password Gate ───────────────────────────────────────────────
 const PasswordGate = ({ onAuth }: { onAuth: () => void }) => {
@@ -89,96 +91,6 @@ interface QuizQuestion {
   options: { text: string; side: "yin" | "yang" }[];
 }
 
-// ─── Image Drop Zone ─────────────────────────────────────────────
-const ImageDropZone = ({
-  label,
-  currentUrl,
-  contentKey,
-  onUpload,
-}: {
-  label: string;
-  currentUrl: string;
-  contentKey: string;
-  onUpload: (key: string, url: string) => void;
-}) => {
-  const [dragging, setDragging] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const uploadFile = async (file: File) => {
-    setUploading(true);
-    const ext = file.name.split(".").pop();
-    const path = `home/${contentKey}-${Date.now()}.${ext}`;
-    const { error } = await supabase.storage.from("site-images").upload(path, file, { upsert: true });
-    if (error) {
-      toast({ title: "Upload failed", description: error.message, variant: "destructive" });
-      setUploading(false);
-      return;
-    }
-    const { data: urlData } = supabase.storage.from("site-images").getPublicUrl(path);
-    onUpload(contentKey, urlData.publicUrl);
-    setUploading(false);
-  };
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith("image/")) uploadFile(file);
-  }, [contentKey]);
-
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragging(true);
-  }, []);
-
-  return (
-    <div className="mb-6">
-      <label className="block text-[9px] tracking-widest-custom text-white/50 mb-2">
-        {label.toUpperCase()}
-      </label>
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={() => setDragging(false)}
-        onClick={() => inputRef.current?.click()}
-        className={`border-2 border-dashed ${dragging ? "border-white/60 bg-white/10" : "border-white/20"} p-4 cursor-pointer hover:border-white/40 transition-colors flex items-center gap-4`}
-      >
-        {currentUrl ? (
-          <img src={currentUrl} alt={label} className="w-20 h-20 object-cover flex-shrink-0" />
-        ) : (
-          <div className="w-20 h-20 bg-white/5 flex items-center justify-center flex-shrink-0">
-            <Image size={20} className="text-white/20" />
-          </div>
-        )}
-        <div className="flex-1">
-          {uploading ? (
-            <p className="text-xs text-white/60">Uploading...</p>
-          ) : (
-            <>
-              <p className="text-xs text-white/60">
-                <Upload size={12} className="inline mr-1" />
-                Drag & drop or click to upload
-              </p>
-              <p className="text-[10px] text-white/30 mt-1">JPG, PNG, WEBP</p>
-            </>
-          )}
-        </div>
-      </div>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) uploadFile(file);
-        }}
-      />
-    </div>
-  );
-};
-
 // ─── Main Dashboard ──────────────────────────────────────────────
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<Tab>("home");
@@ -227,6 +139,14 @@ const AdminDashboard = () => {
 
   const updateContent = (key: string, value: string) => {
     setContent((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const getGallery = (key: string): string[] => {
+    try { return JSON.parse(content[key] || "[]"); } catch { return []; }
+  };
+
+  const setGallery = (key: string, images: string[]) => {
+    updateContent(key, JSON.stringify(images));
   };
 
   const saveAll = async () => {
@@ -343,6 +263,15 @@ const AdminDashboard = () => {
 
                 <ImageDropZone label="Napkin / About Image" currentUrl={content.home_napkin_image || ""} contentKey="home_napkin_image" onUpload={updateContent} />
                 <ImageDropZone label="Tour Section Image" currentUrl={content.home_tour_image || ""} contentKey="home_tour_image" onUpload={updateContent} />
+
+                <SectionTitle className="mt-12">Visual Gallery</SectionTitle>
+                <p className="text-white/40 text-xs mb-4">Add, remove, or reorder gallery images. Drag & drop multiple images at once.</p>
+                <GalleryEditor
+                  label="Gallery Images"
+                  images={getGallery("home_gallery_images")}
+                  folder="home-gallery"
+                  onChange={(imgs) => setGallery("home_gallery_images", imgs)}
+                />
               </TabPanel>
             )}
 
@@ -360,6 +289,16 @@ const AdminDashboard = () => {
                 <SectionTitle className="mt-12">General</SectionTitle>
                 <Field label="Headline" value={content.headline || ""} onChange={(v) => updateContent("headline", v)} />
                 <TextArea label="Contact Info" value={content.contact_info || ""} onChange={(v) => updateContent("contact_info", v)} />
+
+                <SectionTitle className="mt-12">About Page Images</SectionTitle>
+                <ImageDropZone label="Hero / Napkin Image" currentUrl={content.about_hero_image || ""} contentKey="about_hero_image" folder="about" onUpload={updateContent} />
+                <ImageDropZone label="Hands / RnM Image" currentUrl={content.about_hands_image || ""} contentKey="about_hands_image" folder="about" onUpload={updateContent} />
+                <GalleryEditor
+                  label="Rotating Grid Images (4 recommended)"
+                  images={getGallery("about_rotate_images")}
+                  folder="about"
+                  onChange={(imgs) => setGallery("about_rotate_images", imgs)}
+                />
               </TabPanel>
             )}
 
@@ -367,8 +306,23 @@ const AdminDashboard = () => {
               <TabPanel key="members">
                 <SectionTitle>Cameron</SectionTitle>
                 <TextArea label="Cameron Bio" value={content.cameron_bio || ""} onChange={(v) => updateContent("cameron_bio", v)} rows={8} />
+                <ImageDropZone label="Cameron Eyes Image" currentUrl={content.members_cameron_eyes || ""} contentKey="members_cameron_eyes" folder="members" onUpload={updateContent} />
+                <GalleryEditor
+                  label="Cameron Film Strip"
+                  images={getGallery("members_cameron_filmstrip")}
+                  folder="members-cameron"
+                  onChange={(imgs) => setGallery("members_cameron_filmstrip", imgs)}
+                />
+
                 <SectionTitle className="mt-12">Grant</SectionTitle>
                 <TextArea label="Grant Bio" value={content.grant_bio || ""} onChange={(v) => updateContent("grant_bio", v)} rows={8} />
+                <ImageDropZone label="Grant Eyes Image" currentUrl={content.members_grant_eyes || ""} contentKey="members_grant_eyes" folder="members" onUpload={updateContent} />
+                <GalleryEditor
+                  label="Grant Film Strip"
+                  images={getGallery("members_grant_filmstrip")}
+                  folder="members-grant"
+                  onChange={(imgs) => setGallery("members_grant_filmstrip", imgs)}
+                />
               </TabPanel>
             )}
 

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 import handsCover from "@/assets/hands-cover.jpg";
 import aboutHero from "@/assets/about-hero.png";
 import aboutRotate1 from "@/assets/about-rotate-1.jpg";
@@ -9,16 +10,34 @@ import aboutRotate2 from "@/assets/about-rotate-2.jpg";
 import aboutRotate3 from "@/assets/about-rotate-3.jpg";
 import aboutRotate4 from "@/assets/about-rotate-4.jpg";
 
-const rotatingImages = [aboutRotate1, aboutRotate2, aboutRotate3, aboutRotate4];
+const defaultRotatingImages = [aboutRotate1, aboutRotate2, aboutRotate3, aboutRotate4];
 
 const About = () => {
-  const [gridImages, setGridImages] = useState([...rotatingImages]);
+  const [gridImages, setGridImages] = useState([...defaultRotatingImages]);
+  const [cms, setCms] = useState<Record<string, string>>({});
+  const [rotateSource, setRotateSource] = useState<string[]>(defaultRotatingImages);
+
+  useEffect(() => {
+    supabase.from("site_content").select("*").then(({ data }) => {
+      if (data) {
+        const map: Record<string, string> = {};
+        data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
+        setCms(map);
+        try {
+          const parsed = JSON.parse(map.about_rotate_images || "[]");
+          if (parsed.length > 0) {
+            setRotateSource(parsed);
+            setGridImages(parsed);
+          }
+        } catch { /* use defaults */ }
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setGridImages(prev => {
         const shuffled = [...prev];
-        // Shuffle array positions rapidly
         for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -27,7 +46,17 @@ const About = () => {
       });
     }, 150);
     return () => clearInterval(interval);
-  }, []);
+  }, [rotateSource]);
+
+  const heroImg = cms.about_hero_image || aboutHero;
+  const handsImg = cms.about_hands_image || handsCover;
+  const location = cms.about_location || "HOUSTON, TX";
+  const bio1 = cms.about_bio || "Sadder Days combines influences from RnB, Jazz, and Classical music to create a unique metal experience that blends sensual grooves, elegant rhythms, and nocturnal soundscapes.";
+  const bio2 = cms.about_bio_2 || "Members Grant and Cameron have been friends since elementary school, taking up their respective instruments in Summer 2020.";
+  const bio3 = cms.about_bio_3 || "From the start, the band wanted their music to provide a path for Black culture to become synonymous with elegance, class, and sensuality.";
+  const quote = cms.about_quote || '"THE BAND WILL NOT STOP UNTIL THE WORLD HAS HAD SADDER DAYS."';
+  const quoteAttrib = cms.about_quote_attribution || "— AND EVEN THEN, THEY'RE GOING TO KEEP GOING.";
+  const rnmDesc = cms.about_rnm || "Pulling from prominent influences in Black music, Sadder Days created their own genre—combining sounds from RnB, Jazz, Gospel, House, Hip-Hop, and Classical music, wrapped in a neat Metal package.";
 
   return (
     <PageTransition>
@@ -35,7 +64,7 @@ const About = () => {
         {/* Hero */}
         <section className="relative min-h-[70vh] p-6 md:p-12 flex flex-col items-center justify-center">
           <motion.img
-            src={aboutHero}
+            src={heroImg}
             alt="I've Had Sadder Days"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -61,7 +90,7 @@ const About = () => {
             viewport={{ once: true }}
             className="md:col-span-5 grid grid-cols-2 grid-rows-2 gap-1"
           >
-            {gridImages.map((img, i) => (
+            {gridImages.slice(0, 4).map((img, i) => (
               <img
                 key={i}
                 src={img}
@@ -78,22 +107,11 @@ const About = () => {
             className="md:col-span-5 md:col-start-8 flex flex-col justify-center"
           >
             <p className="text-[10px] tracking-widest-custom text-muted-foreground mb-6">
-              HOUSTON, TX
+              {location}
             </p>
-            <p className="text-sm leading-relaxed mb-6">
-              Sadder Days combines influences from RnB, Jazz, and Classical 
-              music to create a unique metal experience that blends sensual 
-              grooves, elegant rhythms, and nocturnal soundscapes.
-            </p>
-            <p className="text-sm leading-relaxed mb-6 text-muted-foreground">
-              Members Grant and Cameron have been friends since elementary 
-              school, taking up their respective instruments in Summer 2020.
-            </p>
-            <p className="text-sm leading-relaxed">
-              From the start, the band wanted their music to provide a path 
-              for Black culture to become synonymous with elegance, class, 
-              and sensuality.
-            </p>
+            <p className="text-sm leading-relaxed mb-6">{bio1}</p>
+            <p className="text-sm leading-relaxed mb-6 text-muted-foreground">{bio2}</p>
+            <p className="text-sm leading-relaxed">{bio3}</p>
           </motion.div>
         </section>
 
@@ -105,10 +123,10 @@ const About = () => {
             viewport={{ once: true }}
             className="font-display text-3xl md:text-5xl tracking-tighter-custom leading-tight max-w-4xl"
           >
-            "THE BAND WILL NOT STOP UNTIL THE WORLD HAS HAD SADDER DAYS."
+            {quote}
           </motion.blockquote>
           <p className="text-[10px] tracking-widest-custom text-muted-foreground mt-6">
-            — AND EVEN THEN, THEY'RE GOING TO KEEP GOING.
+            {quoteAttrib}
           </p>
         </section>
 
@@ -123,11 +141,7 @@ const About = () => {
             <h2 className="font-display text-4xl md:text-5xl tracking-tighter-custom mb-6">
               RnM
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Pulling from prominent influences in Black music, Sadder Days 
-              created their own genre—combining sounds from RnB, Jazz, Gospel, 
-              House, Hip-Hop, and Classical music, wrapped in a neat Metal package.
-            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{rnmDesc}</p>
           </motion.div>
 
           <motion.div
@@ -137,7 +151,7 @@ const About = () => {
             className="md:col-span-5 md:col-start-7"
           >
             <img
-              src={handsCover}
+              src={handsImg}
               alt="Yin Yang"
               className="w-full aspect-square object-cover"
             />

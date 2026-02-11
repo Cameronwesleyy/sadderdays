@@ -106,6 +106,14 @@ const Home = () => {
   const shopDate = cms.home_shop_date || "FEB 2026";
   const shopCopy = cms.home_shop_copy || "LOREM IPSUM DOLOR SIT AMET CONSECTETUR. ADIPISCING ELIT SED DO EIUSMOD TEMPOR.";
   const gallerySubtitle = cms.home_gallery_subtitle || "NYC, 2024-2025";
+  const cmsGalleryImages: { src: string; alt: string }[] = (() => {
+    try {
+      const parsed = JSON.parse(cms.home_gallery_images || "[]");
+      if (parsed.length > 0) return parsed.map((url: string, i: number) => ({ src: url, alt: `Gallery ${i + 1}` }));
+    } catch { /* ignore */ }
+    return [];
+  })();
+  const galleryImages = cmsGalleryImages.length > 0 ? cmsGalleryImages : defaultGalleryImages;
 
   return <PageTransition>
       <div className="min-h-screen">
@@ -348,7 +356,7 @@ const Home = () => {
 
             <div className="overflow-x-auto scrollbar-hide">
               <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="flex items-center px-4 py-2" style={{ width: "max-content" }}>
-                {defaultGalleryImages.map((img, i) => (
+                {galleryImages.map((img, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }} className="flex-shrink-0">
                     <motion.img whileHover={{ scale: 1.05 }} src={img.src} alt={img.alt} className="h-32 md:h-44 w-auto object-cover cursor-pointer transition-transform duration-300" />
                   </motion.div>

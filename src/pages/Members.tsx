@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import grantEyes from "@/assets/grant-eyes.jpg";
@@ -31,12 +32,12 @@ import grantCycle8 from "@/assets/grant-cycle-8.jpg";
 import grantCycle9 from "@/assets/grant-cycle-9.jpg";
 import grantCycle10 from "@/assets/grant-cycle-10.jpg";
 
-const cameronCycleImages = [
+const defaultCameronCycle = [
   cameronCycle1, cameronCycle2, cameronCycle3, cameronCycle4, cameronCycle5,
   cameronCycle6, cameronCycle7, cameronCycle8, cameronCycle9, cameronCycle10
 ];
 
-const grantCycleImages = [
+const defaultGrantCycle = [
   grantCycle1, grantCycle2, grantCycle3, grantCycle4, grantCycle5,
   grantCycle6, grantCycle7, grantCycle8, grantCycle9, grantCycle10
 ];
@@ -53,13 +54,13 @@ const PatreonIcon = () => (
   </svg>
 );
 
-const members = [
+const defaultMembers = [
   {
     name: "CAMERON",
     titleImage: cameronTitle,
     titleScale: 1.15,
     role: "Guitar / Production",
-    eyesImage: cameronEyes,
+    defaultEyesImage: cameronEyes,
     eyesCrop: { position: 6, scale: 4.0 },
     favoriteColor: "Forest Green",
     personality: "INFP-A",
@@ -67,7 +68,7 @@ const members = [
     sun: "Leo",
     moon: "Leo",
     rising: "Scorpio",
-    bio: "Cameron is the guitarist and founder of Sadder Days. He started making music at 17, during quarantine, and taught himself how to play guitar. His style as a guitar player is distinct, sensual, melodic, and elegant, while still incorporating those bloodthirsty riffs that drive Sadder Days' heavy side. Taking influences from Classical, RnB, Jazz, and even Visual Kei, Cameron always finds a way to make his guitar sing a sultry, vampiric song. He writes songs entirely in his head before touching an instrument. \"You're only limited by how big you can think.\"",
+    defaultBio: "Cameron is the guitarist and founder of Sadder Days. He started making music at 17, during quarantine, and taught himself how to play guitar. His style as a guitar player is distinct, sensual, melodic, and elegant, while still incorporating those bloodthirsty riffs that drive Sadder Days' heavy side. Taking influences from Classical, RnB, Jazz, and even Visual Kei, Cameron always finds a way to make his guitar sing a sultry, vampiric song. He writes songs entirely in his head before touching an instrument. \"You're only limited by how big you can think.\"",
     socials: [
       { name: "Instagram", icon: Instagram, href: "#" },
       { name: "TikTok", icon: TikTokIcon, href: "#" },
@@ -85,7 +86,7 @@ const members = [
     titleImage: grantTitle,
     titleScale: 1,
     role: "Drums / Percussion",
-    eyesImage: grantEyes,
+    defaultEyesImage: grantEyes,
     eyesCrop: { position: 13, scale: 4.0 },
     favoriteColor: "Celestine Blue",
     personality: "ENFJ-A",
@@ -93,7 +94,7 @@ const members = [
     sun: "Gemini",
     moon: "Sagittarius",
     rising: "Scorpio",
-    bio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
+    defaultBio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
     socials: [
       { name: "Instagram", icon: Instagram, href: "#" },
       { name: "TikTok", icon: TikTokIcon, href: "#" },
@@ -111,7 +112,6 @@ interface GalleryLightboxProps {
 
 const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryLightboxProps) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-
   const goNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
   const goPrev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 
@@ -123,20 +123,12 @@ const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryL
       className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
       onClick={onClose}
     >
-      <button
-        onClick={onClose}
-        className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
-      >
+      <button onClick={onClose} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
         <X size={32} />
       </button>
-      
-      <button
-        onClick={(e) => { e.stopPropagation(); goPrev(); }}
-        className="absolute left-4 md:left-8 text-white/70 hover:text-white transition-colors p-2"
-      >
+      <button onClick={(e) => { e.stopPropagation(); goPrev(); }} className="absolute left-4 md:left-8 text-white/70 hover:text-white transition-colors p-2">
         <ChevronLeft size={40} />
       </button>
-      
       <motion.img
         key={currentIndex}
         initial={{ opacity: 0, scale: 0.9 }}
@@ -147,14 +139,9 @@ const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryL
         className="max-h-[80vh] max-w-[90vw] object-contain"
         onClick={(e) => e.stopPropagation()}
       />
-      
-      <button
-        onClick={(e) => { e.stopPropagation(); goNext(); }}
-        className="absolute right-4 md:right-8 text-white/70 hover:text-white transition-colors p-2"
-      >
+      <button onClick={(e) => { e.stopPropagation(); goNext(); }} className="absolute right-4 md:right-8 text-white/70 hover:text-white transition-colors p-2">
         <ChevronRight size={40} />
       </button>
-      
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm">
         {currentIndex + 1} / {images.length}
       </div>
@@ -165,15 +152,18 @@ const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryL
 const MemberCard = ({ 
   member, 
   index,
+  eyesImage,
+  cycleImages,
+  bio,
   onImageClick,
 }: { 
-  member: typeof members[0]; 
+  member: typeof defaultMembers[0]; 
   index: number;
+  eyesImage: string;
+  cycleImages: string[];
+  bio: string;
   onImageClick: (images: string[], startIndex: number, name: string) => void;
 }) => {
-  const isCameron = member.name === "CAMERON";
-  const cycleImages = isCameron ? cameronCycleImages : grantCycleImages;
-  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -187,11 +177,7 @@ const MemberCard = ({
           src={member.titleImage} 
           alt={member.name}
           className="w-full h-auto"
-          style={{ 
-            minHeight: '80px',
-            transform: `scale(${member.titleScale})`,
-            transformOrigin: 'left center'
-          }}
+          style={{ minHeight: '80px', transform: `scale(${member.titleScale})`, transformOrigin: 'left center' }}
         />
       </div>
 
@@ -219,9 +205,7 @@ const MemberCard = ({
 
       {/* Bio */}
       <div className="px-6 py-4 flex-1">
-        <p className="text-white/70 text-xs leading-relaxed">
-          {member.bio}
-        </p>
+        <p className="text-white/70 text-xs leading-relaxed">{bio}</p>
       </div>
 
       {/* Links */}
@@ -264,21 +248,16 @@ const MemberCard = ({
 
       {/* Role Label */}
       <div className="px-6 py-4 border-t border-white/10">
-        <p className="text-[10px] tracking-widest text-white/60 text-center">
-          {member.role}
-        </p>
+        <p className="text-[10px] tracking-widest text-white/60 text-center">{member.role}</p>
       </div>
 
       {/* Eyes Close-up Image */}
       <div className="relative h-28 overflow-hidden bg-black">
         <img
-          src={member.eyesImage}
+          src={eyesImage}
           alt={`${member.name}`}
           className="w-full h-full object-cover"
-          style={{
-            objectPosition: `center ${member.eyesCrop.position}%`,
-            transform: `scale(${member.eyesCrop.scale})`,
-          }}
+          style={{ objectPosition: `center ${member.eyesCrop.position}%`, transform: `scale(${member.eyesCrop.scale})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
@@ -304,6 +283,17 @@ const MemberCard = ({
 const Members = () => {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number; name: string } | null>(null);
+  const [cms, setCms] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    supabase.from("site_content").select("*").then(({ data }) => {
+      if (data) {
+        const map: Record<string, string> = {};
+        data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
+        setCms(map);
+      }
+    });
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const x = e.clientX / window.innerWidth;
@@ -314,6 +304,20 @@ const Members = () => {
   const openLightbox = (images: string[], startIndex: number, name: string) => {
     setLightbox({ images, index: startIndex, name });
   };
+
+  const parseGallery = (key: string, fallback: string[]): string[] => {
+    try {
+      const parsed = JSON.parse(cms[key] || "[]");
+      return parsed.length > 0 ? parsed : fallback;
+    } catch { return fallback; }
+  };
+
+  const cameronEyesImg = cms.members_cameron_eyes || cameronEyes;
+  const grantEyesImg = cms.members_grant_eyes || grantEyes;
+  const cameronFilmstrip = parseGallery("members_cameron_filmstrip", defaultCameronCycle);
+  const grantFilmstrip = parseGallery("members_grant_filmstrip", defaultGrantCycle);
+  const cameronBio = cms.cameron_bio || defaultMembers[0].defaultBio;
+  const grantBio = cms.grant_bio || defaultMembers[1].defaultBio;
 
   return (
     <PageTransition>
@@ -344,11 +348,14 @@ const Members = () => {
 
         {/* Side by side centered layout */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl relative z-10 mb-16">
-          {members.map((member, index) => (
+          {defaultMembers.map((member, index) => (
             <MemberCard 
               key={member.name} 
               member={member} 
               index={index}
+              eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
+              cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
+              bio={member.name === "CAMERON" ? cameronBio : grantBio}
               onImageClick={openLightbox}
             />
           ))}
