@@ -58,6 +58,9 @@ const About = () => {
   const quote = cms.about_quote || '"THE BAND WILL NOT STOP UNTIL THE WORLD HAS HAD SADDER DAYS."';
   const quoteAttrib = cms.about_quote_attribution || "— AND EVEN THEN, THEY'RE GOING TO KEEP GOING.";
   const rnmDesc = cms.about_rnm || "Pulling from prominent influences in Black music, Sadder Days created their own genre—combining sounds from RnB, Jazz, Gospel, House, Hip-Hop, and Classical music, wrapped in a neat Metal package.";
+  const aboutTitle = cms.about_title || "ABOUT";
+  const aboutTitleAccent = cms.about_title_accent || "US";
+  const rnmTitle = cms.about_rnm_title || "RnM";
 
   return (
     <PageTransition>
@@ -79,7 +82,7 @@ const About = () => {
             transition={{ delay: 0.3 }}
             className="font-display text-4xl md:text-6xl tracking-tighter-custom mt-8 text-center"
           >
-            ABOUT <span className="text-muted-foreground">US</span>
+            {aboutTitle} <span className="text-muted-foreground">{aboutTitleAccent}</span>
           </motion.h1>
         </section>
 
@@ -140,7 +143,7 @@ const About = () => {
             className="md:col-span-4"
           >
             <h2 className="font-display text-4xl md:text-5xl tracking-tighter-custom mb-6">
-              RnM
+              {rnmTitle}
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">{rnmDesc}</p>
           </motion.div>

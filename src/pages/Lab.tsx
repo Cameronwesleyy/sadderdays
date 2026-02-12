@@ -9,6 +9,22 @@ import yinYangLogo from "@/assets/yin-yang-logo.png";
 
 const Lab = () => {
   const [activeTab, setActiveTab] = useState<"generator" | "coinflip" | "quiz">("generator");
+  const [cms, setCms] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    supabase.from("site_content").select("*").in("id", ["lab_title", "lab_tab_generator", "lab_tab_coinflip", "lab_tab_quiz", "lab_yin_result", "lab_yang_result"]).then(({ data }) => {
+      if (data) {
+        const map: Record<string, string> = {};
+        data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
+        setCms(map);
+      }
+    });
+  }, []);
+
+  const labTitle = cms.lab_title || "LAB";
+  const tabGenerator = cms.lab_tab_generator || "GENERATOR";
+  const tabCoinflip = cms.lab_tab_coinflip || "FLIP A COIN";
+  const tabQuiz = cms.lab_tab_quiz || "YIN OR YANG";
 
   return (
     <PageTransition>
@@ -20,7 +36,7 @@ const Lab = () => {
             animate={{ opacity: 1 }}
             className="font-display text-[8rem] md:text-[12rem] lg:text-[16rem] tracking-tighter-custom leading-none mb-12"
           >
-            LAB
+            {labTitle}
           </motion.h1>
 
           {/* Tabs - larger */}
@@ -31,9 +47,9 @@ const Lab = () => {
             className="flex justify-center gap-12 mb-16"
           >
             {[
-              { id: "generator", label: "GENERATOR" },
-              { id: "coinflip", label: "FLIP A COIN" },
-              { id: "quiz", label: "YIN OR YANG" },
+              { id: "generator", label: tabGenerator },
+              { id: "coinflip", label: tabCoinflip },
+              { id: "quiz", label: tabQuiz },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -53,7 +69,7 @@ const Lab = () => {
           <AnimatePresence mode="wait">
             {activeTab === "generator" && <YinYangGenerator key="generator" />}
             {activeTab === "coinflip" && <CoinFlipGame key="coinflip" />}
-            {activeTab === "quiz" && <QuizSection key="quiz" />}
+            {activeTab === "quiz" && <QuizSection key="quiz" yinResult={cms.lab_yin_result} yangResult={cms.lab_yang_result} />}
           </AnimatePresence>
         </div>
       </div>
@@ -214,7 +230,7 @@ const defaultQuizQuestions = [
   },
 ];
 
-const QuizSection = () => {
+const QuizSection = ({ yinResult, yangResult }: { yinResult?: string; yangResult?: string }) => {
   const [quizQuestions, setQuizQuestions] = useState(defaultQuizQuestions);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -269,8 +285,8 @@ const QuizSection = () => {
             </h2>
             <p className="text-base text-muted-foreground mb-12 max-w-md mx-auto">
               {result === "yin"
-                ? "You embrace the quiet, the subtle, the flowing. Your energy is receptive and transformative."
-                : "You embody the active, the bold, the dynamic. Your energy is creative and initiating."}
+                ? (yinResult || "You embrace the quiet, the subtle, the flowing. Your energy is receptive and transformative.")
+                : (yangResult || "You embody the active, the bold, the dynamic. Your energy is creative and initiating.")}
             </p>
             <button
               onClick={resetQuiz}

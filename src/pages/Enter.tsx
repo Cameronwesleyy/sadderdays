@@ -1,9 +1,18 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import crossLogo from "@/assets/cross-logo.png";
 
 const Enter = () => {
   const navigate = useNavigate();
+  const [pushText, setPushText] = useState("push");
+
+  useEffect(() => {
+    supabase.from("site_content").select("content").eq("id", "enter_push_text").single().then(({ data }) => {
+      if (data?.content) setPushText(data.content);
+    });
+  }, []);
 
   const handleEnter = () => {
     navigate("/home");
@@ -31,7 +40,7 @@ const Enter = () => {
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         className="text-xs tracking-[0.5em] text-white/80 uppercase"
       >
-        push
+        {pushText}
       </motion.p>
     </div>
   );

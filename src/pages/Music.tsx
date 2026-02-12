@@ -35,11 +35,12 @@ const Music = () => {
   const [releases, setReleases] = useState<Release[]>(hardcodedReleases);
   const [spotifyProfileUrl, setSpotifyProfileUrl] = useState("https://open.spotify.com/artist/09pCD0j6zTSon9okqgWkqE");
   const [appleProfileUrl, setAppleProfileUrl] = useState("https://music.apple.com/us/artist/sadder-days/1563767142");
+  const [cms, setCms] = useState<Record<string, string>>({});
 
   useEffect(() => {
     Promise.all([
       supabase.from("music_releases").select("*").order("sort_order"),
-      supabase.from("site_content").select("*").in("id", ["music_spotify_url", "music_apple_url"]),
+      supabase.from("site_content").select("*").in("id", ["music_spotify_url", "music_apple_url", "music_title", "music_listen_label"]),
     ]).then(([relRes, cmsRes]) => {
       if (relRes.data && relRes.data.length > 0) {
         setReleases(relRes.data.map((r: any) => ({
@@ -52,13 +53,19 @@ const Music = () => {
         })));
       }
       if (cmsRes.data) {
+        const map: Record<string, string> = {};
         cmsRes.data.forEach((r: any) => {
+          map[r.id] = r.content;
           if (r.id === "music_spotify_url" && r.content) setSpotifyProfileUrl(r.content);
           if (r.id === "music_apple_url" && r.content) setAppleProfileUrl(r.content);
         });
+        setCms(map);
       }
     });
   }, []);
+
+  const musicTitle = cms.music_title || "MUSIC";
+  const listenLabel = cms.music_listen_label || "LISTEN NOW";
 
   return (
     <PageTransition>
@@ -71,7 +78,7 @@ const Music = () => {
               animate={{ opacity: 1 }}
               className="text-massive font-display tracking-tighter-custom"
             >
-              MUSIC
+              {musicTitle}
             </motion.h1>
 
             <motion.div
@@ -163,7 +170,7 @@ const Music = () => {
             className="mt-16"
           >
             <p className="text-[10px] tracking-widest-custom text-muted-foreground mb-4">
-              LISTEN NOW
+              {listenLabel}
             </p>
             <iframe
               src="https://open.spotify.com/embed/artist/09pCD0j6zTSon9okqgWkqE?utm_source=generator&theme=0"

@@ -15,12 +15,25 @@ const tourDates = [
 
 const Tour = () => {
   const [tourLive, setTourLive] = useState<boolean | null>(null);
+  const [cms, setCms] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    supabase.from("admin_settings").select("*").eq("id", "tour_live").single().then(({ data }) => {
-      setTourLive(data?.value === "true");
+    Promise.all([
+      supabase.from("admin_settings").select("*").eq("id", "tour_live").single(),
+      supabase.from("site_content").select("*").in("id", ["tour_title", "tour_coming_soon", "tour_more_dates"]),
+    ]).then(([settingsRes, cmsRes]) => {
+      setTourLive(settingsRes.data?.value === "true");
+      if (cmsRes.data) {
+        const map: Record<string, string> = {};
+        cmsRes.data.forEach((r: { id: string; content: string }) => { map[r.id] = r.content; });
+        setCms(map);
+      }
     });
   }, []);
+
+  const tourTitle = cms.tour_title || "TOUR";
+  const comingSoon = cms.tour_coming_soon || "COMING SOON";
+  const moreDates = cms.tour_more_dates || "MORE DATES ANNOUNCED SOON";
 
   if (tourLive === null) return null;
 
@@ -33,7 +46,7 @@ const Tour = () => {
             animate={{ opacity: 1 }}
             className="text-massive font-display tracking-tighter-custom mb-8"
           >
-            TOUR
+            {tourTitle}
           </motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -42,7 +55,7 @@ const Tour = () => {
             className="flex items-center gap-3"
           >
             <span className="inline-block w-2 h-2 rounded-full bg-sd-pink animate-pulse" />
-            <span className="text-sm tracking-widest-custom text-muted-foreground">COMING SOON</span>
+            <span className="text-sm tracking-widest-custom text-muted-foreground">{comingSoon}</span>
           </motion.div>
         </div>
         <Footer />
@@ -60,7 +73,7 @@ const Tour = () => {
             animate={{ opacity: 1 }}
             className="text-massive font-display tracking-tighter-custom mb-16 sticky-heading"
           >
-            TOUR
+            {tourTitle}
           </motion.h1>
 
           {/* Brutalist table */}
@@ -118,7 +131,7 @@ const Tour = () => {
             transition={{ delay: 0.6 }}
             className="text-[10px] tracking-widest-custom text-muted-foreground mt-16"
           >
-            MORE DATES ANNOUNCED SOON
+            {moreDates}
           </motion.p>
         </div>
       </div>

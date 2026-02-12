@@ -297,10 +297,19 @@ const AdminDashboard = () => {
                 <SectionTitle>Home Page Copy</SectionTitle>
                 <Field label="Hero Caption" value={content.home_hero_caption || ""} onChange={(v) => updateContent("home_hero_caption", v)} placeholder="CAMERON AND GRANT, NYC 2026" />
                 <Field label="Section Title" value={content.home_section_title || ""} onChange={(v) => updateContent("home_section_title", v)} placeholder="I'VE HAD SADDER DAYS" />
-                <Field label="Section Copy" value={content.home_section_copy || ""} onChange={(v) => updateContent("home_section_copy", v)} />
+                <Field label="Section Copy" value={content.home_section_copy || ""} onChange={(v) => updateContent("home_section_copy", v)} placeholder="LOREM IPSUM DOLOR SIT AMET..." />
+                <Field label="Listen Link Text" value={content.home_listen_link || ""} onChange={(v) => updateContent("home_listen_link", v)} placeholder="LISTEN HERE" />
+                <Field label="Shop Title" value={content.home_shop_title || ""} onChange={(v) => updateContent("home_shop_title", v)} placeholder="SHOP SADDER DAYS" />
                 <Field label="Shop Launch Date" value={content.home_shop_date || ""} onChange={(v) => updateContent("home_shop_date", v)} placeholder="FEB 2026" />
                 <Field label="Shop Description" value={content.home_shop_copy || ""} onChange={(v) => updateContent("home_shop_copy", v)} />
+                <Field label="Shop Coming Soon Text" value={content.home_coming_soon || ""} onChange={(v) => updateContent("home_coming_soon", v)} placeholder="COMING SOON" />
+                <Field label="Notify Button Text" value={content.home_notify_text || ""} onChange={(v) => updateContent("home_notify_text", v)} placeholder="NOTIFY ME →" />
+                <Field label="About Section Title" value={content.home_about_title || ""} onChange={(v) => updateContent("home_about_title", v)} placeholder="ABOUT SADDER DAYS" />
+                <Field label="Gallery Title" value={content.home_gallery_title || ""} onChange={(v) => updateContent("home_gallery_title", v)} placeholder="VISUAL GALLERY" />
                 <Field label="Gallery Subtitle" value={content.home_gallery_subtitle || ""} onChange={(v) => updateContent("home_gallery_subtitle", v)} placeholder="NYC, 2024-2025" />
+                <Field label="Tour Section Title" value={content.home_tour_title || ""} onChange={(v) => updateContent("home_tour_title", v)} placeholder="live shows" />
+                <Field label="Tour Link Text" value={content.home_tour_link || ""} onChange={(v) => updateContent("home_tour_link", v)} placeholder="VIEW TOUR DATES" />
+                <Field label="Enter Page Text" value={content.enter_push_text || ""} onChange={(v) => updateContent("enter_push_text", v)} placeholder="push" />
 
                 <SectionTitle className="mt-12">Pink Colors</SectionTitle>
                 <p className="text-white/40 text-xs mb-4">Each text element has its own pink slider.</p>
@@ -374,12 +383,15 @@ const AdminDashboard = () => {
             {activeTab === "copy" && (
               <TabPanel key="copy">
                 <SectionTitle>About Page Copy</SectionTitle>
-                <Field label="Location" value={content.about_location || ""} onChange={(v) => updateContent("about_location", v)} />
+                <Field label="Page Title" value={content.about_title || ""} onChange={(v) => updateContent("about_title", v)} placeholder="ABOUT" />
+                <Field label="Page Title Accent" value={content.about_title_accent || ""} onChange={(v) => updateContent("about_title_accent", v)} placeholder="US" />
+                <Field label="Location" value={content.about_location || ""} onChange={(v) => updateContent("about_location", v)} placeholder="HOUSTON, TX" />
                 <TextArea label="Bio Paragraph 1" value={content.about_bio || ""} onChange={(v) => updateContent("about_bio", v)} />
                 <TextArea label="Bio Paragraph 2" value={content.about_bio_2 || ""} onChange={(v) => updateContent("about_bio_2", v)} />
                 <TextArea label="Bio Paragraph 3" value={content.about_bio_3 || ""} onChange={(v) => updateContent("about_bio_3", v)} />
                 <Field label="Quote" value={content.about_quote || ""} onChange={(v) => updateContent("about_quote", v)} />
                 <Field label="Quote Attribution" value={content.about_quote_attribution || ""} onChange={(v) => updateContent("about_quote_attribution", v)} />
+                <Field label="RnM Heading" value={content.about_rnm_title || ""} onChange={(v) => updateContent("about_rnm_title", v)} placeholder="RnM" />
                 <TextArea label="RnM Description" value={content.about_rnm || ""} onChange={(v) => updateContent("about_rnm", v)} />
 
                 <SectionTitle className="mt-12">General</SectionTitle>
@@ -401,6 +413,15 @@ const AdminDashboard = () => {
             {activeTab === "members" && (
               <TabPanel key="members">
                 <SectionTitle>Cameron</SectionTitle>
+                <Field label="Cameron Role" value={content.cameron_role || ""} onChange={(v) => updateContent("cameron_role", v)} placeholder="Guitar / Production" />
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Favorite Color" value={content.cameron_favorite_color || ""} onChange={(v) => updateContent("cameron_favorite_color", v)} placeholder="Forest Green" />
+                  <Field label="Personality" value={content.cameron_personality || ""} onChange={(v) => updateContent("cameron_personality", v)} placeholder="INFP-A" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Birthday" value={content.cameron_birthday || ""} onChange={(v) => updateContent("cameron_birthday", v)} placeholder="08/08/2002" />
+                  <Field label="Signs (Sun · Moon · Rising)" value={content.cameron_signs || ""} onChange={(v) => updateContent("cameron_signs", v)} placeholder="Leo · Leo · Scorpio" />
+                </div>
                 <TextArea label="Cameron Bio" value={content.cameron_bio || ""} onChange={(v) => updateContent("cameron_bio", v)} rows={8} />
 
                 <LinksEditor
@@ -424,6 +445,15 @@ const AdminDashboard = () => {
                 />
 
                 <SectionTitle className="mt-12">Grant</SectionTitle>
+                <Field label="Grant Role" value={content.grant_role || ""} onChange={(v) => updateContent("grant_role", v)} placeholder="Drums / Percussion" />
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Favorite Color" value={content.grant_favorite_color || ""} onChange={(v) => updateContent("grant_favorite_color", v)} placeholder="Celestine Blue" />
+                  <Field label="Personality" value={content.grant_personality || ""} onChange={(v) => updateContent("grant_personality", v)} placeholder="ENFJ-A" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Birthday" value={content.grant_birthday || ""} onChange={(v) => updateContent("grant_birthday", v)} placeholder="06/12/2003" />
+                  <Field label="Signs (Sun · Moon · Rising)" value={content.grant_signs || ""} onChange={(v) => updateContent("grant_signs", v)} placeholder="Gemini · Sagittarius · Scorpio" />
+                </div>
                 <TextArea label="Grant Bio" value={content.grant_bio || ""} onChange={(v) => updateContent("grant_bio", v)} rows={8} />
 
                 <LinksEditor
@@ -450,8 +480,13 @@ const AdminDashboard = () => {
 
             {activeTab === "tour" && (
               <TabPanel key="tour">
+                <SectionTitle>Tour Page Copy</SectionTitle>
+                <Field label="Page Title" value={content.tour_title || ""} onChange={(v) => updateContent("tour_title", v)} placeholder="TOUR" />
+                <Field label="Coming Soon Text" value={content.tour_coming_soon || ""} onChange={(v) => updateContent("tour_coming_soon", v)} placeholder="COMING SOON" />
+                <Field label="More Dates Text" value={content.tour_more_dates || ""} onChange={(v) => updateContent("tour_more_dates", v)} placeholder="MORE DATES ANNOUNCED SOON" />
+
                 {/* Tour Coming Soon Toggle */}
-                <div className="p-4 border border-white/10 mb-8 flex items-center justify-between">
+                <div className="p-4 border border-white/10 mb-8 mt-8 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-white/80 mb-1">Tour is {tourLive ? "LIVE" : "COMING SOON"}</p>
                     <p className="text-[10px] text-white/40">When off, the tour page shows "Coming Soon" and dates are blurred on the home page.</p>
@@ -565,7 +600,11 @@ const AdminDashboard = () => {
 
             {activeTab === "music" && (
               <TabPanel key="music">
-                <SectionTitle>Streaming Profile Links</SectionTitle>
+                <SectionTitle>Music Page Copy</SectionTitle>
+                <Field label="Page Title" value={content.music_title || ""} onChange={(v) => updateContent("music_title", v)} placeholder="MUSIC" />
+                <Field label="Listen Now Label" value={content.music_listen_label || ""} onChange={(v) => updateContent("music_listen_label", v)} placeholder="LISTEN NOW" />
+
+                <SectionTitle className="mt-12">Streaming Profile Links</SectionTitle>
                 <Field label="Spotify Artist URL" value={content.music_spotify_url || "https://open.spotify.com/artist/09pCD0j6zTSon9okqgWkqE"} onChange={(v) => updateContent("music_spotify_url", v)} placeholder="https://open.spotify.com/artist/..." />
                 <Field label="Apple Music Artist URL" value={content.music_apple_url || "https://music.apple.com/us/artist/sadder-days/1563767142"} onChange={(v) => updateContent("music_apple_url", v)} placeholder="https://music.apple.com/us/artist/..." />
 
@@ -678,7 +717,15 @@ const AdminDashboard = () => {
 
             {activeTab === "lab" && (
               <TabPanel key="lab">
-                <SectionTitle>Yin or Yang Quiz</SectionTitle>
+                <SectionTitle>Lab Page Copy</SectionTitle>
+                <Field label="Page Title" value={content.lab_title || ""} onChange={(v) => updateContent("lab_title", v)} placeholder="LAB" />
+                <Field label="Generator Tab Label" value={content.lab_tab_generator || ""} onChange={(v) => updateContent("lab_tab_generator", v)} placeholder="GENERATOR" />
+                <Field label="Coin Flip Tab Label" value={content.lab_tab_coinflip || ""} onChange={(v) => updateContent("lab_tab_coinflip", v)} placeholder="FLIP A COIN" />
+                <Field label="Quiz Tab Label" value={content.lab_tab_quiz || ""} onChange={(v) => updateContent("lab_tab_quiz", v)} placeholder="YIN OR YANG" />
+                <TextArea label="Yin Result Text" value={content.lab_yin_result || ""} onChange={(v) => updateContent("lab_yin_result", v)} rows={2} />
+                <TextArea label="Yang Result Text" value={content.lab_yang_result || ""} onChange={(v) => updateContent("lab_yang_result", v)} rows={2} />
+
+                <SectionTitle className="mt-12">Yin or Yang Quiz</SectionTitle>
                 <p className="text-white/40 text-xs mb-6">Edit the quiz questions shown on the Lab page. Each question has two options — one for Yin, one for Yang.</p>
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-[10px] tracking-widest-custom text-white/60">{quizQuestions.length} QUESTIONS</span>

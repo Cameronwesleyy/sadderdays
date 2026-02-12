@@ -59,15 +59,13 @@ const defaultMembers = [
     name: "CAMERON",
     titleImage: cameronTitle,
     titleScale: 1.15,
-    role: "Guitar / Production",
+    defaultRole: "Guitar / Production",
     defaultEyesImage: cameronEyes,
     eyesCrop: { position: 6, scale: 4.0 },
-    favoriteColor: "Forest Green",
-    personality: "INFP-A",
-    birthday: "08/08/2002",
-    sun: "Leo",
-    moon: "Leo",
-    rising: "Scorpio",
+    defaultFavoriteColor: "Forest Green",
+    defaultPersonality: "INFP-A",
+    defaultBirthday: "08/08/2002",
+    defaultSigns: "Leo · Leo · Scorpio",
     defaultBio: "Cameron is the guitarist and founder of Sadder Days. He started making music at 17, during quarantine, and taught himself how to play guitar. His style as a guitar player is distinct, sensual, melodic, and elegant, while still incorporating those bloodthirsty riffs that drive Sadder Days' heavy side. Taking influences from Classical, RnB, Jazz, and even Visual Kei, Cameron always finds a way to make his guitar sing a sultry, vampiric song. He writes songs entirely in his head before touching an instrument. \"You're only limited by how big you can think.\"",
     socials: [
       { name: "Instagram", icon: Instagram, href: "#" },
@@ -85,15 +83,13 @@ const defaultMembers = [
     name: "GRANT",
     titleImage: grantTitle,
     titleScale: 1,
-    role: "Drums / Percussion",
+    defaultRole: "Drums / Percussion",
     defaultEyesImage: grantEyes,
     eyesCrop: { position: 13, scale: 4.0 },
-    favoriteColor: "Celestine Blue",
-    personality: "ENFJ-A",
-    birthday: "06/12/2003",
-    sun: "Gemini",
-    moon: "Sagittarius",
-    rising: "Scorpio",
+    defaultFavoriteColor: "Celestine Blue",
+    defaultPersonality: "ENFJ-A",
+    defaultBirthday: "06/12/2003",
+    defaultSigns: "Gemini · Sagittarius · Scorpio",
     defaultBio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
     socials: [
       { name: "Instagram", icon: Instagram, href: "#" },
@@ -162,6 +158,11 @@ const MemberCard = ({
   eyesImage,
   cycleImages,
   bio,
+  role,
+  favoriteColor,
+  personality,
+  birthday,
+  signs,
   links,
   socials,
   onImageClick,
@@ -171,6 +172,11 @@ const MemberCard = ({
   eyesImage: string;
   cycleImages: string[];
   bio: string;
+  role: string;
+  favoriteColor: string;
+  personality: string;
+  birthday: string;
+  signs: string;
   links: { name: string; href: string }[] | undefined;
   socials: { name: string; href: string }[] | undefined;
   onImageClick: (images: string[], startIndex: number, name: string) => void;
@@ -199,19 +205,19 @@ const MemberCard = ({
         <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-foreground/20 text-xs">
           <div>
             <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">FAVORITE COLOR</p>
-            <p className="font-medium text-foreground">{member.favoriteColor}</p>
+            <p className="font-medium text-foreground">{favoriteColor}</p>
           </div>
           <div>
             <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">PERSONALITY</p>
-            <p className="font-medium text-foreground">{member.personality}</p>
+            <p className="font-medium text-foreground">{personality}</p>
           </div>
           <div>
             <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">BIRTHDAY</p>
-            <p className="font-medium text-foreground">{member.birthday}</p>
+            <p className="font-medium text-foreground">{birthday}</p>
           </div>
           <div>
             <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">SIGNS</p>
-            <p className="font-medium text-foreground">{member.sun} · {member.moon} · {member.rising}</p>
+            <p className="font-medium text-foreground">{signs}</p>
           </div>
         </div>
       </div>
@@ -263,7 +269,7 @@ const MemberCard = ({
 
       {/* Role Label */}
       <div className="px-6 py-4 border-t border-foreground/10">
-        <p className="text-[10px] tracking-widest text-foreground/60 text-center">{member.role}</p>
+        <p className="text-[10px] tracking-widest text-foreground/60 text-center">{role}</p>
       </div>
 
       {/* Eyes Close-up Image */}
@@ -334,6 +340,16 @@ const Members = () => {
   const grantFilmstrip = parseGallery("members_grant_filmstrip", defaultGrantCycle);
   const cameronBio = cms.cameron_bio || defaultMembers[0].defaultBio;
   const grantBio = cms.grant_bio || defaultMembers[1].defaultBio;
+  const cameronRole = cms.cameron_role || defaultMembers[0].defaultRole;
+  const grantRole = cms.grant_role || defaultMembers[1].defaultRole;
+  const cameronFavColor = cms.cameron_favorite_color || defaultMembers[0].defaultFavoriteColor;
+  const grantFavColor = cms.grant_favorite_color || defaultMembers[1].defaultFavoriteColor;
+  const cameronPersonality = cms.cameron_personality || defaultMembers[0].defaultPersonality;
+  const grantPersonality = cms.grant_personality || defaultMembers[1].defaultPersonality;
+  const cameronBirthday = cms.cameron_birthday || defaultMembers[0].defaultBirthday;
+  const grantBirthday = cms.grant_birthday || defaultMembers[1].defaultBirthday;
+  const cameronSigns = cms.cameron_signs || defaultMembers[0].defaultSigns;
+  const grantSigns = cms.grant_signs || defaultMembers[1].defaultSigns;
   const cameronLinks = (() => { try { const p = JSON.parse(cms.cameron_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
   const grantLinks = (() => { try { const p = JSON.parse(cms.grant_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
   const cameronSocials = (() => { try { const p = JSON.parse(cms.cameron_socials || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
@@ -372,6 +388,11 @@ const Members = () => {
               eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
               cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
               bio={member.name === "CAMERON" ? cameronBio : grantBio}
+              role={member.name === "CAMERON" ? cameronRole : grantRole}
+              favoriteColor={member.name === "CAMERON" ? cameronFavColor : grantFavColor}
+              personality={member.name === "CAMERON" ? cameronPersonality : grantPersonality}
+              birthday={member.name === "CAMERON" ? cameronBirthday : grantBirthday}
+              signs={member.name === "CAMERON" ? cameronSigns : grantSigns}
               links={member.name === "CAMERON" ? cameronLinks : grantLinks}
               socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
               onImageClick={openLightbox}

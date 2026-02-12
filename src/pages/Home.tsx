@@ -148,6 +148,14 @@ const Home = () => {
   const shopDate = cms.home_shop_date || "FEB 2026";
   const shopCopy = cms.home_shop_copy || "LOREM IPSUM DOLOR SIT AMET CONSECTETUR. ADIPISCING ELIT SED DO EIUSMOD TEMPOR.";
   const gallerySubtitle = cms.home_gallery_subtitle || "NYC, 2024-2025";
+  const shopTitle = cms.home_shop_title || "SHOP SADDER DAYS";
+  const aboutTitle = cms.home_about_title || "ABOUT SADDER DAYS";
+  const galleryTitle = cms.home_gallery_title || "VISUAL\nGALLERY";
+  const tourTitle = cms.home_tour_title || "live\nshows";
+  const listenLink = cms.home_listen_link || "LISTEN HERE";
+  const tourLink = cms.home_tour_link || "VIEW TOUR DATES";
+  const comingSoonText = cms.home_coming_soon || "COMING SOON";
+  const notifyText = cms.home_notify_text || "NOTIFY ME →";
   const cmsGalleryImages: { src: string; alt: string }[] = (() => {
     try {
       const parsed = JSON.parse(cms.home_gallery_images || "[]");
@@ -264,7 +272,7 @@ const Home = () => {
               </p>
               <div className="flex items-center gap-4">
                 <Link to="/music" className="text-[10px] tracking-widest-custom editorial-link">
-                   LISTEN HERE
+                   {listenLink}
                 </Link>
                 <div className="flex items-center gap-3">
                   <a href="https://open.spotify.com/artist/09pCD0j6zTSon9okqgWkqE" target="_blank" rel="noopener noreferrer" className="opacity-60 hover:opacity-100 transition-opacity">
@@ -337,7 +345,7 @@ const Home = () => {
             className="flex flex-col md:flex-row md:items-start md:justify-between gap-6"
           >
             <div className="text-left">
-              <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-4">SHOP SADDER DAYS</h2>
+              <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-4">{shopTitle}</h2>
               {shopLive ? (
                 <Link to="/merch" className="text-xs font-medium tracking-widest-custom text-sd-pink hover:text-foreground transition-colors">
                   SHOP NOW →
@@ -345,14 +353,14 @@ const Home = () => {
               ) : (
                 <div className="flex items-center gap-6">
                   <span className="inline-flex items-center gap-2 text-xs font-medium tracking-widest-custom text-foreground">
-                    COMING SOON
+                    {comingSoonText}
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
                   </span>
                   <button 
                     onClick={() => setShowEmailPopup(true)}
                     className="text-xs font-medium tracking-widest-custom text-sd-pink hover:text-foreground transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]"
                   >
-                    NOTIFY ME →
+                    {notifyText}
                   </button>
                 </div>
               )}
@@ -372,7 +380,7 @@ const Home = () => {
 
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="md:col-span-4 md:col-start-8 md:self-end">
             <Link to="/about" className="block">
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-8xl tracking-tighter-custom mb-4 hover:text-foreground transition-colors duration-300 text-left" style={{ color: aboutPink }}>ABOUT SADDER DAYS</h2>
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-8xl tracking-tighter-custom mb-4 hover:text-foreground transition-colors duration-300 text-left" style={{ color: aboutPink }}>{aboutTitle}</h2>
             </Link>
           </motion.div>
         </section>
@@ -382,9 +390,9 @@ const Home = () => {
           <div className="px-6 md:px-12 mb-8">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
               <h2 className="font-display text-4xl md:text-6xl tracking-tighter-custom" style={{ color: galleryPink }}>
-                VISUAL
-                <br />
-                GALLERY
+                {galleryTitle.split("\n").map((line, i) => (
+                  <span key={i}>{line}{i === 0 && <br />}</span>
+                ))}
               </h2>
               <p className="text-xs tracking-widest-custom text-foreground mt-2">
                 {gallerySubtitle}
@@ -417,18 +425,18 @@ const Home = () => {
           <div className="grid md:grid-cols-12 gap-4 mb-8">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="md:col-span-4">
               <h2 className="font-display text-5xl md:text-7xl tracking-tighter-custom mb-6">
-                live
-                <br />
-                shows
+                {tourTitle.split("\n").map((line, i) => (
+                  <span key={i}>{line}{i === 0 && <br />}</span>
+                ))}
               </h2>
               {tourLive ? (
                 <Link to="/tour" className="text-[10px] tracking-widest-custom editorial-link">
-                  VIEW TOUR DATES
+                  {tourLink}
                 </Link>
               ) : (
                 <div className="flex items-center gap-2">
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-sd-pink animate-pulse" />
-                  <span className="text-[10px] tracking-widest-custom text-muted-foreground">COMING SOON</span>
+                  <span className="text-[10px] tracking-widest-custom text-muted-foreground">{comingSoonText}</span>
                 </div>
               )}
             </motion.div>
