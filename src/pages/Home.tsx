@@ -54,7 +54,7 @@ const navLinks = [
   { name: "ABOUT", path: "/about" },
   { name: "MUSIC", path: "/music" },
   { name: "LYRICS", path: "/lyrics" },
-  { name: "TOUR", path: "/tour" },
+  { name: "LIVE SHOWS", path: "/tour" },
   { name: "LAB", path: "/lab" },
   { name: "MEMBERS", path: "/members" },
 ];
@@ -421,7 +421,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Tour Section */}
+        {/* Live Shows Section */}
         <section className="p-6 md:p-12">
           <div className="grid md:grid-cols-12 gap-4 mb-8">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="md:col-span-4">
@@ -432,7 +432,7 @@ const Home = () => {
               </h2>
               {tourLive ? (
                 <Link to="/tour" className="text-[10px] tracking-widest-custom editorial-link">
-                  {tourLink}
+                  VIEW LIVE SHOWS
                 </Link>
               ) : (
                 <div className="flex items-center gap-2">
@@ -445,14 +445,23 @@ const Home = () => {
 
           <div className="flex justify-between items-start gap-8">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <img src={tourImg} alt="Tour" className="max-w-2xl w-full aspect-[16/9] object-cover object-center" />
+              <img src={tourImg} alt="Live Shows" className="max-w-2xl w-full aspect-[16/9] object-cover object-center" />
             </motion.div>
 
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className={`space-y-2 flex-shrink-0 text-right ${!tourLive ? "blur-sm select-none" : ""}`}>
-              <p className="text-[10px] tracking-widest-custom text-muted-foreground">01 — NEW YORK</p>
-              <p className="text-[10px] tracking-widest-custom text-muted-foreground">02 — LOS ANGELES</p>
-              <p className="text-[10px] tracking-widest-custom text-muted-foreground">03 — LONDON</p>
-              <p className="text-[10px] tracking-widest-custom text-muted-foreground">04 — TOKYO</p>
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className={`space-y-3 flex-shrink-0 text-right ${!tourLive ? "blur-sm select-none" : ""}`}>
+              <div>
+                <p className="text-[10px] tracking-widest-custom text-foreground font-medium">MAR 14</p>
+                <p className="text-[10px] tracking-widest-custom text-muted-foreground">RIDGEWOOD, NY</p>
+                <p className="text-[9px] tracking-widest-custom text-muted-foreground/60">TRANS PECOS</p>
+              </div>
+              <a
+                href="https://posh.vip/e/sadder-days-debut-show"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-[9px] tracking-widest-custom text-sd-pink hover:text-foreground transition-colors"
+              >
+                RSVP →
+              </a>
             </motion.div>
           </div>
         </section>
