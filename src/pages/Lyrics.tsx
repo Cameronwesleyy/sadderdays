@@ -42,8 +42,8 @@ const Lyrics = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold tracking-tight text-center mb-14 text-foreground"
-            style={{ fontFamily: "'DM Sans', 'Inter', sans-serif" }}
+            className="text-4xl md:text-5xl tracking-tight text-left mb-14 text-foreground font-light"
+            style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
           >
             {pageTitle}
           </motion.h1>
@@ -62,8 +62,8 @@ const Lyrics = () => {
                   className="group block"
                 >
                   <span
-                    className="text-sm md:text-base text-foreground/70 group-hover:text-sd-pink transition-colors duration-200 group-hover:drop-shadow-[0_0_12px_hsl(318,52%,78%)]"
-                    style={{ fontFamily: "'DM Sans', 'Inter', sans-serif" }}
+                    className="text-sm md:text-base text-foreground/70 group-hover:text-sd-pink transition-colors duration-200 group-hover:drop-shadow-[0_0_12px_hsl(318,52%,78%)] uppercase tracking-widest"
+                    style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
                   >
                     {song.title}
                   </span>
