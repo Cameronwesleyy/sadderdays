@@ -113,6 +113,30 @@ export type Database = {
         }
         Relationships: []
       }
+      songs: {
+        Row: {
+          created_at: string
+          id: string
+          lyrics: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lyrics?: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lyrics?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
       tour_dates: {
         Row: {
           city: string
