@@ -42,6 +42,14 @@ const Lyrics = () => {
             {pageTitle}
           </motion.h1>
 
+          {/* Album name */}
+          <p
+            className="text-[10px] text-foreground/40 tracking-[0.3em] uppercase mt-2"
+            style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
+          >
+            Yin &amp; Yang
+          </p>
+
           {/* Receipt dashed line */}
           <div className="border-b border-dashed border-foreground/20 my-6" />
 
