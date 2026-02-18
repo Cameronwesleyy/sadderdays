@@ -44,7 +44,7 @@ const Lyrics = () => {
 
           {/* Album name */}
           <p
-            className="text-[10px] text-foreground/40 tracking-[0.3em] uppercase mt-2"
+            className="text-[11px] text-foreground/40 tracking-[0.3em] uppercase mt-2"
             style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
           >
             Yin &amp; Yang
