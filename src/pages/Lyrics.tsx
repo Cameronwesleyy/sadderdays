@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
-
 import { supabase } from "@/integrations/supabase/client";
 
 interface Song {
@@ -15,6 +14,7 @@ interface Song {
 const Lyrics = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [pageTitle, setPageTitle] = useState("Lyrics");
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -31,42 +31,98 @@ const Lyrics = () => {
   return (
     <PageTransition>
       <div className="min-h-screen bg-background">
-
-        <div className="max-w-xl mx-auto px-8 pt-20 pb-16">
-          {/* Page Title — clean, bold, centered like the PDF */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl tracking-tight text-left mb-14 text-foreground font-light"
-            style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+        <div className="max-w-xl mx-auto px-8 pt-28 pb-16">
+          {/* Clickable header */}
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            className="w-full text-left group cursor-pointer focus:outline-none"
           >
-            {pageTitle}
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-5xl tracking-tight text-foreground font-light"
+              style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+            >
+              {pageTitle}
+            </motion.h1>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="block text-[9px] tracking-[0.3em] uppercase text-foreground/40 mt-2 group-hover:text-foreground/60 transition-colors"
+              style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif" }}
+            >
+              {expanded ? "tap to close" : "tap to expand"}
+            </motion.span>
+          </button>
 
-          {/* Song List — no borders, generous spacing, left-aligned */}
-          <div className="flex flex-col gap-8">
-            {songs.map((song, i) => (
+          {/* Receipt-style dashed line */}
+          <AnimatePresence>
+            {expanded && (
               <motion.div
-                key={song.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: i * 0.04 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
               >
-                <Link
-                  to={`/lyrics/${song.id}`}
-                  className="group block"
-                >
-                  <span
-                    className="text-sm md:text-base text-foreground/70 group-hover:text-sd-pink transition-colors duration-200 group-hover:drop-shadow-[0_0_12px_hsl(318,52%,78%)] uppercase tracking-widest"
-                    style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+                <div
+                  className="border-b border-dashed border-foreground/20 my-6"
+                />
+
+                {/* Song list — prints out one by one */}
+                <div className="flex flex-col gap-0">
+                  {songs.map((song, i) => (
+                    <motion.div
+                      key={song.id}
+                      initial={{ opacity: 0, height: 0, y: -4 }}
+                      animate={{ opacity: 1, height: "auto", y: 0 }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{
+                        duration: 0.15,
+                        delay: i * 0.06,
+                        ease: "easeOut",
+                      }}
+                      className="overflow-hidden"
+                    >
+                      <Link
+                        to={`/lyrics/${song.id}`}
+                        className="group flex items-baseline justify-between py-2"
+                      >
+                        <span
+                          className="text-xs md:text-sm text-foreground/60 group-hover:text-sd-pink transition-colors duration-200 group-hover:drop-shadow-[0_0_12px_hsl(318,52%,78%)] uppercase tracking-[0.25em]"
+                          style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+                        >
+                          {song.title}
+                        </span>
+                        <span
+                          className="text-[10px] text-foreground/30 tabular-nums ml-4"
+                          style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
+                        >
+                          {String(song.sort_order).padStart(2, "0")}
+                        </span>
+                      </Link>
+                    </motion.div>
+                  ))}
+
+                  {/* Receipt footer */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: songs.length * 0.06 + 0.2 }}
                   >
-                    {song.title}
-                  </span>
-                </Link>
+                    <div className="border-b border-dashed border-foreground/20 mt-4 mb-3" />
+                    <p
+                      className="text-[9px] text-foreground/30 tracking-[0.3em] uppercase text-center"
+                      style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
+                    >
+                      {songs.length} tracks
+                    </p>
+                  </motion.div>
+                </div>
               </motion.div>
-            ))}
-          </div>
+            )}
+          </AnimatePresence>
         </div>
 
         <Footer />
