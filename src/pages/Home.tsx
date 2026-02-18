@@ -53,6 +53,7 @@ const defaultGalleryImages = [{
 const navLinks = [
   { name: "ABOUT", path: "/about" },
   { name: "MUSIC", path: "/music" },
+  { name: "LYRICS", path: "/lyrics" },
   { name: "TOUR", path: "/tour" },
   { name: "LAB", path: "/lab" },
   { name: "MEMBERS", path: "/members" },

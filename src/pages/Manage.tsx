@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power, GripVertical, Instagram, Youtube, Twitter, Globe, ChevronDown } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power, GripVertical, Instagram, Youtube, Twitter, Globe, ChevronDown, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import ImageDropZone from "@/components/admin/ImageDropZone";
@@ -137,7 +137,14 @@ interface MusicRelease {
   sort_order: number;
 }
 
-type Tab = "home" | "copy" | "members" | "tour" | "music" | "lab" | "shopify";
+interface SongEntry {
+  id: string;
+  title: string;
+  lyrics: string;
+  sort_order: number;
+}
+
+type Tab = "home" | "copy" | "members" | "tour" | "music" | "lyrics" | "lab" | "shopify";
 
 interface QuizQuestion {
   question: string;
@@ -155,6 +162,7 @@ const AdminDashboard = () => {
   const [shopLive, setShopLive] = useState(false);
   const [tourLive, setTourLive] = useState(false);
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+  const [songs, setSongs] = useState<SongEntry[]>([]);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -162,11 +170,12 @@ const AdminDashboard = () => {
   }, []);
 
   const loadData = async () => {
-    const [contentRes, tourRes, releaseRes, settingsRes] = await Promise.all([
+    const [contentRes, tourRes, releaseRes, settingsRes, songsRes] = await Promise.all([
       supabase.from("site_content").select("*"),
       supabase.from("tour_dates").select("*").order("sort_order"),
       supabase.from("music_releases").select("*").order("sort_order"),
       supabase.from("admin_settings").select("*"),
+      supabase.from("songs").select("*").order("sort_order"),
     ]);
 
     if (contentRes.data) {
@@ -176,6 +185,7 @@ const AdminDashboard = () => {
     }
     if (tourRes.data) setTourDates(tourRes.data as TourDate[]);
     if (releaseRes.data) setReleases(releaseRes.data as MusicRelease[]);
+    if (songsRes.data) setSongs(songsRes.data as SongEntry[]);
     if (settingsRes.data) {
       settingsRes.data.forEach((s: { id: string; value: string }) => {
         if (s.id === "shopify_store_url") setShopifyUrl(s.value);
@@ -227,6 +237,15 @@ const AdminDashboard = () => {
           await supabase.from("music_releases").upsert(r);
         }
       }
+      // Save songs
+      for (const s of songs) {
+        if (s.id.startsWith("new-")) {
+          const { id: _, ...rest } = s;
+          await supabase.from("songs").insert(rest);
+        } else {
+          await supabase.from("songs").upsert(s);
+        }
+      }
       await supabase.from("admin_settings").upsert({ id: "shopify_store_url", value: shopifyUrl, updated_at: new Date().toISOString() });
       await supabase.from("admin_settings").upsert({ id: "shopify_access_token", value: shopifyToken, updated_at: new Date().toISOString() });
       await supabase.from("admin_settings").upsert({ id: "shop_live", value: shopLive ? "true" : "false", updated_at: new Date().toISOString() });
@@ -249,6 +268,7 @@ const AdminDashboard = () => {
     { id: "members", label: "MEMBERS", icon: <Users size={14} /> },
     { id: "tour", label: "TOUR DATES", icon: <MapPin size={14} /> },
     { id: "music", label: "MUSIC", icon: <Music size={14} /> },
+    { id: "lyrics", label: "LYRICS", icon: <BookOpen size={14} /> },
     { id: "lab", label: "LAB", icon: <FlaskConical size={14} /> },
     { id: "shopify", label: "SHOPIFY", icon: <ShoppingBag size={14} /> },
   ];
@@ -711,6 +731,77 @@ const AdminDashboard = () => {
                       >
                         <Trash2 size={12} /> REMOVE
                       </button>
+                    </div>
+                  ))}
+                </div>
+              </TabPanel>
+            )}
+
+
+            {activeTab === "lyrics" && (
+              <TabPanel key="lyrics">
+                <SectionTitle>Lyrics Page</SectionTitle>
+                <Field label="Page Title" value={content.lyrics_page_title || ""} onChange={(v) => updateContent("lyrics_page_title", v)} placeholder="Lyrics" />
+
+                <div className="flex items-center justify-between mb-6 mt-10">
+                  <SectionTitle className="mb-0">Songs</SectionTitle>
+                  <button
+                    onClick={() => setSongs([...songs, {
+                      id: `new-${Date.now()}`,
+                      title: "",
+                      lyrics: "",
+                      sort_order: songs.length,
+                    }])}
+                    className="flex items-center gap-2 px-3 py-2 text-[10px] tracking-widest-custom border border-white/20 hover:bg-white/10 transition-colors"
+                  >
+                    <Plus size={12} /> ADD SONG
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {songs.map((s, i) => (
+                    <div
+                      key={s.id}
+                      draggable
+                      onDragStart={(e) => { e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/drag-song", String(i)); }}
+                      onDragOver={(e) => { e.preventDefault(); }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const from = Number(e.dataTransfer.getData("text/drag-song"));
+                        if (isNaN(from) || from === i) return;
+                        const reordered = [...songs];
+                        const [moved] = reordered.splice(from, 1);
+                        reordered.splice(i, 0, moved);
+                        setSongs(reordered.map((song, idx) => ({ ...song, sort_order: idx })));
+                      }}
+                      className="p-4 border border-white/10 space-y-3 cursor-grab active:cursor-grabbing hover:border-white/30 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <GripVertical size={14} className="text-white/30" />
+                          <span className="text-[9px] tracking-widest-custom text-white/40">#{i + 1}</span>
+                        </div>
+                        <button
+                          onClick={async () => {
+                            if (!s.id.startsWith("new-")) {
+                              await supabase.from("songs").delete().eq("id", s.id);
+                            }
+                            setSongs(songs.filter((_, j) => j !== i));
+                          }}
+                          className="flex items-center gap-2 px-3 py-2 text-[10px] tracking-widest-custom text-red-400 border border-red-400/30 hover:bg-red-400/10 transition-colors"
+                        >
+                          <Trash2 size={12} /> REMOVE
+                        </button>
+                      </div>
+                      <Field label="Song Title" value={s.title} onChange={(v) => {
+                        const updated = [...songs];
+                        updated[i] = { ...updated[i], title: v };
+                        setSongs(updated);
+                      }} />
+                      <TextArea label="Lyrics" value={s.lyrics} onChange={(v) => {
+                        const updated = [...songs];
+                        updated[i] = { ...updated[i], lyrics: v };
+                        setSongs(updated);
+                      }} rows={12} />
                     </div>
                   ))}
                 </div>
