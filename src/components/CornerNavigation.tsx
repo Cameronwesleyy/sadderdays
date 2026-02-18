@@ -27,6 +27,7 @@ const CornerNavigation = () => {
 
   const navLinks = [
     { name: "MUSIC", path: "/music" },
+    { name: "LYRICS", path: "/lyrics" },
     { name: "TOUR", path: "/tour" },
     { name: "LAB", path: "/lab" },
     { name: "MEMBERS", path: "/members" },
