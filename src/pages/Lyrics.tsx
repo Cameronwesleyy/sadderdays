@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
-import ThemeToggle from "@/components/ThemeToggle";
+
 import { supabase } from "@/integrations/supabase/client";
 
 interface Song {
@@ -31,10 +31,6 @@ const Lyrics = () => {
   return (
     <PageTransition>
       <div className="min-h-screen bg-background">
-        {/* Fixed theme toggle */}
-        <div className="fixed top-4 right-6 z-50">
-          <ThemeToggle />
-        </div>
 
         <div className="max-w-xl mx-auto px-8 pt-20 pb-16">
           {/* Page Title — clean, bold, centered like the PDF */}
