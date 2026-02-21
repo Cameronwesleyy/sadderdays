@@ -152,7 +152,13 @@ const CornerNavigation = () => {
                     transition={{ delay: index * 0.05 }}
                   >
                     {link.name === "SHOP" && !shopLive ? (
-                      <div className="relative text-center group cursor-pointer">
+                      <div 
+                        className="relative text-center group cursor-pointer"
+                        onClick={() => {
+                          window.dispatchEvent(new CustomEvent("open-email-signup"));
+                          setMenuOpen(false);
+                        }}
+                      >
                         <span className="text-2xl md:text-4xl font-display tracking-tighter-custom text-foreground/70 line-through decoration-2 group-hover:hidden">
                           SHOP
                         </span>

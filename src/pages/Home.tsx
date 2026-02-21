@@ -105,6 +105,12 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    const handler = () => setShowEmailPopup(true);
+    window.addEventListener("open-email-signup", handler);
+    return () => window.removeEventListener("open-email-signup", handler);
+  }, []);
+
+  useEffect(() => {
     Promise.all([
       supabase.from("site_content").select("*"),
       supabase.from("admin_settings").select("*").in("id", ["shop_live", "tour_live"]),

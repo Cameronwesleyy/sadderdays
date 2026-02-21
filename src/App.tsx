@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import CornerNavigation from "@/components/CornerNavigation";
 import GrainOverlay from "@/components/GrainOverlay";
 import CartDrawer from "@/components/CartDrawer";
+import GlobalEmailSignup from "@/components/GlobalEmailSignup";
 import Enter from "./pages/Enter";
 import Home from "./pages/Home";
 import Merch from "./pages/Merch";
@@ -36,6 +37,7 @@ const App = () => (
             <GrainOverlay />
             <CornerNavigation />
             <CartDrawer />
+            <GlobalEmailSignup />
             <AnimatePresence mode="wait">
               <main className="min-h-screen">
                 <Routes>
