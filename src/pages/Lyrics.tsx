@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
+import LyricPopup from "@/components/LyricPopup";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Song {
   id: string;
   title: string;
+  lyrics: string;
   sort_order: number;
+  spotify_url: string | null;
+  apple_url: string | null;
 }
 
 const Lyrics = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [pageTitle, setPageTitle] = useState("Lyrics");
+  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
 
   useEffect(() => {
     const load = async () => {
       const [songsRes, contentRes] = await Promise.all([
-        supabase.from("songs").select("id, title, sort_order").order("sort_order"),
+        supabase.from("songs").select("*").order("sort_order"),
         supabase.from("site_content").select("*").eq("id", "lyrics_page_title").maybeSingle(),
       ]);
       if (songsRes.data) setSongs(songsRes.data);
@@ -53,7 +57,7 @@ const Lyrics = () => {
           {/* Receipt dashed line */}
           <div className="border-b border-dashed border-foreground/20 my-6" />
 
-          {/* Song list — receipt style, prints out */}
+          {/* Song list */}
           <div className="flex flex-col gap-0">
             {songs.map((song, i) => (
               <motion.div
@@ -67,9 +71,9 @@ const Lyrics = () => {
                 }}
                 className="overflow-hidden"
               >
-                <Link
-                  to={`/lyrics/${song.id}`}
-                  className="group flex items-baseline justify-between py-2"
+                <button
+                  onClick={() => setSelectedSong(song)}
+                  className="group flex items-baseline justify-between py-2 w-full text-left"
                 >
                   <span
                     className="text-xs md:text-sm text-foreground/60 group-hover:text-sd-pink transition-colors duration-200 group-hover:drop-shadow-[0_0_12px_hsl(318,52%,78%)] uppercase tracking-[0.25em]"
@@ -83,7 +87,7 @@ const Lyrics = () => {
                   >
                     {String(song.sort_order).padStart(2, "0")}
                   </span>
-                </Link>
+                </button>
               </motion.div>
             ))}
 
@@ -106,6 +110,9 @@ const Lyrics = () => {
 
         <Footer />
       </div>
+
+      {/* Mac window lyric popup */}
+      <LyricPopup song={selectedSong} onClose={() => setSelectedSong(null)} />
     </PageTransition>
   );
 };

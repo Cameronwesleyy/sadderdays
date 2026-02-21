@@ -19,7 +19,7 @@ import Tour from "./pages/Tour";
 import About from "./pages/About";
 import Lab from "./pages/Lab";
 import Lyrics from "./pages/Lyrics";
-import LyricDetail from "./pages/LyricDetail";
+
 import Manage from "./pages/Manage";
 import NotFound from "./pages/NotFound";
 
@@ -49,7 +49,7 @@ const App = () => (
                   <Route path="/about" element={<About />} />
                   <Route path="/lab" element={<Lab />} />
                   <Route path="/lyrics" element={<Lyrics />} />
-                  <Route path="/lyrics/:id" element={<LyricDetail />} />
+                  
                   <Route path="/manage" element={<Manage />} />
                   <Route path="*" element={<NotFound />} />
                   <Route path="*" element={<NotFound />} />
