@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
@@ -17,7 +17,8 @@ interface Song {
 const Lyrics = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [pageTitle, setPageTitle] = useState("Lyrics");
-  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
+  const [openSongIds, setOpenSongIds] = useState<string[]>([]);
+  const [focusOrder, setFocusOrder] = useState<string[]>([]);
 
   useEffect(() => {
     const load = async () => {
@@ -30,6 +31,29 @@ const Lyrics = () => {
     };
     load();
   }, []);
+
+  const openSong = useCallback((song: Song) => {
+    setOpenSongIds(prev => {
+      if (prev.includes(song.id)) {
+        // Already open — just bring to front
+        setFocusOrder(fo => [...fo.filter(id => id !== song.id), song.id]);
+        return prev;
+      }
+      return [...prev, song.id];
+    });
+    setFocusOrder(fo => [...fo.filter(id => id !== song.id), song.id]);
+  }, []);
+
+  const closeSong = useCallback((id: string) => {
+    setOpenSongIds(prev => prev.filter(sid => sid !== id));
+    setFocusOrder(prev => prev.filter(sid => sid !== id));
+  }, []);
+
+  const focusSong = useCallback((id: string) => {
+    setFocusOrder(prev => [...prev.filter(sid => sid !== id), id]);
+  }, []);
+
+  const openSongs = songs.filter(s => openSongIds.includes(s.id));
 
   return (
     <PageTransition>
@@ -46,7 +70,6 @@ const Lyrics = () => {
             {pageTitle}
           </motion.h1>
 
-          {/* Album name */}
           <p
             className="text-[11px] text-foreground/40 tracking-[0.3em] uppercase mt-2"
             style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
@@ -54,25 +77,19 @@ const Lyrics = () => {
             Yin &amp; Yang
           </p>
 
-          {/* Receipt dashed line */}
           <div className="border-b border-dashed border-foreground/20 my-6" />
 
-          {/* Song list */}
           <div className="flex flex-col gap-0">
             {songs.map((song, i) => (
               <motion.div
                 key={song.id}
                 initial={{ opacity: 0, height: 0, y: -4 }}
                 animate={{ opacity: 1, height: "auto", y: 0 }}
-                transition={{
-                  duration: 0.15,
-                  delay: i * 0.06,
-                  ease: "easeOut",
-                }}
+                transition={{ duration: 0.15, delay: i * 0.06, ease: "easeOut" }}
                 className="overflow-hidden"
               >
                 <button
-                  onClick={() => setSelectedSong(song)}
+                  onClick={() => openSong(song)}
                   className="group flex items-baseline justify-between py-2 w-full text-left"
                 >
                   <span
@@ -91,7 +108,6 @@ const Lyrics = () => {
               </motion.div>
             ))}
 
-            {/* Receipt footer */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -111,8 +127,12 @@ const Lyrics = () => {
         <Footer />
       </div>
 
-      {/* Mac window lyric popup */}
-      <LyricPopup song={selectedSong} onClose={() => setSelectedSong(null)} />
+      <LyricPopup
+        openSongs={openSongs}
+        onClose={closeSong}
+        onFocus={focusSong}
+        focusOrder={focusOrder}
+      />
     </PageTransition>
   );
 };
