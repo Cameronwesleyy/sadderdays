@@ -349,7 +349,11 @@ const Members = () => {
   const parseGallery = (key: string, fallback: string[]): string[] => {
     try {
       const parsed = JSON.parse(cms[key] || "[]");
-      return parsed.length > 0 ? parsed : fallback;
+      if (!parsed.length) return fallback;
+      // Only keep full URLs (Supabase storage); discard build-hashed local paths
+      const valid = parsed.filter((url: string) => url.startsWith("http"));
+      // If we lost most images due to invalid paths, use the full fallback instead
+      return valid.length >= 3 ? valid : fallback;
     } catch { return fallback; }
   };
 
