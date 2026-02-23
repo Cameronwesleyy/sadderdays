@@ -265,25 +265,7 @@ const MemberCard = ({
         <p className="text-foreground/70 text-xs leading-relaxed">{bio}</p>
       </div>
 
-      {/* Links */}
-      {displayLinks && displayLinks.length > 0 && (
-        <div className="px-6 pb-3">
-          <div className="flex flex-wrap gap-1.5">
-            {displayLinks.map((link) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-3 py-1.5 text-[10px] tracking-wider border border-foreground/30 text-foreground hover:border-foreground/60 hover:bg-foreground/10 transition-all flex items-center gap-1.5"
-              >
-                {link.name}
-                <ExternalLink size={10} />
-              </motion.a>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Links - hidden */}
 
       {/* Social Links */}
       <div className="px-6 py-4">
