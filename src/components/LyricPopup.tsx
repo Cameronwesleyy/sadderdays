@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -59,21 +60,19 @@ const DraggableWindow = ({ song, onClose, onFocus, zIndex, initialOffset }: Drag
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.92, y: 30 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed flex flex-col rounded-xl overflow-hidden shadow-2xl border border-foreground/10"
+      className="fixed inset-0 flex flex-col rounded-xl overflow-hidden shadow-2xl border border-foreground/10 m-auto"
       style={{
         zIndex,
-        width: "min(680px, calc(100vw - 2rem))",
-        height: "min(70vh, calc(100vh - 4rem))",
-        left: `calc(50% + ${position.x}px)`,
-        top: `calc(50% + ${position.y}px)`,
-        transform: "translate(-50%, -50%)",
+        width: "min(680px, calc(100vw - 1rem))",
+        height: "min(70vh, calc(100vh - 2rem))",
+        translate: `${position.x}px ${position.y}px`,
       }}
       onPointerDown={() => onFocus(song.id)}
     >
       {/* Title Bar — drag handle */}
       <div
         className="bg-muted/95 backdrop-blur-md border-b border-foreground/10 flex items-center px-4 py-3 shrink-0 select-none"
-        style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "none" }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -183,7 +182,7 @@ interface LyricPopupProps {
 const LyricPopup = ({ openSongs, onClose, onCloseAll, onFocus, focusOrder }: LyricPopupProps) => {
   if (openSongs.length === 0) return null;
 
-  return (
+  return createPortal(
     <>
       {openSongs.length > 1 && (
         <button
@@ -209,7 +208,8 @@ const LyricPopup = ({ openSongs, onClose, onCloseAll, onFocus, focusOrder }: Lyr
           );
         })}
       </AnimatePresence>
-    </>
+    </>,
+    document.body
   );
 };
 
