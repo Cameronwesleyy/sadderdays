@@ -308,7 +308,7 @@ const DraggableMemberWindow = ({
               <div className="flex-1">
                 <label className="block text-[8px] tracking-widest text-foreground/40 mb-1">POSITION {data.eyesCrop.position}%</label>
                 <input
-                  type="range" min="0" max="100" step="1"
+                  type="range" min="-50" max="100" step="1"
                   value={data.eyesCrop.position}
                   onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, position: parseFloat(e.target.value) })}
                   onPointerDown={(e) => e.stopPropagation()}
