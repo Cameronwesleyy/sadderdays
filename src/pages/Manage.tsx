@@ -812,9 +812,9 @@ const AdminDashboard = () => {
               <TabPanel key="lab">
                 <SectionTitle>Lab Page Copy</SectionTitle>
                 <Field label="Page Title" value={content.lab_title || ""} onChange={(v) => updateContent("lab_title", v)} placeholder="LAB" />
-                <Field label="Generator Tab Label" value={content.lab_tab_generator || ""} onChange={(v) => updateContent("lab_tab_generator", v)} placeholder="GENERATOR" />
-                <Field label="Coin Flip Tab Label" value={content.lab_tab_coinflip || ""} onChange={(v) => updateContent("lab_tab_coinflip", v)} placeholder="FLIP A COIN" />
-                <Field label="Quiz Tab Label" value={content.lab_tab_quiz || ""} onChange={(v) => updateContent("lab_tab_quiz", v)} placeholder="YIN OR YANG" />
+                <Field label="Generator Folder Label" value={content.lab_tab_generator || ""} onChange={(v) => updateContent("lab_tab_generator", v)} placeholder="GENERATOR" />
+                <Field label="Coin Flip Folder Label" value={content.lab_tab_coinflip || ""} onChange={(v) => updateContent("lab_tab_coinflip", v)} placeholder="FLIP A COIN" />
+                <Field label="Quiz Folder Label" value={content.lab_tab_quiz || ""} onChange={(v) => updateContent("lab_tab_quiz", v)} placeholder="YIN OR YANG" />
                 <TextArea label="Yin Result Text" value={content.lab_yin_result || ""} onChange={(v) => updateContent("lab_yin_result", v)} rows={2} />
                 <TextArea label="Yang Result Text" value={content.lab_yang_result || ""} onChange={(v) => updateContent("lab_yang_result", v)} rows={2} />
 
