@@ -393,28 +393,20 @@ const Members = () => {
           }}
         />
 
-        {/* Yin Yang Logo - 3D pop effect */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mt-4 relative z-10"
-        >
+        {/* Yin Yang Logo - large engraved background */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
           <img 
             src={yinYangLogo} 
-            alt="Sadder Days" 
-            className="w-14 h-14 md:w-16 md:h-16 object-contain"
-            style={{
-              filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3)) drop-shadow(0 8px 16px rgba(0,0,0,0.15))",
-            }}
+            alt="" 
+            className="w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] object-contain opacity-[0.04] dark:opacity-[0.06]"
           />
-        </motion.div>
+        </div>
 
         {/* MEMBERS Title */}
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.5 }}
           className="font-display text-6xl md:text-8xl tracking-tighter-custom text-foreground text-center relative z-10 mb-12 mt-4"
         >
           MEMBERS
