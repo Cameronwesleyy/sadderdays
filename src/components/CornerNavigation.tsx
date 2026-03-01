@@ -72,9 +72,8 @@ const CornerNavigation = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-40 bg-[rgba(255,235,245,0.4)] dark:bg-[rgba(30,20,25,0.6)]"
             style={{
-              backgroundColor: "rgba(255, 235, 245, 0.4)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
               willChange: "opacity",
