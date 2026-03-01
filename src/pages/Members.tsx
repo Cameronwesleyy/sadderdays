@@ -419,12 +419,12 @@ const Members = () => {
         {isMobile ? (
           <div className="flex flex-col items-center w-full max-w-md relative z-10 mb-16">
             {/* Pill buttons */}
-            <div className="flex gap-3 mb-6">
+            <div className="flex flex-col gap-4 mb-8 w-full items-center">
               {defaultMembers.map((member) => (
                 <button
                   key={member.name}
                   onClick={() => setActiveMember(activeMember === member.name ? null : member.name)}
-                  className={`px-6 py-2.5 rounded-full border transition-all duration-300 ${
+                  className={`px-10 py-4 rounded-full border transition-all duration-300 w-[75%] flex justify-center ${
                     activeMember === member.name
                       ? "border-foreground bg-foreground/10"
                       : "border-foreground/30 hover:border-foreground/60"
@@ -433,7 +433,7 @@ const Members = () => {
                   <img
                     src={member.titleImage}
                     alt={member.name}
-                    className="h-6 w-auto dark:brightness-100 brightness-75"
+                    className="h-8 w-auto dark:brightness-100 brightness-75"
                   />
                 </button>
               ))}
