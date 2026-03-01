@@ -278,7 +278,18 @@ const DraggableMemberWindow = ({
 
       {/* Content */}
       <ScrollArea className="flex-1 bg-background">
-        <div className="px-6 md:px-10 pt-8 pb-16">
+        <div className="px-6 md:px-10 pt-0 pb-16">
+          {/* Eyes Image - at top */}
+          <div className="relative h-28 overflow-hidden mb-6">
+            <img
+              src={data.eyesImage}
+              alt={data.name}
+              className="w-full h-full object-cover"
+              style={{ objectPosition: `center ${data.eyesCrop.position}%`, transform: `scale(${data.eyesCrop.scale})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </div>
+
           {/* Name */}
           <div className="flex justify-center mb-6">
             <img
@@ -294,22 +305,7 @@ const DraggableMemberWindow = ({
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-foreground/20 text-xs mb-6">
-            <div>
-              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">FAVORITE COLOR</p>
-              <p className="font-medium text-foreground">{data.favoriteColor}</p>
-            </div>
-            <div>
-              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">PERSONALITY</p>
-              <p className="font-medium text-foreground">{data.personality}</p>
-            </div>
-            <div>
-              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">BIRTHDAY</p>
-              <p className="font-medium text-foreground">{data.birthday}</p>
-            </div>
-            <div>
-              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">SIGNS</p>
-              <p className="font-medium text-foreground">{data.signs}</p>
-            </div>
+...
           </div>
 
           {/* Bio */}
@@ -317,29 +313,7 @@ const DraggableMemberWindow = ({
 
           {/* Social Links */}
           <div className="flex gap-1.5 mb-6">
-            {data.socials.map((social) => (
-              <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 border border-foreground/20 text-foreground hover:border-foreground/50 hover:bg-foreground/10 transition-all"
-                aria-label={social.name}
-              >
-                <SocialIcon name={social.name} />
-              </a>
-            ))}
-          </div>
-
-          {/* Eyes Image */}
-          <div className="relative h-28 overflow-hidden rounded-lg mb-4">
-            <img
-              src={data.eyesImage}
-              alt={data.name}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: `center ${data.eyesCrop.position}%`, transform: `scale(${data.eyesCrop.scale})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+...
           </div>
 
           {/* Film Strip */}
