@@ -288,33 +288,15 @@ const DraggableMemberWindow = ({
             const isMobileView = window.innerWidth < 768;
             const crop = isMobileView ? data.eyesCropMobile : data.eyesCrop;
             return (
-              <>
-                <div className="relative h-28 overflow-hidden mb-2">
-                  <img
-                    src={data.eyesImage}
-                    alt={data.name}
-                    className="w-full h-full object-cover"
-                    style={{ objectPosition: `center ${crop.position}%`, transform: `scale(${crop.scale})` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                </div>
-                {isMobileView && data.onMobileEyesCropChange && (
-                  <div className="flex gap-4 mb-4 px-1">
-                    <label className="flex items-center gap-2 text-[10px] text-foreground/50 flex-1">
-                      Zoom
-                      <input type="range" min="1" max="8" step="0.1" value={crop.scale}
-                        onChange={(e) => data.onMobileEyesCropChange!({ ...crop, scale: parseFloat(e.target.value) })}
-                        className="flex-1 h-1 accent-foreground/40" />
-                    </label>
-                    <label className="flex items-center gap-2 text-[10px] text-foreground/50 flex-1">
-                      Position
-                      <input type="range" min="0" max="100" step="1" value={crop.position}
-                        onChange={(e) => data.onMobileEyesCropChange!({ ...crop, position: parseFloat(e.target.value) })}
-                        className="flex-1 h-1 accent-foreground/40" />
-                    </label>
-                  </div>
-                )}
-              </>
+              <div className="relative h-28 overflow-hidden mb-6">
+                <img
+                  src={data.eyesImage}
+                  alt={data.name}
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: `center ${crop.position}%`, transform: `scale(${crop.scale})` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              </div>
             );
           })()}
 
