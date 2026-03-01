@@ -430,11 +430,9 @@ const Members = () => {
                       : "border-foreground/30 hover:border-foreground/60"
                   }`}
                 >
-                  <img
-                    src={member.titleImage}
-                    alt={member.name}
-                    className="h-8 w-auto dark:brightness-100 brightness-75"
-                  />
+                  <span className="text-lg font-display tracking-tighter-custom text-sd-pink">
+                    {member.name}
+                  </span>
                 </button>
               ))}
             </div>
