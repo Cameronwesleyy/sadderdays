@@ -91,10 +91,11 @@ const CornerNavigation = () => {
             </div>
 
             <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
-              {/* Logo - fade in */}
-              <div
-                className="animate-fade-in"
-                style={{ animationDelay: "50ms", animationFillMode: "both" }}
+              {/* Logo - pure opacity fade */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               >
                 <Link
                   to="/home"
@@ -103,15 +104,20 @@ const CornerNavigation = () => {
                 >
                   <img src={yinyangLogo} alt="Sadder Days" className="h-16 md:h-20 w-auto" />
                 </Link>
-              </div>
+              </motion.div>
 
-              {/* Navigation Links */}
+              {/* Navigation Links - flow out from logo */}
               <nav className="flex flex-col items-center gap-6">
                 {navLinks.map((link, index) => (
-                  <div
+                  <motion.div
                     key={link.path}
-                    className="animate-fade-in"
-                    style={{ animationDelay: `${80 + index * 30}ms`, animationFillMode: "both" }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: 0.15 + index * 0.04,
+                      duration: 0.35,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
                   >
                     {link.name === "SHOP" && !shopLive ? (
                       <div
@@ -155,7 +161,7 @@ const CornerNavigation = () => {
                         {link.name}
                       </Link>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </nav>
             </div>
