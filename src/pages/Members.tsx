@@ -6,6 +6,7 @@ import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useIsMobile } from "@/hooks/use-mobile";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import grantEyes from "@/assets/grant-eyes.jpg";
@@ -187,9 +188,11 @@ interface MemberPopupData {
   signs: string;
   eyesImage: string;
   eyesCrop: { position: number; scale: number };
+  eyesCropMobile: { position: number; scale: number };
   cycleImages: string[];
   socials: { name: string; href: string }[];
   onEyesCropChange?: (crop: { position: number; scale: number }) => void;
+  onMobileEyesCropChange?: (crop: { position: number; scale: number }) => void;
 }
 
 const DraggableMemberWindow = ({
@@ -281,15 +284,52 @@ const DraggableMemberWindow = ({
       <ScrollArea className="flex-1 bg-background">
         <div className="px-6 md:px-10 pt-0 pb-16">
           {/* Eyes Image - at top */}
-          <div className="relative h-28 overflow-hidden mb-6">
-            <img
-              src={data.eyesImage}
-              alt={data.name}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: `center ${data.eyesCrop.position}%`, transform: `scale(${data.eyesCrop.scale})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          </div>
+          {(() => {
+            const isMobileView = window.innerWidth < 768;
+            const crop = isMobileView ? data.eyesCropMobile : data.eyesCrop;
+            return (
+              <>
+                <div className="relative h-28 overflow-hidden mb-2">
+                  <img
+                    src={data.eyesImage}
+                    alt={data.name}
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: `center ${crop.position}%`, transform: `scale(${crop.scale})` }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                </div>
+                {/* Mobile-only crop sliders */}
+                {isMobileView && data.onMobileEyesCropChange && (
+                  <div className="flex gap-4 mb-4 px-1">
+                    <label className="flex items-center gap-2 text-[10px] text-foreground/50 flex-1">
+                      Zoom
+                      <input
+                        type="range"
+                        min="1"
+                        max="8"
+                        step="0.1"
+                        value={crop.scale}
+                        onChange={(e) => data.onMobileEyesCropChange!({ ...crop, scale: parseFloat(e.target.value) })}
+                        className="flex-1 h-1 accent-foreground/40"
+                      />
+                    </label>
+                    <label className="flex items-center gap-2 text-[10px] text-foreground/50 flex-1">
+                      Position
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={crop.position}
+                        onChange={(e) => data.onMobileEyesCropChange!({ ...crop, position: parseFloat(e.target.value) })}
+                        className="flex-1 h-1 accent-foreground/40"
+                      />
+                    </label>
+                  </div>
+                )}
+              </>
+            );
+          })()}
 
           {/* Name */}
           <div className="flex justify-center mb-6">
@@ -500,6 +540,15 @@ const Members = () => {
     supabase.from("site_content").upsert({ id: posKey, content: String(crop.position), updated_at: new Date().toISOString() });
   }, []);
 
+  const handleMobileEyesCropChange = useCallback((name: string, crop: { position: number; scale: number }) => {
+    const isCameron = name === "CAMERON";
+    const zoomKey = isCameron ? "cameron_eyes_zoom_mobile" : "grant_eyes_zoom_mobile";
+    const posKey = isCameron ? "cameron_eyes_position_mobile" : "grant_eyes_position_mobile";
+    setCms(prev => ({ ...prev, [zoomKey]: String(crop.scale), [posKey]: String(crop.position) }));
+    supabase.from("site_content").upsert({ id: zoomKey, content: String(crop.scale), updated_at: new Date().toISOString() });
+    supabase.from("site_content").upsert({ id: posKey, content: String(crop.position), updated_at: new Date().toISOString() });
+  }, []);
+
   const getMemberPopupData = (name: string): MemberPopupData => {
     const isCameron = name === "CAMERON";
     const member = isCameron ? defaultMembers[0] : defaultMembers[1];
@@ -509,6 +558,12 @@ const Members = () => {
     const eyesPosition = isCameron
       ? parseFloat(cms.cameron_eyes_position || String(member.eyesCrop.position))
       : parseFloat(cms.grant_eyes_position || String(member.eyesCrop.position));
+    const eyesZoomMobile = isCameron
+      ? parseFloat(cms.cameron_eyes_zoom_mobile || String(member.eyesCrop.scale))
+      : parseFloat(cms.grant_eyes_zoom_mobile || String(member.eyesCrop.scale));
+    const eyesPositionMobile = isCameron
+      ? parseFloat(cms.cameron_eyes_position_mobile || String(member.eyesCrop.position))
+      : parseFloat(cms.grant_eyes_position_mobile || String(member.eyesCrop.position));
     return {
       name: member.name,
       titleImage: member.titleImage,
@@ -521,9 +576,11 @@ const Members = () => {
       signs: isCameron ? cameronSigns : grantSigns,
       eyesImage: isCameron ? cameronEyesImg : grantEyesImg,
       eyesCrop: { position: eyesPosition, scale: eyesZoom },
+      eyesCropMobile: { position: eyesPositionMobile, scale: eyesZoomMobile },
       cycleImages: isCameron ? cameronFilmstrip : grantFilmstrip,
       socials: isCameron ? cameronSocials : grantSocials,
       onEyesCropChange: (crop) => handleEyesCropChange(name, crop),
+      onMobileEyesCropChange: (crop) => handleMobileEyesCropChange(name, crop),
     };
   };
 
