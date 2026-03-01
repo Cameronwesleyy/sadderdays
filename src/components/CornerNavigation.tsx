@@ -20,7 +20,6 @@ const CornerNavigation = () => {
     });
   }, []);
 
-  // Hide on Enter page and Home page
   if (location.pathname === "/" || location.pathname === "/home") {
     return null;
   }
@@ -72,10 +71,12 @@ const CornerNavigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed inset-0 z-40"
             style={{
-              backgroundColor: "rgba(255, 235, 245, 0.55)",
+              backgroundColor: "rgba(255, 235, 245, 0.4)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
               willChange: "opacity",
             }}
           >
@@ -90,14 +91,19 @@ const CornerNavigation = () => {
             </div>
 
             <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
-              {/* Logo */}
-              <Link
-                to="/home"
-                onClick={() => setMenuOpen(false)}
-                className="hover:opacity-70 transition-opacity"
+              {/* Logo - fade in */}
+              <div
+                className="animate-fade-in"
+                style={{ animationDelay: "50ms", animationFillMode: "both" }}
               >
-                <img src={yinyangLogo} alt="Sadder Days" className="h-16 md:h-20 w-auto" />
-              </Link>
+                <Link
+                  to="/home"
+                  onClick={() => setMenuOpen(false)}
+                  className="hover:opacity-70 transition-opacity"
+                >
+                  <img src={yinyangLogo} alt="Sadder Days" className="h-16 md:h-20 w-auto" />
+                </Link>
+              </div>
 
               {/* Navigation Links */}
               <nav className="flex flex-col items-center gap-6">
@@ -105,7 +111,7 @@ const CornerNavigation = () => {
                   <div
                     key={link.path}
                     className="animate-fade-in"
-                    style={{ animationDelay: `${index * 30}ms`, animationFillMode: "both" }}
+                    style={{ animationDelay: `${80 + index * 30}ms`, animationFillMode: "both" }}
                   >
                     {link.name === "SHOP" && !shopLive ? (
                       <div
