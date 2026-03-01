@@ -420,21 +420,32 @@ const Members = () => {
           <div className="flex flex-col items-center w-full max-w-md relative z-10 mb-16">
             {/* Pill buttons */}
             <div className="flex flex-col gap-4 mb-8 w-full items-center">
-              {defaultMembers.map((member) => (
-                <button
-                  key={member.name}
-                  onClick={() => setActiveMember(activeMember === member.name ? null : member.name)}
-                  className={`px-10 py-4 rounded-full border transition-all duration-300 w-[75%] flex justify-center ${
-                    activeMember === member.name
-                      ? "border-foreground bg-foreground/10"
-                      : "border-foreground/30 hover:border-foreground/60"
-                  }`}
-                >
-                  <span className="text-lg font-display tracking-tighter-custom text-sd-pink">
-                    {member.name}
-                  </span>
-                </button>
-              ))}
+              {defaultMembers.map((member) => {
+                const eyesSrc = member.name === "CAMERON" ? cameronEyesImg : grantEyesImg;
+                const crop = member.eyesCrop;
+                return (
+                  <button
+                    key={member.name}
+                    onClick={() => setActiveMember(activeMember === member.name ? null : member.name)}
+                    className={`relative px-10 py-5 rounded-full border transition-all duration-300 w-[75%] flex justify-center overflow-hidden ${
+                      activeMember === member.name
+                        ? "border-foreground"
+                        : "border-foreground/30 hover:border-foreground/60"
+                    }`}
+                  >
+                    <img
+                      src={eyesSrc}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-30"
+                      style={{ objectPosition: `center ${crop.position}%` }}
+                    />
+                    <div className="absolute inset-0 bg-background/50" />
+                    <span className="relative z-10 text-lg font-display tracking-tighter-custom text-sd-pink drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
+                      {member.name}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Collapsible content */}
