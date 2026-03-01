@@ -407,7 +407,7 @@ const Members = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="font-display text-5xl md:text-8xl tracking-tighter-custom text-foreground text-center relative z-10 my-16 md:mb-12 md:mt-8"
+          className="font-display text-5xl md:text-8xl tracking-tighter-custom text-foreground text-center relative z-10 mt-20 mb-16 md:mb-12 md:mt-8"
         >
           MEMBERS
         </motion.h1>
