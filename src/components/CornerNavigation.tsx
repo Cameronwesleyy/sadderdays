@@ -93,8 +93,8 @@ const CornerNavigation = () => {
             <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
               {/* Logo - pure opacity fade */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
                 <Link
