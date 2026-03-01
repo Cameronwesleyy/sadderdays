@@ -281,7 +281,7 @@ const DraggableMemberWindow = ({
       <ScrollArea className="flex-1 bg-background">
         <div className="px-6 md:px-10 pt-0 pb-16">
           {/* Eyes Image - at top */}
-          <div className="relative h-28 overflow-hidden mb-2">
+          <div className="relative h-28 overflow-hidden mb-6">
             <img
               src={data.eyesImage}
               alt={data.name}
