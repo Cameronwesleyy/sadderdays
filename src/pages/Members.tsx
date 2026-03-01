@@ -282,7 +282,7 @@ const DraggableMemberWindow = ({
 
       {/* Content */}
       <ScrollArea className="flex-1 bg-background">
-        <div className="px-6 md:px-10 pt-0 pb-16">
+        <div className="px-4 md:px-10 pt-0 pb-16 overflow-hidden">
           {/* Eyes Image - at top */}
           {(() => {
             const isMobileView = window.innerWidth < 768;
