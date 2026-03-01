@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
@@ -322,6 +323,8 @@ const MemberCard = ({
 };
 
 const Members = () => {
+  const isMobile = useIsMobile();
+  const [activeMember, setActiveMember] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number; name: string } | null>(null);
   const [cms, setCms] = useState<Record<string, string>>({});
@@ -412,27 +415,88 @@ const Members = () => {
           MEMBERS
         </motion.h1>
 
-        {/* Side by side centered layout */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch justify-center w-full max-w-4xl relative z-10 mb-16">
-          {defaultMembers.map((member, index) => (
-            <MemberCard 
-              key={member.name} 
-              member={member} 
-              index={index}
-              eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
-              cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
-              bio={member.name === "CAMERON" ? cameronBio : grantBio}
-              role={member.name === "CAMERON" ? cameronRole : grantRole}
-              favoriteColor={member.name === "CAMERON" ? cameronFavColor : grantFavColor}
-              personality={member.name === "CAMERON" ? cameronPersonality : grantPersonality}
-              birthday={member.name === "CAMERON" ? cameronBirthday : grantBirthday}
-              signs={member.name === "CAMERON" ? cameronSigns : grantSigns}
-              links={member.name === "CAMERON" ? cameronLinks : grantLinks}
-              socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
-              onImageClick={openLightbox}
-            />
-          ))}
-        </div>
+        {/* Mobile: Pill accordion layout */}
+        {isMobile ? (
+          <div className="flex flex-col items-center w-full max-w-md relative z-10 mb-16">
+            {/* Pill buttons */}
+            <div className="flex gap-3 mb-6">
+              {defaultMembers.map((member) => (
+                <button
+                  key={member.name}
+                  onClick={() => setActiveMember(activeMember === member.name ? null : member.name)}
+                  className={`px-6 py-2.5 rounded-full border transition-all duration-300 ${
+                    activeMember === member.name
+                      ? "border-foreground bg-foreground/10"
+                      : "border-foreground/30 hover:border-foreground/60"
+                  }`}
+                >
+                  <img
+                    src={member.titleImage}
+                    alt={member.name}
+                    className="h-6 w-auto dark:brightness-100 brightness-75"
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Collapsible content */}
+            <AnimatePresence mode="wait">
+              {activeMember && (
+                <motion.div
+                  key={activeMember}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="w-full overflow-hidden"
+                >
+                  {defaultMembers
+                    .filter((m) => m.name === activeMember)
+                    .map((member, index) => (
+                      <MemberCard
+                        key={member.name}
+                        member={member}
+                        index={0}
+                        eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
+                        cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
+                        bio={member.name === "CAMERON" ? cameronBio : grantBio}
+                        role={member.name === "CAMERON" ? cameronRole : grantRole}
+                        favoriteColor={member.name === "CAMERON" ? cameronFavColor : grantFavColor}
+                        personality={member.name === "CAMERON" ? cameronPersonality : grantPersonality}
+                        birthday={member.name === "CAMERON" ? cameronBirthday : grantBirthday}
+                        signs={member.name === "CAMERON" ? cameronSigns : grantSigns}
+                        links={member.name === "CAMERON" ? cameronLinks : grantLinks}
+                        socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
+                        onImageClick={openLightbox}
+                      />
+                    ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ) : (
+          /* Desktop: Side by side layout */
+          <div className="flex flex-row gap-8 items-stretch justify-center w-full max-w-4xl relative z-10 mb-16">
+            {defaultMembers.map((member, index) => (
+              <MemberCard
+                key={member.name}
+                member={member}
+                index={index}
+                eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
+                cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
+                bio={member.name === "CAMERON" ? cameronBio : grantBio}
+                role={member.name === "CAMERON" ? cameronRole : grantRole}
+                favoriteColor={member.name === "CAMERON" ? cameronFavColor : grantFavColor}
+                personality={member.name === "CAMERON" ? cameronPersonality : grantPersonality}
+                birthday={member.name === "CAMERON" ? cameronBirthday : grantBirthday}
+                signs={member.name === "CAMERON" ? cameronSigns : grantSigns}
+                links={member.name === "CAMERON" ? cameronLinks : grantLinks}
+                socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
+                onImageClick={openLightbox}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
 
