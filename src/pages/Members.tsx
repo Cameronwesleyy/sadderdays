@@ -238,7 +238,7 @@ const DraggableMemberWindow = ({
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.92, y: 30 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 flex flex-col rounded-xl overflow-hidden shadow-2xl border border-foreground/10 m-auto"
+      className="fixed inset-0 flex flex-col rounded-xl overflow-hidden shadow-2xl border border-foreground/10 m-auto max-w-[calc(100vw-1rem)]"
       style={{
         zIndex,
         width: "min(680px, calc(100vw - 1rem))",
@@ -281,8 +281,8 @@ const DraggableMemberWindow = ({
       </div>
 
       {/* Content */}
-      <ScrollArea className="flex-1 bg-background">
-        <div className="px-4 md:px-10 pt-0 pb-16 overflow-hidden">
+      <ScrollArea className="flex-1 bg-background overflow-x-hidden min-w-0 w-full">
+        <div className="px-4 md:px-10 pt-0 pb-16 w-full overflow-x-hidden">
           {/* Eyes Image - at top */}
           {(() => {
             const isMobileView = window.innerWidth < 768;
