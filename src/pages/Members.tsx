@@ -1,10 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import PageTransition from "@/components/PageTransition";
-import { useIsMobile } from "@/hooks/use-mobile";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import cameronPortrait from "@/assets/cameron-portrait.jpg";
 import grantPortrait from "@/assets/grant-portrait.jpg";
 import grantEyes from "@/assets/grant-eyes.jpg";
@@ -43,109 +44,18 @@ const defaultGrantCycle = [
   grantCycle6, grantCycle7, grantCycle8, grantCycle9, grantCycle10
 ];
 
+// ── Social Icons ──
+
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
   </svg>
 );
-
 const PatreonIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
     <path d="M14.82 2.41c3.96 0 7.18 3.24 7.18 7.21 0 3.96-3.22 7.18-7.18 7.18-3.97 0-7.21-3.22-7.21-7.18 0-3.97 3.24-7.21 7.21-7.21M2 21.6h3.5V2.41H2V21.6z"/>
   </svg>
 );
-
-const defaultMembers = [
-  {
-    name: "CAMERON",
-    titleImage: cameronTitle,
-    titleScale: 1.15,
-    defaultRole: "Guitar / Production",
-    defaultEyesImage: cameronEyes,
-    eyesCrop: { position: 6, scale: 4.0 },
-    defaultFavoriteColor: "Forest Green",
-    defaultPersonality: "INFP-A",
-    defaultBirthday: "08/08/2002",
-    defaultSigns: "Leo · Leo · Scorpio",
-    defaultBio: "Cameron is the guitarist and founder of Sadder Days. He started making music at 17, during quarantine, and taught himself how to play guitar. His style as a guitar player is distinct, sensual, melodic, and elegant, while still incorporating those bloodthirsty riffs that drive Sadder Days' heavy side. Taking influences from Classical, RnB, Jazz, and even Visual Kei, Cameron always finds a way to make his guitar sing a sultry, vampiric song. He writes songs entirely in his head before touching an instrument. \"You're only limited by how big you can think.\"",
-    socials: [
-      { name: "Instagram", icon: Instagram, href: "#" },
-      { name: "TikTok", icon: TikTokIcon, href: "#" },
-      { name: "Patreon", icon: PatreonIcon, href: "#" },
-    ],
-    links: [
-      { name: "Get His Tone", href: "#" },
-      { name: "Equipment", href: "#" },
-      { name: "Wallpapers", href: "#" },
-      { name: "Playlist", href: "#" },
-    ],
-  },
-  {
-    name: "GRANT",
-    titleImage: grantTitle,
-    titleScale: 1,
-    defaultRole: "Drums / Percussion",
-    defaultEyesImage: grantEyes,
-    eyesCrop: { position: 13, scale: 4.0 },
-    defaultFavoriteColor: "Celestine Blue",
-    defaultPersonality: "ENFJ-A",
-    defaultBirthday: "06/12/2003",
-    defaultSigns: "Gemini · Sagittarius · Scorpio",
-    defaultBio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
-    socials: [
-      { name: "Instagram", icon: Instagram, href: "#" },
-      { name: "TikTok", icon: TikTokIcon, href: "#" },
-      { name: "Patreon", icon: PatreonIcon, href: "#" },
-    ],
-  },
-];
-
-interface GalleryLightboxProps {
-  images: string[];
-  initialIndex: number;
-  memberName: string;
-  onClose: () => void;
-}
-
-const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryLightboxProps) => {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const goNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
-  const goPrev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
-      onClick={onClose}
-    >
-      <button onClick={onClose} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
-        <X size={32} />
-      </button>
-      <button onClick={(e) => { e.stopPropagation(); goPrev(); }} className="absolute left-4 md:left-8 text-white/70 hover:text-white transition-colors p-2">
-        <ChevronLeft size={40} />
-      </button>
-      <motion.img
-        key={currentIndex}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.2 }}
-        src={images[currentIndex]}
-        alt={`${memberName} ${currentIndex + 1}`}
-        className="max-h-[80vh] max-w-[90vw] object-contain"
-        onClick={(e) => e.stopPropagation()}
-      />
-      <button onClick={(e) => { e.stopPropagation(); goNext(); }} className="absolute right-4 md:right-8 text-white/70 hover:text-white transition-colors p-2">
-        <ChevronRight size={40} />
-      </button>
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm">
-        {currentIndex + 1} / {images.length}
-      </div>
-    </motion.div>
-  );
-};
-
 const SpotifyIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
     <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
@@ -191,140 +101,320 @@ const SocialIcon = ({ name }: { name: string }) => {
   return <ExternalLink className="w-4 h-4" />;
 };
 
-const MemberCard = ({ 
-  member, 
-  index,
-  eyesImage,
-  cycleImages,
-  bio,
-  role,
-  favoriteColor,
-  personality,
-  birthday,
-  signs,
-  links,
-  socials,
-  onImageClick,
-}: { 
-  member: typeof defaultMembers[0]; 
-  index: number;
-  eyesImage: string;
-  cycleImages: string[];
-  bio: string;
+// ── Mac Folder Icon ──
+
+const MacFolderIcon = ({ label, onClick }: { label: string; onClick: () => void }) => (
+  <button onClick={onClick} className="flex flex-col items-center gap-2 group cursor-pointer">
+    <svg viewBox="0 0 80 64" className="w-20 h-16 md:w-24 md:h-20 drop-shadow-lg group-hover:scale-105 transition-transform duration-200">
+      {/* Folder back */}
+      <rect x="0" y="10" width="80" height="54" rx="4" fill="#5AC8FA" opacity="0.85" />
+      {/* Folder tab */}
+      <path d="M0 14 Q0 10 4 10 L28 10 L32 4 Q33 2 36 2 L76 2 Q80 2 80 6 L80 14 Z" fill="#4AB8E8" />
+      {/* Folder front */}
+      <rect x="0" y="18" width="80" height="46" rx="4" fill="#5AC8FA" />
+      {/* Subtle shine */}
+      <rect x="2" y="20" width="76" height="4" rx="2" fill="white" opacity="0.15" />
+    </svg>
+    <span
+      className="text-[11px] tracking-wide text-foreground/80 group-hover:text-foreground transition-colors text-center"
+      style={{ fontFamily: "'SF Mono', 'Courier New', monospace" }}
+    >
+      {label}
+    </span>
+  </button>
+);
+
+// ── Default member data ──
+
+const defaultMembers = [
+  {
+    name: "CAMERON",
+    folderLabel: "CAMERON_INF",
+    titleImage: cameronTitle,
+    titleScale: 1.15,
+    defaultRole: "Guitar / Production",
+    defaultEyesImage: cameronEyes,
+    eyesCrop: { position: 6, scale: 4.0 },
+    defaultFavoriteColor: "Forest Green",
+    defaultPersonality: "INFP-A",
+    defaultBirthday: "08/08/2002",
+    defaultSigns: "Leo · Leo · Scorpio",
+    defaultBio: "Cameron is the guitarist and founder of Sadder Days. He started making music at 17, during quarantine, and taught himself how to play guitar. His style as a guitar player is distinct, sensual, melodic, and elegant, while still incorporating those bloodthirsty riffs that drive Sadder Days' heavy side. Taking influences from Classical, RnB, Jazz, and even Visual Kei, Cameron always finds a way to make his guitar sing a sultry, vampiric song. He writes songs entirely in his head before touching an instrument. \"You're only limited by how big you can think.\"",
+    socials: [
+      { name: "Instagram", href: "#" },
+      { name: "TikTok", href: "#" },
+      { name: "Patreon", href: "#" },
+    ],
+    links: [
+      { name: "Get His Tone", href: "#" },
+      { name: "Equipment", href: "#" },
+      { name: "Wallpapers", href: "#" },
+      { name: "Playlist", href: "#" },
+    ],
+  },
+  {
+    name: "GRANT",
+    folderLabel: "GRANT_INF",
+    titleImage: grantTitle,
+    titleScale: 1,
+    defaultRole: "Drums / Percussion",
+    defaultEyesImage: grantEyes,
+    eyesCrop: { position: 13, scale: 4.0 },
+    defaultFavoriteColor: "Celestine Blue",
+    defaultPersonality: "ENFJ-A",
+    defaultBirthday: "06/12/2003",
+    defaultSigns: "Gemini · Sagittarius · Scorpio",
+    defaultBio: "Grant, the rhythmic heartbeat and co-founder of Sadder Days, stumbled into his musical journey at 17. Initially he had no aspirations of becoming a musician. However, the moment he laid hands on the drum kit alongside Cameron, he \"felt like a kid again\", transporting him back to the pure joy of childhood. This unexpected passion led him to embrace the drums, infusing Sadder Days' music with buttery grooves, explosive energy, and head-bumping beats. His evolving style—a blend of RnB, House, Jazz, and Hip-Hop influences—adds a danceable underbelly to the band's sound.",
+    socials: [
+      { name: "Instagram", href: "#" },
+      { name: "TikTok", href: "#" },
+      { name: "Patreon", href: "#" },
+    ],
+  },
+];
+
+// ── Draggable Member Popup (Mac Safari style) ──
+
+interface MemberPopupData {
+  name: string;
+  titleImage: string;
+  titleScale: number;
   role: string;
+  bio: string;
   favoriteColor: string;
   personality: string;
   birthday: string;
   signs: string;
-  links: { name: string; href: string }[] | undefined;
-  socials: { name: string; href: string }[] | undefined;
+  eyesImage: string;
+  eyesCrop: { position: number; scale: number };
+  cycleImages: string[];
+  socials: { name: string; href: string }[];
+}
+
+const DraggableMemberWindow = ({
+  data,
+  onClose,
+  onFocus,
+  zIndex,
+  onImageClick,
+}: {
+  data: MemberPopupData;
+  onClose: (name: string) => void;
+  onFocus: (name: string) => void;
+  zIndex: number;
   onImageClick: (images: string[], startIndex: number, name: string) => void;
 }) => {
-  const displayLinks = links && links.length > 0 ? links : member.links;
-  const displaySocials = socials && socials.length > 0 ? socials : member.socials;
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+  const posRef = useRef(position);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).closest("button, a")) return;
+    setIsDragging(true);
+    dragStart.current = { x: e.clientX - posRef.current.x, y: e.clientY - posRef.current.y };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    onFocus(data.name);
+  }, [onFocus, data.name]);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!isDragging) return;
+    const newPos = { x: e.clientX - dragStart.current.x, y: e.clientY - dragStart.current.y };
+    posRef.current = newPos;
+    setPosition(newPos);
+  }, [isDragging]);
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.15 }}
-      className="flex flex-col w-full max-w-md"
+      initial={{ opacity: 0, scale: 0.92, y: 30 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.92, y: 30 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-0 flex flex-col rounded-xl overflow-hidden shadow-2xl border border-foreground/10 m-auto"
+      style={{
+        zIndex,
+        width: "min(680px, calc(100vw - 1rem))",
+        height: "min(80vh, calc(100vh - 2rem))",
+        translate: `${position.x}px ${position.y}px`,
+      }}
+      onPointerDown={() => onFocus(data.name)}
     >
-      {/* Name */}
-      <div className="px-6 pt-6 pb-4 flex justify-center md:justify-start">
-        <img 
-          src={member.titleImage} 
-          alt={member.name}
-          className="w-full h-auto max-w-[280px] md:max-w-none dark:brightness-100 brightness-75"
-          style={{ minHeight: '80px', transform: `scale(${member.titleScale})`, transformOrigin: 'center' }}
-        />
-      </div>
+      {/* Title Bar */}
+      <div
+        className="bg-muted/95 backdrop-blur-md border-b border-foreground/10 flex items-center px-4 py-3 shrink-0 select-none"
+        style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "none" }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+      >
+        <div className="flex gap-2 items-center">
+          <button
+            onClick={() => onClose(data.name)}
+            className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-90 transition-all group relative"
+            aria-label="Close"
+          >
+            <span className="absolute inset-0 flex items-center justify-center text-[8px] text-black/60 opacity-0 group-hover:opacity-100 font-bold">✕</span>
+          </button>
+          <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+          <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+        </div>
 
-      {/* Stats Grid */}
-      <div className="px-6">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-foreground/20 text-xs">
-          <div>
-            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">FAVORITE COLOR</p>
-            <p className="font-medium text-foreground">{favoriteColor}</p>
-          </div>
-          <div>
-            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">PERSONALITY</p>
-            <p className="font-medium text-foreground">{personality}</p>
-          </div>
-          <div>
-            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">BIRTHDAY</p>
-            <p className="font-medium text-foreground">{birthday}</p>
-          </div>
-          <div>
-            <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">SIGNS</p>
-            <p className="font-medium text-foreground">{signs}</p>
+        <div className="flex-1 flex justify-center mx-8">
+          <div
+            className="bg-background/60 border border-foreground/10 rounded-md px-4 py-1 text-[10px] text-foreground/40 tracking-wider flex items-center gap-2 max-w-xs w-full justify-center"
+            style={{ fontFamily: "'SF Mono', 'Courier New', monospace" }}
+          >
+            <span className="text-foreground/20">🔒</span>
+            sadderdays.world/{data.name.toLowerCase()}
           </div>
         </div>
+
+        <div className="w-[52px]" />
       </div>
 
-      {/* Bio */}
-      <div className="px-6 py-4 flex-1">
-        <p className="text-foreground/70 text-xs leading-relaxed">{bio}</p>
-      </div>
-
-      {/* Links - hidden */}
-
-      {/* Social Links */}
-      <div className="px-6 py-4">
-        <div className="flex gap-1.5">
-          {displaySocials.map((social) => (
-            <motion.a
-              key={social.name}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 border border-foreground/20 text-foreground hover:border-foreground/50 hover:bg-foreground/10 transition-all"
-              aria-label={social.name}
-            >
-              <SocialIcon name={social.name} />
-            </motion.a>
-          ))}
-        </div>
-      </div>
-
-      {/* Role Label */}
-      <div className="px-6 py-4 border-t border-foreground/10">
-        <p className="text-[10px] tracking-widest text-foreground/60 text-center">{role}</p>
-      </div>
-
-      {/* Eyes Close-up Image */}
-      <div className="relative h-28 overflow-hidden bg-background">
-        <img
-          src={eyesImage}
-          alt={`${member.name}`}
-          className="w-full h-full object-cover"
-          style={{ objectPosition: `center ${member.eyesCrop.position}%`, transform: `scale(${member.eyesCrop.scale})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-      </div>
-
-      {/* Film Strip - BOTTOM */}
-      <div className="bg-background py-2 px-1">
-        <div className="flex gap-1 overflow-x-auto scrollbar-hide">
-          {cycleImages.map((img, i) => (
-            <img 
-              key={i}
-              src={img} 
-              alt={`${member.name} ${i + 1}`} 
-              className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
-              onClick={() => onImageClick(cycleImages, i, member.name)}
+      {/* Content */}
+      <ScrollArea className="flex-1 bg-background">
+        <div className="px-6 md:px-10 pt-8 pb-16">
+          {/* Name */}
+          <div className="flex justify-center mb-6">
+            <img
+              src={data.titleImage}
+              alt={data.name}
+              className="w-full h-auto max-w-[260px] dark:brightness-100 brightness-75"
+              style={{ transform: `scale(${data.titleScale})`, transformOrigin: "center" }}
             />
-          ))}
+          </div>
+
+          {/* Role */}
+          <p className="text-[10px] tracking-widest text-foreground/60 text-center mb-6">{data.role}</p>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2 py-4 border-y border-foreground/20 text-xs mb-6">
+            <div>
+              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">FAVORITE COLOR</p>
+              <p className="font-medium text-foreground">{data.favoriteColor}</p>
+            </div>
+            <div>
+              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">PERSONALITY</p>
+              <p className="font-medium text-foreground">{data.personality}</p>
+            </div>
+            <div>
+              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">BIRTHDAY</p>
+              <p className="font-medium text-foreground">{data.birthday}</p>
+            </div>
+            <div>
+              <p className="text-[9px] tracking-widest text-foreground/50 mb-0.5">SIGNS</p>
+              <p className="font-medium text-foreground">{data.signs}</p>
+            </div>
+          </div>
+
+          {/* Bio */}
+          <p className="text-foreground/70 text-xs leading-relaxed mb-6">{data.bio}</p>
+
+          {/* Social Links */}
+          <div className="flex gap-1.5 mb-6">
+            {data.socials.map((social) => (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 border border-foreground/20 text-foreground hover:border-foreground/50 hover:bg-foreground/10 transition-all"
+                aria-label={social.name}
+              >
+                <SocialIcon name={social.name} />
+              </a>
+            ))}
+          </div>
+
+          {/* Eyes Image */}
+          <div className="relative h-28 overflow-hidden rounded-lg mb-4">
+            <img
+              src={data.eyesImage}
+              alt={data.name}
+              className="w-full h-full object-cover"
+              style={{ objectPosition: `center ${data.eyesCrop.position}%`, transform: `scale(${data.eyesCrop.scale})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </div>
+
+          {/* Film Strip */}
+          <div className="py-2">
+            <div className="flex gap-1 overflow-x-auto scrollbar-hide">
+              {data.cycleImages.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt={`${data.name} ${i + 1}`}
+                  className="h-16 w-auto object-cover flex-shrink-0 opacity-80 hover:opacity-100 transition-opacity cursor-pointer rounded"
+                  onClick={() => onImageClick(data.cycleImages, i, data.name)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
+      </ScrollArea>
+    </motion.div>
+  );
+};
+
+// ── Gallery Lightbox ──
+
+interface GalleryLightboxProps {
+  images: string[];
+  initialIndex: number;
+  memberName: string;
+  onClose: () => void;
+}
+
+const GalleryLightbox = ({ images, initialIndex, memberName, onClose }: GalleryLightboxProps) => {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const goNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+  const goPrev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center"
+      onClick={onClose}
+    >
+      <button onClick={onClose} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
+        <X size={32} />
+      </button>
+      <button onClick={(e) => { e.stopPropagation(); goPrev(); }} className="absolute left-4 md:left-8 text-white/70 hover:text-white transition-colors p-2">
+        <ChevronLeft size={40} />
+      </button>
+      <motion.img
+        key={currentIndex}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.2 }}
+        src={images[currentIndex]}
+        alt={`${memberName} ${currentIndex + 1}`}
+        className="max-h-[80vh] max-w-[90vw] object-contain"
+        onClick={(e) => e.stopPropagation()}
+      />
+      <button onClick={(e) => { e.stopPropagation(); goNext(); }} className="absolute right-4 md:right-8 text-white/70 hover:text-white transition-colors p-2">
+        <ChevronRight size={40} />
+      </button>
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+        {currentIndex + 1} / {images.length}
       </div>
     </motion.div>
   );
 };
 
+// ── Main Page ──
+
 const Members = () => {
-  const isMobile = useIsMobile();
-  const [activeMember, setActiveMember] = useState<string | null>(null);
+  const [openMembers, setOpenMembers] = useState<string[]>([]);
+  const [focusOrder, setFocusOrder] = useState<string[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number; name: string } | null>(null);
   const [cms, setCms] = useState<Record<string, string>>({});
@@ -345,6 +435,27 @@ const Members = () => {
     setMousePos({ x, y });
   };
 
+  const openFolder = (name: string) => {
+    if (!openMembers.includes(name)) {
+      setOpenMembers((prev) => [...prev, name]);
+    }
+    setFocusOrder((prev) => [...prev.filter((n) => n !== name), name]);
+  };
+
+  const closeFolder = (name: string) => {
+    setOpenMembers((prev) => prev.filter((n) => n !== name));
+    setFocusOrder((prev) => prev.filter((n) => n !== name));
+  };
+
+  const closeAll = () => {
+    setOpenMembers([]);
+    setFocusOrder([]);
+  };
+
+  const focusMember = (name: string) => {
+    setFocusOrder((prev) => [...prev.filter((n) => n !== name), name]);
+  };
+
   const openLightbox = (images: string[], startIndex: number, name: string) => {
     setLightbox({ images, index: startIndex, name });
   };
@@ -353,9 +464,7 @@ const Members = () => {
     try {
       const parsed = JSON.parse(cms[key] || "[]");
       if (!parsed.length) return fallback;
-      // Only keep full URLs (Supabase storage); discard build-hashed local paths
       const valid = parsed.filter((url: string) => url.startsWith("http"));
-      // If we lost most images due to invalid paths, use the full fallback instead
       return valid.length >= 3 ? valid : fallback;
     } catch { return fallback; }
   };
@@ -377,15 +486,33 @@ const Members = () => {
   const grantBirthday = cms.grant_birthday || defaultMembers[1].defaultBirthday;
   const cameronSigns = cms.cameron_signs || defaultMembers[0].defaultSigns;
   const grantSigns = cms.grant_signs || defaultMembers[1].defaultSigns;
-  const cameronLinks = (() => { try { const p = JSON.parse(cms.cameron_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
-  const grantLinks = (() => { try { const p = JSON.parse(cms.grant_links || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
-  const cameronSocials = (() => { try { const p = JSON.parse(cms.cameron_socials || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
-  const grantSocials = (() => { try { const p = JSON.parse(cms.grant_socials || "[]"); return p.length > 0 ? p : undefined; } catch { return undefined; } })();
+  const cameronSocials = (() => { try { const p = JSON.parse(cms.cameron_socials || "[]"); return p.length > 0 ? p : defaultMembers[0].socials; } catch { return defaultMembers[0].socials; } })();
+  const grantSocials = (() => { try { const p = JSON.parse(cms.grant_socials || "[]"); return p.length > 0 ? p : defaultMembers[1].socials; } catch { return defaultMembers[1].socials; } })();
+
+  const getMemberPopupData = (name: string): MemberPopupData => {
+    const isCameron = name === "CAMERON";
+    const member = isCameron ? defaultMembers[0] : defaultMembers[1];
+    return {
+      name: member.name,
+      titleImage: member.titleImage,
+      titleScale: member.titleScale,
+      role: isCameron ? cameronRole : grantRole,
+      bio: isCameron ? cameronBio : grantBio,
+      favoriteColor: isCameron ? cameronFavColor : grantFavColor,
+      personality: isCameron ? cameronPersonality : grantPersonality,
+      birthday: isCameron ? cameronBirthday : grantBirthday,
+      signs: isCameron ? cameronSigns : grantSigns,
+      eyesImage: isCameron ? cameronEyesImg : grantEyesImg,
+      eyesCrop: member.eyesCrop,
+      cycleImages: isCameron ? cameronFilmstrip : grantFilmstrip,
+      socials: isCameron ? cameronSocials : grantSocials,
+    };
+  };
 
   return (
     <PageTransition>
-      <div 
-        className="min-h-screen flex flex-col items-center px-4 py-8 relative bg-background"
+      <div
+        className="min-h-screen flex flex-col items-center justify-center px-4 py-8 relative bg-background"
         onMouseMove={handleMouseMove}
       >
         {/* Pink glow following mouse */}
@@ -398,9 +525,9 @@ const Members = () => {
 
         {/* Yin Yang Logo - large engraved background */}
         <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-          <img 
-            src={yinYangLogo} 
-            alt="" 
+          <img
+            src={yinYangLogo}
+            alt=""
             className="w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] object-contain opacity-[0.04] dark:opacity-[0.06]"
           />
         </div>
@@ -410,104 +537,59 @@ const Members = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="font-display text-5xl md:text-8xl tracking-tighter-custom text-foreground text-center relative z-10 mt-20 mb-16 md:mb-12 md:mt-8"
+          className="font-display text-5xl md:text-8xl tracking-tighter-custom text-foreground text-center relative z-10 mb-12"
         >
           MEMBERS
         </motion.h1>
 
-        {/* Mobile: Pill accordion layout */}
-        {isMobile ? (
-          <div className="flex flex-col items-center w-full max-w-md relative z-10 mb-16">
-            {/* Pill buttons */}
-            <div className="flex flex-col gap-4 mb-8 w-full items-center">
-              {defaultMembers.map((member) => {
-                const eyesSrc = member.name === "CAMERON" ? cameronEyesImg : grantEyesImg;
-                const crop = member.eyesCrop;
-                return (
-                  <button
-                    key={member.name}
-                    onClick={() => setActiveMember(activeMember === member.name ? null : member.name)}
-                    className={`relative px-10 py-5 rounded-full border transition-all duration-300 w-[75%] flex justify-center overflow-hidden ${
-                      activeMember === member.name
-                        ? "border-foreground"
-                        : "border-foreground/30 hover:border-foreground/60"
-                    }`}
-                  >
-                    <img
-                      src={eyesSrc}
-                      alt=""
-                      className="absolute inset-0 w-full h-full object-cover opacity-30"
-                      style={{ objectPosition: `center ${crop.position}%` }}
-                    />
-                    <div className="absolute inset-0 bg-background/50" />
-                    <span className="relative z-10 text-lg font-display tracking-tighter-custom text-sd-pink drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
-                      {member.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Collapsible content */}
-            <AnimatePresence mode="wait">
-              {activeMember && (
-                <motion.div
-                  key={activeMember}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="w-full overflow-hidden"
-                >
-                  {defaultMembers
-                    .filter((m) => m.name === activeMember)
-                    .map((member, index) => (
-                      <MemberCard
-                        key={member.name}
-                        member={member}
-                        index={0}
-                        eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
-                        cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
-                        bio={member.name === "CAMERON" ? cameronBio : grantBio}
-                        role={member.name === "CAMERON" ? cameronRole : grantRole}
-                        favoriteColor={member.name === "CAMERON" ? cameronFavColor : grantFavColor}
-                        personality={member.name === "CAMERON" ? cameronPersonality : grantPersonality}
-                        birthday={member.name === "CAMERON" ? cameronBirthday : grantBirthday}
-                        signs={member.name === "CAMERON" ? cameronSigns : grantSigns}
-                        links={member.name === "CAMERON" ? cameronLinks : grantLinks}
-                        socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
-                        onImageClick={openLightbox}
-                      />
-                    ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ) : (
-          /* Desktop: Side by side layout */
-          <div className="flex flex-row gap-8 items-stretch justify-center w-full max-w-4xl relative z-10 mb-16">
-            {defaultMembers.map((member, index) => (
-              <MemberCard
-                key={member.name}
-                member={member}
-                index={index}
-                eyesImage={member.name === "CAMERON" ? cameronEyesImg : grantEyesImg}
-                cycleImages={member.name === "CAMERON" ? cameronFilmstrip : grantFilmstrip}
-                bio={member.name === "CAMERON" ? cameronBio : grantBio}
-                role={member.name === "CAMERON" ? cameronRole : grantRole}
-                favoriteColor={member.name === "CAMERON" ? cameronFavColor : grantFavColor}
-                personality={member.name === "CAMERON" ? cameronPersonality : grantPersonality}
-                birthday={member.name === "CAMERON" ? cameronBirthday : grantBirthday}
-                signs={member.name === "CAMERON" ? cameronSigns : grantSigns}
-                links={member.name === "CAMERON" ? cameronLinks : grantLinks}
-                socials={member.name === "CAMERON" ? cameronSocials : grantSocials}
-                onImageClick={openLightbox}
-              />
-            ))}
-          </div>
-        )}
+        {/* Mac Folder Icons */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="flex gap-12 md:gap-20 relative z-10"
+        >
+          {defaultMembers.map((member) => (
+            <MacFolderIcon
+              key={member.name}
+              label={member.folderLabel}
+              onClick={() => openFolder(member.name)}
+            />
+          ))}
+        </motion.div>
       </div>
       <Footer />
+
+      {/* Member Popups via Portal */}
+      {createPortal(
+        <>
+          {openMembers.length > 1 && (
+            <button
+              onClick={closeAll}
+              className="fixed top-4 right-4 z-[200] text-[10px] tracking-[0.2em] uppercase text-foreground/40 hover:text-foreground border border-foreground/20 hover:border-foreground/60 rounded-md px-3 py-1.5 bg-background/80 backdrop-blur-sm transition-colors"
+              style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+            >
+              Close All
+            </button>
+          )}
+          <AnimatePresence>
+            {openMembers.map((name, i) => {
+              const zIdx = 100 + (focusOrder.indexOf(name) >= 0 ? focusOrder.indexOf(name) : i);
+              return (
+                <DraggableMemberWindow
+                  key={name}
+                  data={getMemberPopupData(name)}
+                  onClose={closeFolder}
+                  onFocus={focusMember}
+                  zIndex={zIdx}
+                  onImageClick={openLightbox}
+                />
+              );
+            })}
+          </AnimatePresence>
+        </>,
+        document.body
+      )}
 
       {/* Lightbox */}
       <AnimatePresence>
