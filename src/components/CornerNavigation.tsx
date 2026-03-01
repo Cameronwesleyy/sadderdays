@@ -94,33 +94,26 @@ const CornerNavigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 backdrop-blur-lg"
-            style={{ backgroundColor: "rgba(255, 235, 245, 0.25)" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed inset-0 z-40"
+            style={{ 
+              backgroundColor: "rgba(255, 235, 245, 0.35)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              willChange: "opacity",
+            }}
           >
-            {/* Multiple pink glow orbs for ambient effect */}
+            {/* Single simplified glow orb for performance */}
             <div 
-              className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-60"
-              style={{ backgroundColor: "#FFEBF5" }}
-            />
-            <div 
-              className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-[100px] opacity-50"
-              style={{ backgroundColor: "#FFEBF5" }}
-            />
-            <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px] opacity-40"
-              style={{ backgroundColor: "#FFEBF5" }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] rounded-full opacity-40 pointer-events-none"
+              style={{ backgroundColor: "#FFEBF5", filter: "blur(100px)" }}
             />
 
             {/* Close button - fixed at same position as MENU */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                delay: 0.15, 
-                duration: 0.4, 
-                ease: [0.25, 0.46, 0.45, 0.94] 
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.2 }}
               className="fixed top-6 left-0 right-0 z-50 flex justify-center"
             >
               <button
@@ -147,9 +140,9 @@ const CornerNavigation = () => {
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.path}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    transition={{ delay: 0.05 + index * 0.03, duration: 0.25, ease: "easeOut" }}
                   >
                     {link.name === "SHOP" && !shopLive ? (
                       <div 
