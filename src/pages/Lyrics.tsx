@@ -71,14 +71,14 @@ const Lyrics = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="text-4xl md:text-5xl tracking-tight text-foreground font-light"
-              style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif", fontWeight: 300 }}
             >
               {pageTitle}
             </motion.h1>
 
             <p
               className="text-[11px] text-foreground/40 tracking-[0.3em] uppercase mt-2"
-              style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
+              style={{ fontFamily: "'SF Mono', 'Menlo', 'Courier New', monospace" }}
             >
               Yin &amp; Yang
             </p>
@@ -100,13 +100,13 @@ const Lyrics = () => {
                   >
                     <span
                       className="text-xs md:text-sm text-foreground/60 group-hover:text-sd-pink transition-colors duration-200 group-hover:drop-shadow-[0_0_12px_hsl(318,52%,78%)] uppercase tracking-[0.25em]"
-                      style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+                      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif", fontWeight: 300 }}
                     >
                       {song.title}
                     </span>
                     <span
                       className="text-[10px] text-foreground/30 tabular-nums ml-4"
-                      style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
+                      style={{ fontFamily: "'SF Mono', 'Menlo', 'Courier New', monospace" }}
                     >
                       {String(song.sort_order).padStart(2, "0")}
                     </span>
@@ -122,7 +122,7 @@ const Lyrics = () => {
                 <div className="border-b border-dashed border-foreground/20 mt-4 mb-3" />
                 <p
                   className="text-[9px] text-foreground/30 tracking-[0.3em] uppercase text-center"
-                  style={{ fontFamily: "'Courier New', 'Courier', monospace" }}
+                  style={{ fontFamily: "'SF Mono', 'Menlo', 'Courier New', monospace" }}
                 >
                   {songs.length} tracks
                 </p>
