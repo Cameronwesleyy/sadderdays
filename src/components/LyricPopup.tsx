@@ -92,7 +92,7 @@ const DraggableWindow = ({ song, onClose, onFocus, zIndex, initialOffset }: Drag
         <div className="flex-1 flex justify-center mx-8">
           <div
             className="bg-background/60 border border-foreground/10 rounded-md px-4 py-1 text-[10px] text-foreground/40 tracking-wider flex items-center gap-2 max-w-xs w-full justify-center"
-            style={{ fontFamily: "'SF Mono', 'Courier New', monospace" }}
+            style={{ fontFamily: "'SF Mono', 'Menlo', 'Courier New', monospace" }}
           >
             <span className="text-foreground/20">🔒</span>
             sadderdays.world/lyrics
@@ -107,14 +107,14 @@ const DraggableWindow = ({ song, onClose, onFocus, zIndex, initialOffset }: Drag
         <div className="px-8 md:px-12 pt-10 pb-16">
           <span
             className="text-foreground/30 text-lg block mb-1"
-            style={{ fontFamily: "'Courier New', monospace" }}
+            style={{ fontFamily: "'SF Mono', 'Menlo', 'Courier New', monospace" }}
           >
             {String(song.sort_order).padStart(2, "0") + "."}
           </span>
 
           <h2
             className="text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground font-light mb-8"
-            style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif", fontWeight: 300 }}
           >
             {song.title}
           </h2>
@@ -127,7 +127,7 @@ const DraggableWindow = ({ song, onClose, onFocus, zIndex, initialOffset }: Drag
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[10px] tracking-[0.25em] uppercase text-foreground/40 hover:text-foreground transition-colors border-b border-foreground/20 hover:border-foreground/60 pb-0.5"
-                  style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif" }}
                 >
                   SPOTIFY
                 </a>
@@ -138,7 +138,7 @@ const DraggableWindow = ({ song, onClose, onFocus, zIndex, initialOffset }: Drag
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[10px] tracking-[0.25em] uppercase text-foreground/40 hover:text-foreground transition-colors border-b border-foreground/20 hover:border-foreground/60 pb-0.5"
-                  style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif" }}
                 >
                   APPLE MUSIC
                 </a>
@@ -156,7 +156,7 @@ const DraggableWindow = ({ song, onClose, onFocus, zIndex, initialOffset }: Drag
                 <p
                   key={lineIdx}
                   className="text-foreground/80 text-sm md:text-base leading-relaxed"
-                  style={{ fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", fontWeight: 300 }}
+                  style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif", fontWeight: 300 }}
                 >
                   {words.map((word, wi) => (
                     <GlowingWord key={`${lineIdx}-${wi}`} word={word} />
@@ -188,7 +188,7 @@ const LyricPopup = ({ openSongs, onClose, onCloseAll, onFocus, focusOrder }: Lyr
         <button
           onClick={onCloseAll}
           className="fixed top-4 right-4 z-[200] text-[10px] tracking-[0.2em] uppercase text-foreground/40 hover:text-foreground border border-foreground/20 hover:border-foreground/60 rounded-md px-3 py-1.5 bg-background/80 backdrop-blur-sm transition-colors"
-          style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+          style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif" }}
         >
           Close All
         </button>

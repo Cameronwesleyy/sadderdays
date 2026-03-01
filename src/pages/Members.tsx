@@ -117,7 +117,7 @@ const MacFolderIcon = ({ label, onClick }: { label: string; onClick: () => void 
     </svg>
     <span
       className="text-[11px] tracking-wide text-foreground/80 group-hover:text-foreground transition-colors text-center"
-      style={{ fontFamily: "'SF Mono', 'Courier New', monospace" }}
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif", fontWeight: 400 }}
     >
       {label}
     </span>
@@ -266,7 +266,7 @@ const DraggableMemberWindow = ({
         <div className="flex-1 flex justify-center mx-8">
           <div
             className="bg-background/60 border border-foreground/10 rounded-md px-4 py-1 text-[10px] text-foreground/40 tracking-wider flex items-center gap-2 max-w-xs w-full justify-center"
-            style={{ fontFamily: "'SF Mono', 'Courier New', monospace" }}
+            style={{ fontFamily: "'SF Mono', 'Menlo', 'Courier New', monospace" }}
           >
             <span className="text-foreground/20">🔒</span>
             sadderdays.world/{data.name.toLowerCase()}
@@ -567,7 +567,7 @@ const Members = () => {
             <button
               onClick={closeAll}
               className="fixed top-4 right-4 z-[200] text-[10px] tracking-[0.2em] uppercase text-foreground/40 hover:text-foreground border border-foreground/20 hover:border-foreground/60 rounded-md px-3 py-1.5 bg-background/80 backdrop-blur-sm transition-colors"
-              style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+              style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif" }}
             >
               Close All
             </button>
