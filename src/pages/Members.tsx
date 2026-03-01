@@ -291,34 +291,6 @@ const DraggableMemberWindow = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
-          {/* Eyes crop controls */}
-          {data.onEyesCropChange && (
-            <div className="flex gap-4 mb-4 px-1" style={{ touchAction: "auto" }}>
-              <div className="flex-1">
-                <label className="block text-[8px] tracking-widest text-foreground/40 mb-1">ZOOM {data.eyesCrop.scale.toFixed(1)}x</label>
-                <input
-                  type="range" min="1" max="8" step="0.1"
-                  value={data.eyesCrop.scale}
-                  onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, scale: parseFloat(e.target.value) })}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  className="w-full h-2 accent-foreground cursor-pointer"
-                  style={{ touchAction: "auto" }}
-                />
-              </div>
-              <div className="flex-1">
-                <label className="block text-[8px] tracking-widest text-foreground/40 mb-1">POSITION {data.eyesCrop.position}%</label>
-                <input
-                  type="range" min="-50" max="100" step="1"
-                  value={data.eyesCrop.position}
-                  onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, position: parseFloat(e.target.value) })}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  className="w-full h-2 accent-foreground cursor-pointer"
-                  style={{ touchAction: "auto" }}
-                />
-              </div>
-            </div>
-          )}
-
           {/* Name */}
           <div className="flex justify-center mb-6">
             <img
