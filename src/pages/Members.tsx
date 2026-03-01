@@ -189,6 +189,7 @@ interface MemberPopupData {
   eyesCrop: { position: number; scale: number };
   cycleImages: string[];
   socials: { name: string; href: string }[];
+  onEyesCropChange?: (crop: { position: number; scale: number }) => void;
 }
 
 const DraggableMemberWindow = ({
@@ -280,7 +281,7 @@ const DraggableMemberWindow = ({
       <ScrollArea className="flex-1 bg-background">
         <div className="px-6 md:px-10 pt-0 pb-16">
           {/* Eyes Image - at top */}
-          <div className="relative h-28 overflow-hidden mb-6">
+          <div className="relative h-28 overflow-hidden mb-2">
             <img
               src={data.eyesImage}
               alt={data.name}
@@ -289,6 +290,30 @@ const DraggableMemberWindow = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
+
+          {/* Eyes crop controls */}
+          {data.onEyesCropChange && (
+            <div className="flex gap-4 mb-4 px-1">
+              <div className="flex-1">
+                <label className="block text-[8px] tracking-widest text-foreground/40 mb-1">ZOOM {data.eyesCrop.scale.toFixed(1)}x</label>
+                <input
+                  type="range" min="1" max="8" step="0.1"
+                  value={data.eyesCrop.scale}
+                  onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, scale: parseFloat(e.target.value) })}
+                  className="w-full h-1 accent-foreground"
+                />
+              </div>
+              <div className="flex-1">
+                <label className="block text-[8px] tracking-widest text-foreground/40 mb-1">POSITION {data.eyesCrop.position}%</label>
+                <input
+                  type="range" min="0" max="100" step="1"
+                  value={data.eyesCrop.position}
+                  onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, position: parseFloat(e.target.value) })}
+                  className="w-full h-1 accent-foreground"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Name */}
           <div className="flex justify-center mb-6">
@@ -489,6 +514,16 @@ const Members = () => {
   const cameronSocials = (() => { try { const p = JSON.parse(cms.cameron_socials || "[]"); return p.length > 0 ? p : defaultMembers[0].socials; } catch { return defaultMembers[0].socials; } })();
   const grantSocials = (() => { try { const p = JSON.parse(cms.grant_socials || "[]"); return p.length > 0 ? p : defaultMembers[1].socials; } catch { return defaultMembers[1].socials; } })();
 
+  const handleEyesCropChange = useCallback((name: string, crop: { position: number; scale: number }) => {
+    const isCameron = name === "CAMERON";
+    const zoomKey = isCameron ? "cameron_eyes_zoom" : "grant_eyes_zoom";
+    const posKey = isCameron ? "cameron_eyes_position" : "grant_eyes_position";
+    setCms(prev => ({ ...prev, [zoomKey]: String(crop.scale), [posKey]: String(crop.position) }));
+    // Auto-save to CMS
+    supabase.from("site_content").upsert({ id: zoomKey, content: String(crop.scale), updated_at: new Date().toISOString() });
+    supabase.from("site_content").upsert({ id: posKey, content: String(crop.position), updated_at: new Date().toISOString() });
+  }, []);
+
   const getMemberPopupData = (name: string): MemberPopupData => {
     const isCameron = name === "CAMERON";
     const member = isCameron ? defaultMembers[0] : defaultMembers[1];
@@ -512,6 +547,7 @@ const Members = () => {
       eyesCrop: { position: eyesPosition, scale: eyesZoom },
       cycleImages: isCameron ? cameronFilmstrip : grantFilmstrip,
       socials: isCameron ? cameronSocials : grantSocials,
+      onEyesCropChange: (crop) => handleEyesCropChange(name, crop),
     };
   };
 
