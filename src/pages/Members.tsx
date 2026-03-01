@@ -492,6 +492,12 @@ const Members = () => {
   const getMemberPopupData = (name: string): MemberPopupData => {
     const isCameron = name === "CAMERON";
     const member = isCameron ? defaultMembers[0] : defaultMembers[1];
+    const eyesZoom = isCameron
+      ? parseFloat(cms.cameron_eyes_zoom || String(member.eyesCrop.scale))
+      : parseFloat(cms.grant_eyes_zoom || String(member.eyesCrop.scale));
+    const eyesPosition = isCameron
+      ? parseFloat(cms.cameron_eyes_position || String(member.eyesCrop.position))
+      : parseFloat(cms.grant_eyes_position || String(member.eyesCrop.position));
     return {
       name: member.name,
       titleImage: member.titleImage,
@@ -503,7 +509,7 @@ const Members = () => {
       birthday: isCameron ? cameronBirthday : grantBirthday,
       signs: isCameron ? cameronSigns : grantSigns,
       eyesImage: isCameron ? cameronEyesImg : grantEyesImg,
-      eyesCrop: member.eyesCrop,
+      eyesCrop: { position: eyesPosition, scale: eyesZoom },
       cycleImages: isCameron ? cameronFilmstrip : grantFilmstrip,
       socials: isCameron ? cameronSocials : grantSocials,
     };

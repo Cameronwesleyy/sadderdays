@@ -458,6 +458,25 @@ const AdminDashboard = () => {
                 />
 
                 <ImageDropZone label="Cameron Eyes Image" currentUrl={content.members_cameron_eyes || ""} defaultUrl={cameronEyes} contentKey="members_cameron_eyes" folder="members" onUpload={updateContent} />
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className="block text-[9px] tracking-widest-custom text-white/50 mb-1.5">EYES ZOOM ({content.cameron_eyes_zoom || "4.0"}x)</label>
+                    <input type="range" min="1" max="8" step="0.1" value={content.cameron_eyes_zoom || "4.0"} onChange={(e) => updateContent("cameron_eyes_zoom", e.target.value)} className="w-full" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] tracking-widest-custom text-white/50 mb-1.5">EYES POSITION ({content.cameron_eyes_position || "16"}%)</label>
+                    <input type="range" min="0" max="100" step="1" value={content.cameron_eyes_position || "16"} onChange={(e) => updateContent("cameron_eyes_position", e.target.value)} className="w-full" />
+                  </div>
+                </div>
+                {/* Eyes preview */}
+                <div className="relative h-20 overflow-hidden mb-6 border border-white/10">
+                  <img
+                    src={content.members_cameron_eyes && content.members_cameron_eyes !== "__removed__" ? content.members_cameron_eyes : cameronEyes}
+                    alt="Cameron eyes preview"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: `center ${content.cameron_eyes_position || "16"}%`, transform: `scale(${content.cameron_eyes_zoom || "4.0"})` }}
+                  />
+                </div>
                 <GalleryEditor
                   label="Cameron Film Strip"
                   images={getGallery("members_cameron_filmstrip", defaultCameronFilmstrip)}
@@ -491,6 +510,25 @@ const AdminDashboard = () => {
                 />
 
                 <ImageDropZone label="Grant Eyes Image" currentUrl={content.members_grant_eyes || ""} defaultUrl={grantEyes} contentKey="members_grant_eyes" folder="members" onUpload={updateContent} />
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <label className="block text-[9px] tracking-widest-custom text-white/50 mb-1.5">EYES ZOOM ({content.grant_eyes_zoom || "4.0"}x)</label>
+                    <input type="range" min="1" max="8" step="0.1" value={content.grant_eyes_zoom || "4.0"} onChange={(e) => updateContent("grant_eyes_zoom", e.target.value)} className="w-full" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] tracking-widest-custom text-white/50 mb-1.5">EYES POSITION ({content.grant_eyes_position || "24"}%)</label>
+                    <input type="range" min="0" max="100" step="1" value={content.grant_eyes_position || "24"} onChange={(e) => updateContent("grant_eyes_position", e.target.value)} className="w-full" />
+                  </div>
+                </div>
+                {/* Eyes preview */}
+                <div className="relative h-20 overflow-hidden mb-6 border border-white/10">
+                  <img
+                    src={content.members_grant_eyes && content.members_grant_eyes !== "__removed__" ? content.members_grant_eyes : grantEyes}
+                    alt="Grant eyes preview"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: `center ${content.grant_eyes_position || "24"}%`, transform: `scale(${content.grant_eyes_zoom || "4.0"})` }}
+                  />
+                </div>
                 <GalleryEditor
                   label="Grant Film Strip"
                   images={getGallery("members_grant_filmstrip", defaultGrantFilmstrip)}
