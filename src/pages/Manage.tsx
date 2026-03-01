@@ -470,7 +470,7 @@ const AdminDashboard = () => {
                     <input type="range" min="0" max="100" step="1" value={content.cameron_eyes_position || "16"} onChange={(e) => updateContent("cameron_eyes_position", e.target.value)} className="w-full" />
                   </div>
                 </div>
-                <div className="relative h-20 overflow-hidden mb-4 border border-white/10" style={{ maxWidth: "680px" }}>
+                <div className="relative overflow-hidden mb-4 border border-white/10" style={{ width: "600px", maxWidth: "100%", height: "112px" }}>
                   <img src={content.members_cameron_eyes && content.members_cameron_eyes !== "__removed__" ? content.members_cameron_eyes : cameronEyes} alt="Desktop preview" className="w-full h-full object-cover" style={{ objectPosition: `center ${content.cameron_eyes_position || "16"}%`, transform: `scale(${content.cameron_eyes_zoom || "4.0"})` }} />
                 </div>
 
@@ -486,7 +486,7 @@ const AdminDashboard = () => {
                     <input type="range" min="0" max="100" step="1" value={content.cameron_eyes_position_tablet || content.cameron_eyes_position || "16"} onChange={(e) => updateContent("cameron_eyes_position_tablet", e.target.value)} className="w-full" />
                   </div>
                 </div>
-                <div className="relative h-20 overflow-hidden mb-4 border border-white/10" style={{ maxWidth: "500px" }}>
+                <div className="relative overflow-hidden mb-4 border border-white/10" style={{ width: "600px", maxWidth: "100%", height: "112px" }}>
                   <img src={content.members_cameron_eyes && content.members_cameron_eyes !== "__removed__" ? content.members_cameron_eyes : cameronEyes} alt="Tablet preview" className="w-full h-full object-cover" style={{ objectPosition: `center ${content.cameron_eyes_position_tablet || content.cameron_eyes_position || "16"}%`, transform: `scale(${content.cameron_eyes_zoom_tablet || content.cameron_eyes_zoom || "4.0"})` }} />
                 </div>
 
@@ -502,7 +502,7 @@ const AdminDashboard = () => {
                     <input type="range" min="0" max="100" step="1" value={content.cameron_eyes_position_mobile || content.cameron_eyes_position || "16"} onChange={(e) => updateContent("cameron_eyes_position_mobile", e.target.value)} className="w-full" />
                   </div>
                 </div>
-                <div className="relative h-20 overflow-hidden mb-6 border border-white/10" style={{ maxWidth: "360px" }}>
+                <div className="relative overflow-hidden mb-6 border border-white/10" style={{ width: "342px", maxWidth: "100%", height: "112px" }}>
                   <img src={content.members_cameron_eyes && content.members_cameron_eyes !== "__removed__" ? content.members_cameron_eyes : cameronEyes} alt="Mobile preview" className="w-full h-full object-cover" style={{ objectPosition: `center ${content.cameron_eyes_position_mobile || content.cameron_eyes_position || "16"}%`, transform: `scale(${content.cameron_eyes_zoom_mobile || content.cameron_eyes_zoom || "4.0"})` }} />
                 </div>
                 <GalleryEditor
@@ -550,7 +550,7 @@ const AdminDashboard = () => {
                     <input type="range" min="0" max="100" step="1" value={content.grant_eyes_position || "24"} onChange={(e) => updateContent("grant_eyes_position", e.target.value)} className="w-full" />
                   </div>
                 </div>
-                <div className="relative h-20 overflow-hidden mb-4 border border-white/10" style={{ maxWidth: "680px" }}>
+                <div className="relative overflow-hidden mb-4 border border-white/10" style={{ width: "600px", maxWidth: "100%", height: "112px" }}>
                   <img src={content.members_grant_eyes && content.members_grant_eyes !== "__removed__" ? content.members_grant_eyes : grantEyes} alt="Desktop preview" className="w-full h-full object-cover" style={{ objectPosition: `center ${content.grant_eyes_position || "24"}%`, transform: `scale(${content.grant_eyes_zoom || "4.0"})` }} />
                 </div>
 
@@ -566,7 +566,7 @@ const AdminDashboard = () => {
                     <input type="range" min="0" max="100" step="1" value={content.grant_eyes_position_tablet || content.grant_eyes_position || "24"} onChange={(e) => updateContent("grant_eyes_position_tablet", e.target.value)} className="w-full" />
                   </div>
                 </div>
-                <div className="relative h-20 overflow-hidden mb-4 border border-white/10" style={{ maxWidth: "500px" }}>
+                <div className="relative overflow-hidden mb-4 border border-white/10" style={{ width: "600px", maxWidth: "100%", height: "112px" }}>
                   <img src={content.members_grant_eyes && content.members_grant_eyes !== "__removed__" ? content.members_grant_eyes : grantEyes} alt="Tablet preview" className="w-full h-full object-cover" style={{ objectPosition: `center ${content.grant_eyes_position_tablet || content.grant_eyes_position || "24"}%`, transform: `scale(${content.grant_eyes_zoom_tablet || content.grant_eyes_zoom || "4.0"})` }} />
                 </div>
 
@@ -582,7 +582,7 @@ const AdminDashboard = () => {
                     <input type="range" min="0" max="100" step="1" value={content.grant_eyes_position_mobile || content.grant_eyes_position || "24"} onChange={(e) => updateContent("grant_eyes_position_mobile", e.target.value)} className="w-full" />
                   </div>
                 </div>
-                <div className="relative h-20 overflow-hidden mb-6 border border-white/10" style={{ maxWidth: "360px" }}>
+                <div className="relative overflow-hidden mb-6 border border-white/10" style={{ width: "342px", maxWidth: "100%", height: "112px" }}>
                   <img src={content.members_grant_eyes && content.members_grant_eyes !== "__removed__" ? content.members_grant_eyes : grantEyes} alt="Mobile preview" className="w-full h-full object-cover" style={{ objectPosition: `center ${content.grant_eyes_position_mobile || content.grant_eyes_position || "24"}%`, transform: `scale(${content.grant_eyes_zoom_mobile || content.grant_eyes_zoom || "4.0"})` }} />
                 </div>
                 <GalleryEditor
