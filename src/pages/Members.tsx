@@ -188,11 +188,10 @@ interface MemberPopupData {
   signs: string;
   eyesImage: string;
   eyesCrop: { position: number; scale: number };
+  eyesCropTablet: { position: number; scale: number };
   eyesCropMobile: { position: number; scale: number };
   cycleImages: string[];
   socials: { name: string; href: string }[];
-  onEyesCropChange?: (crop: { position: number; scale: number }) => void;
-  onMobileEyesCropChange?: (crop: { position: number; scale: number }) => void;
 }
 
 const DraggableMemberWindow = ({
@@ -284,14 +283,21 @@ const DraggableMemberWindow = ({
       <ScrollArea className="flex-1 bg-background overflow-x-hidden min-w-0 w-full">
         <div className="px-4 md:px-10 pt-0 pb-16 w-full overflow-x-hidden">
           {/* Eyes Image - at top */}
-          <div className="relative h-28 overflow-hidden mb-2">
-            <img
-              src={data.eyesImage}
-              alt={data.name}
-              className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          </div>
+          {(() => {
+            const w = window.innerWidth;
+            const crop = w < 768 ? data.eyesCropMobile : w < 1024 ? data.eyesCropTablet : data.eyesCrop;
+            return (
+              <div className="relative h-28 overflow-hidden mb-2">
+                <img
+                  src={data.eyesImage}
+                  alt={data.name}
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: `center ${crop.position}%`, transform: `scale(${crop.scale})` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              </div>
+            );
+          })()}
 
           {/* Name */}
           <div className="flex justify-center mb-6">
@@ -492,40 +498,15 @@ const Members = () => {
   const cameronSocials = (() => { try { const p = JSON.parse(cms.cameron_socials || "[]"); return p.length > 0 ? p : defaultMembers[0].socials; } catch { return defaultMembers[0].socials; } })();
   const grantSocials = (() => { try { const p = JSON.parse(cms.grant_socials || "[]"); return p.length > 0 ? p : defaultMembers[1].socials; } catch { return defaultMembers[1].socials; } })();
 
-  const handleEyesCropChange = useCallback((name: string, crop: { position: number; scale: number }) => {
-    const isCameron = name === "CAMERON";
-    const zoomKey = isCameron ? "cameron_eyes_zoom" : "grant_eyes_zoom";
-    const posKey = isCameron ? "cameron_eyes_position" : "grant_eyes_position";
-    setCms(prev => ({ ...prev, [zoomKey]: String(crop.scale), [posKey]: String(crop.position) }));
-    // Auto-save to CMS
-    supabase.from("site_content").upsert({ id: zoomKey, content: String(crop.scale), updated_at: new Date().toISOString() });
-    supabase.from("site_content").upsert({ id: posKey, content: String(crop.position), updated_at: new Date().toISOString() });
-  }, []);
-
-  const handleMobileEyesCropChange = useCallback((name: string, crop: { position: number; scale: number }) => {
-    const isCameron = name === "CAMERON";
-    const zoomKey = isCameron ? "cameron_eyes_zoom_mobile" : "grant_eyes_zoom_mobile";
-    const posKey = isCameron ? "cameron_eyes_position_mobile" : "grant_eyes_position_mobile";
-    setCms(prev => ({ ...prev, [zoomKey]: String(crop.scale), [posKey]: String(crop.position) }));
-    supabase.from("site_content").upsert({ id: zoomKey, content: String(crop.scale), updated_at: new Date().toISOString() });
-    supabase.from("site_content").upsert({ id: posKey, content: String(crop.position), updated_at: new Date().toISOString() });
-  }, []);
-
   const getMemberPopupData = (name: string): MemberPopupData => {
     const isCameron = name === "CAMERON";
     const member = isCameron ? defaultMembers[0] : defaultMembers[1];
-    const eyesZoom = isCameron
-      ? parseFloat(cms.cameron_eyes_zoom || String(member.eyesCrop.scale))
-      : parseFloat(cms.grant_eyes_zoom || String(member.eyesCrop.scale));
-    const eyesPosition = isCameron
-      ? parseFloat(cms.cameron_eyes_position || String(member.eyesCrop.position))
-      : parseFloat(cms.grant_eyes_position || String(member.eyesCrop.position));
-    const eyesZoomMobile = isCameron
-      ? parseFloat(cms.cameron_eyes_zoom_mobile || String(member.eyesCrop.scale))
-      : parseFloat(cms.grant_eyes_zoom_mobile || String(member.eyesCrop.scale));
-    const eyesPositionMobile = isCameron
-      ? parseFloat(cms.cameron_eyes_position_mobile || String(member.eyesCrop.position))
-      : parseFloat(cms.grant_eyes_position_mobile || String(member.eyesCrop.position));
+    const prefix = isCameron ? "cameron" : "grant";
+    const defScale = member.eyesCrop.scale;
+    const defPos = member.eyesCrop.position;
+
+    const getVal = (key: string, fallback: number) => parseFloat(cms[key] || String(fallback));
+
     return {
       name: member.name,
       titleImage: member.titleImage,
@@ -537,12 +518,20 @@ const Members = () => {
       birthday: isCameron ? cameronBirthday : grantBirthday,
       signs: isCameron ? cameronSigns : grantSigns,
       eyesImage: isCameron ? cameronEyesImg : grantEyesImg,
-      eyesCrop: { position: eyesPosition, scale: eyesZoom },
-      eyesCropMobile: { position: eyesPositionMobile, scale: eyesZoomMobile },
+      eyesCrop: {
+        scale: getVal(`${prefix}_eyes_zoom`, defScale),
+        position: getVal(`${prefix}_eyes_position`, defPos),
+      },
+      eyesCropTablet: {
+        scale: getVal(`${prefix}_eyes_zoom_tablet`, getVal(`${prefix}_eyes_zoom`, defScale)),
+        position: getVal(`${prefix}_eyes_position_tablet`, getVal(`${prefix}_eyes_position`, defPos)),
+      },
+      eyesCropMobile: {
+        scale: getVal(`${prefix}_eyes_zoom_mobile`, getVal(`${prefix}_eyes_zoom`, defScale)),
+        position: getVal(`${prefix}_eyes_position_mobile`, getVal(`${prefix}_eyes_position`, defPos)),
+      },
       cycleImages: isCameron ? cameronFilmstrip : grantFilmstrip,
       socials: isCameron ? cameronSocials : grantSocials,
-      onEyesCropChange: (crop) => handleEyesCropChange(name, crop),
-      onMobileEyesCropChange: (crop) => handleMobileEyesCropChange(name, crop),
     };
   };
 
