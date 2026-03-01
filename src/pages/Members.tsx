@@ -284,21 +284,15 @@ const DraggableMemberWindow = ({
       <ScrollArea className="flex-1 bg-background overflow-x-hidden min-w-0 w-full">
         <div className="px-4 md:px-10 pt-0 pb-16 w-full overflow-x-hidden">
           {/* Eyes Image - at top */}
-          {(() => {
-            const isMobileView = window.innerWidth < 768;
-            const crop = isMobileView ? data.eyesCropMobile : data.eyesCrop;
-            return (
-              <div className="relative h-28 overflow-hidden mb-2">
-                <img
-                  src={data.eyesImage}
-                  alt={data.name}
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: `center ${crop.position}%`, transform: `scale(${crop.scale})` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-              </div>
-            );
-          })()}
+          <div className="relative h-28 overflow-hidden mb-2">
+            <img
+              src={data.eyesImage}
+              alt={data.name}
+              className="w-full h-full object-cover"
+              style={{ objectPosition: `center ${data.eyesCrop.position}%`, transform: `scale(${data.eyesCrop.scale})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </div>
 
           {/* Name */}
           <div className="flex justify-center mb-6">
