@@ -93,8 +93,8 @@ const CornerNavigation = () => {
             <div className="flex flex-col items-center justify-center h-full gap-8 relative z-10">
               {/* Logo - fade in */}
               <div
-                className="animate-fade-in"
-                style={{ animationDelay: "50ms", animationFillMode: "both" }}
+                className="animate-fade-in opacity-0"
+                style={{ animationDelay: "50ms", animationFillMode: "forwards" }}
               >
                 <Link
                   to="/home"
