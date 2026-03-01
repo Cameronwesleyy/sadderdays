@@ -211,7 +211,7 @@ const DraggableMemberWindow = ({
   const posRef = useRef(position);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest("button, a")) return;
+    if ((e.target as HTMLElement).closest("button, a, input, textarea")) return;
     setIsDragging(true);
     dragStart.current = { x: e.clientX - posRef.current.x, y: e.clientY - posRef.current.y };
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -293,14 +293,16 @@ const DraggableMemberWindow = ({
 
           {/* Eyes crop controls */}
           {data.onEyesCropChange && (
-            <div className="flex gap-4 mb-4 px-1">
+            <div className="flex gap-4 mb-4 px-1" style={{ touchAction: "auto" }}>
               <div className="flex-1">
                 <label className="block text-[8px] tracking-widest text-foreground/40 mb-1">ZOOM {data.eyesCrop.scale.toFixed(1)}x</label>
                 <input
                   type="range" min="1" max="8" step="0.1"
                   value={data.eyesCrop.scale}
                   onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, scale: parseFloat(e.target.value) })}
-                  className="w-full h-1 accent-foreground"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="w-full h-2 accent-foreground cursor-pointer"
+                  style={{ touchAction: "auto" }}
                 />
               </div>
               <div className="flex-1">
@@ -309,7 +311,9 @@ const DraggableMemberWindow = ({
                   type="range" min="0" max="100" step="1"
                   value={data.eyesCrop.position}
                   onChange={(e) => data.onEyesCropChange!({ ...data.eyesCrop, position: parseFloat(e.target.value) })}
-                  className="w-full h-1 accent-foreground"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="w-full h-2 accent-foreground cursor-pointer"
+                  style={{ touchAction: "auto" }}
                 />
               </div>
             </div>
