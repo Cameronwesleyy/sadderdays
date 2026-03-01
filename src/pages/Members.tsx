@@ -288,7 +288,7 @@ const DraggableMemberWindow = ({
             const isMobileView = window.innerWidth < 768;
             const crop = isMobileView ? data.eyesCropMobile : data.eyesCrop;
             return (
-              <div className="relative h-28 overflow-hidden mb-6">
+              <div className="relative h-28 overflow-hidden mb-2">
                 <img
                   src={data.eyesImage}
                   alt={data.name}
