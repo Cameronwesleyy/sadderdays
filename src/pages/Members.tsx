@@ -288,8 +288,7 @@ const DraggableMemberWindow = ({
             <img
               src={data.eyesImage}
               alt={data.name}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: `center ${data.eyesCrop.position}%`, transform: `scale(${data.eyesCrop.scale})` }}
+              className="w-full h-full object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
