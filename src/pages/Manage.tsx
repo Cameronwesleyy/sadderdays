@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power, GripVertical, Instagram, Youtube, Twitter, Globe, ChevronDown, BookOpen } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, Lock, Music, Users, MapPin, FileText, ShoppingBag, Link2, Home, FlaskConical, Power, GripVertical, Instagram, Youtube, Twitter, Globe, ChevronDown, BookOpen, Settings } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import ImageDropZone from "@/components/admin/ImageDropZone";
@@ -144,7 +144,7 @@ interface SongEntry {
   sort_order: number;
 }
 
-type Tab = "home" | "copy" | "members" | "tour" | "music" | "lyrics" | "lab" | "shopify";
+type Tab = "home" | "copy" | "members" | "tour" | "music" | "lyrics" | "lab" | "shopify" | "meta";
 
 interface QuizQuestion {
   question: string;
@@ -271,6 +271,7 @@ const AdminDashboard = () => {
     { id: "lyrics", label: "LYRICS", icon: <BookOpen size={14} /> },
     { id: "lab", label: "LAB", icon: <FlaskConical size={14} /> },
     { id: "shopify", label: "SHOPIFY", icon: <ShoppingBag size={14} /> },
+    { id: "meta", label: "META / SEO", icon: <Settings size={14} /> },
   ];
 
   return (
@@ -1016,6 +1017,95 @@ const AdminDashboard = () => {
                     OPEN SHOPIFY ADMIN <ExternalLink size={12} />
                   </a>
                 </div>
+              </TabPanel>
+            )}
+
+            {activeTab === "meta" && (
+              <TabPanel key="meta">
+                <SectionTitle>Site Metadata & SEO</SectionTitle>
+                <p className="text-white/40 text-xs mb-8 leading-relaxed">
+                  Control how your site appears in search results and when links are shared on social media. Changes apply after saving.
+                </p>
+
+                {/* Current Live Preview */}
+                <div className="p-5 border border-white/10 mb-8">
+                  <p className="text-[9px] tracking-widest-custom text-white/40 mb-4">SEARCH RESULT PREVIEW</p>
+                  <div className="bg-white/5 p-4 rounded">
+                    <p className="text-sm text-blue-400 truncate">{content.meta_title || "sadder days | official site"}</p>
+                    <p className="text-[11px] text-green-400/70 mt-0.5 truncate">sadderdays.lovable.app</p>
+                    <p className="text-xs text-white/50 mt-1 line-clamp-2">{content.meta_description || "sadder days are an, nyc-based, creative duo blending electronic pop and hyper-r&b into yearnful, cathartic songs about sensuality, heartbreak, and escape."}</p>
+                  </div>
+                </div>
+
+                {/* Social Share Preview */}
+                <div className="p-5 border border-white/10 mb-8">
+                  <p className="text-[9px] tracking-widest-custom text-white/40 mb-4">LINK PREVIEW (SOCIAL SHARE)</p>
+                  <div className="bg-white/5 rounded overflow-hidden max-w-sm">
+                    {(content.meta_og_image || "/og-image.jpg") && (
+                      <img 
+                        src={content.meta_og_image || "/og-image.jpg"} 
+                        alt="OG Preview" 
+                        className="w-full h-44 object-cover"
+                      />
+                    )}
+                    <div className="p-3">
+                      <p className="text-[10px] text-white/40 uppercase">sadderdays.lovable.app</p>
+                      <p className="text-sm text-white mt-0.5 truncate">{content.meta_title || "sadder days | official site"}</p>
+                      <p className="text-xs text-white/50 mt-0.5 line-clamp-2">{content.meta_description || "sadder days are an, nyc-based, creative duo blending electronic pop and hyper-r&b into yearnful, cathartic songs about sensuality, heartbreak, and escape."}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Editable Fields */}
+                <SectionTitle className="mt-8">Page Title</SectionTitle>
+                <Field 
+                  label="Title (shown in browser tab & search results)" 
+                  value={content.meta_title || ""} 
+                  onChange={(v) => updateContent("meta_title", v)} 
+                  placeholder="sadder days | official site" 
+                />
+                <p className="text-[10px] text-white/30 -mt-2 mb-6">{(content.meta_title || "sadder days | official site").length}/60 characters</p>
+
+                <SectionTitle>Meta Description</SectionTitle>
+                <TextArea 
+                  label="Description (shown in search results & link previews)" 
+                  value={content.meta_description || ""} 
+                  onChange={(v) => updateContent("meta_description", v)} 
+                  rows={3}
+                />
+                <p className="text-[10px] text-white/30 -mt-2 mb-6">{(content.meta_description || "sadder days are an, nyc-based, creative duo blending electronic pop and hyper-r&b into yearnful, cathartic songs about sensuality, heartbreak, and escape.").length}/160 characters</p>
+
+                <SectionTitle>Share Image (OG Image)</SectionTitle>
+                <p className="text-white/40 text-xs mb-4">This image appears when the site link is shared on social media.</p>
+                <ImageDropZone
+                  label="OG / Share Image"
+                  currentUrl={content.meta_og_image || ""}
+                  contentKey="meta_og_image"
+                  folder="meta"
+                  defaultUrl="/og-image.jpg"
+                  onUpload={(key, url) => updateContent(key, url === "__removed__" ? "" : url)}
+                />
+
+                <SectionTitle>Favicon</SectionTitle>
+                <p className="text-white/40 text-xs mb-4">The small icon shown in browser tabs. Upload a square PNG image (recommended 32×32 or 64×64).</p>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-10 h-10 bg-white/10 border border-white/20 flex items-center justify-center rounded">
+                    <img 
+                      src={content.meta_favicon || "/favicon.png"} 
+                      alt="Current favicon" 
+                      className="w-6 h-6 object-contain"
+                    />
+                  </div>
+                  <span className="text-xs text-white/40">Current favicon</span>
+                </div>
+                <ImageDropZone
+                  label="Favicon Image"
+                  currentUrl={content.meta_favicon || ""}
+                  contentKey="meta_favicon"
+                  folder="meta"
+                  defaultUrl="/favicon.png"
+                  onUpload={(key, url) => updateContent(key, url === "__removed__" ? "" : url)}
+                />
               </TabPanel>
             )}
           </AnimatePresence>

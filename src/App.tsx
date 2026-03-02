@@ -25,6 +25,7 @@ import Manage from "./pages/Manage";
 import NotFound from "./pages/NotFound";
 
 import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,38 @@ function ScrollToTop() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+  return null;
+}
+
+function MetaApplier() {
+  useEffect(() => {
+    const applyMeta = async () => {
+      const { data } = await supabase.from("site_content").select("*").in("id", ["meta_title", "meta_description", "meta_og_image", "meta_favicon"]);
+      if (!data) return;
+      const map: Record<string, string> = {};
+      data.forEach((r) => { map[r.id] = r.content; });
+      
+      if (map.meta_title) document.title = map.meta_title;
+      if (map.meta_description) {
+        document.querySelector('meta[name="description"]')?.setAttribute("content", map.meta_description);
+        document.querySelector('meta[property="og:description"]')?.setAttribute("content", map.meta_description);
+        document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", map.meta_description);
+      }
+      if (map.meta_title) {
+        document.querySelector('meta[property="og:title"]')?.setAttribute("content", map.meta_title);
+        document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", map.meta_title);
+      }
+      if (map.meta_og_image) {
+        document.querySelector('meta[property="og:image"]')?.setAttribute("content", map.meta_og_image);
+        document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", map.meta_og_image);
+      }
+      if (map.meta_favicon) {
+        const link = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+        if (link) link.href = map.meta_favicon;
+      }
+    };
+    applyMeta();
+  }, []);
   return null;
 }
 
@@ -45,6 +78,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <MetaApplier />
             <GrainOverlay />
             <CornerNavigation />
             <CartDrawer />
